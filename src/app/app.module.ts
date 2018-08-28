@@ -5,6 +5,7 @@ import {MatButtonModule, MatIconModule, MatListModule, MatToolbarModule} from '@
 
 import { AppComponent } from './app.component';
 import { TransactionsComponent } from './transactions/transactions.component';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { TransactionsComponent } from './transactions/transactions.component';
     MatButtonModule,
     MatIconModule,
     MatListModule,
-    MatToolbarModule
+    MatToolbarModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
