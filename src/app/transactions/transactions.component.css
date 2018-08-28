@@ -1,0 +1,22 @@
+p {
+    margin: 0;
+}
+
+.amount.income {
+    color: #81C784;
+}
+
+.amount.expense {
+    color: #E57373;
+}
+
+.transactions .list-row-one {
+    display: flex;
+    justify-content: space-between;
+}
+
+button.mat-fab {
+    position: fixed;
+    right: 2em;
+    bottom: 2em;
+}
