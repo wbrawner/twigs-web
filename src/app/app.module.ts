@@ -1,25 +1,44 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatButtonModule, MatIconModule, MatListModule, MatToolbarModule} from '@angular/material';
+import { FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {
+  MatButtonModule, 
+  MatDatepickerModule,  
+  MatFormFieldModule, 
+  MatIconModule, 
+  MatInputModule,
+  MatListModule, 
+  MatRadioModule,
+  MatToolbarModule, 
+} from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { AppRoutingModule } from './app-routing.module';
+import { TransactionDetailsComponent } from './transaction-details/transaction-details.component';
+import { NewTransactionComponent } from './new-transaction/new-transaction.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TransactionsComponent
+    TransactionsComponent,
+    TransactionDetailsComponent,
+    NewTransactionComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     MatButtonModule,
+    MatFormFieldModule,
+    MatDatepickerModule,
     MatIconModule,
+    MatInputModule,
     MatListModule,
+    MatRadioModule,
     MatToolbarModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

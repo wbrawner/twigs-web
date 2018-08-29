@@ -15,7 +15,7 @@ p {
     justify-content: space-between;
 }
 
-button.mat-fab {
+a.mat-fab {
     position: fixed;
     right: 2em;
     bottom: 2em;

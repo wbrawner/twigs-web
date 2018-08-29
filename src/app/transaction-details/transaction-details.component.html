@@ -1,0 +1,8 @@
+<div *ngIf="transaction; then transactionBlock else noTransactionBlock">
+</div>
+<ng-template #transactionBlock>
+  transaction-details works!
+</ng-template>
+<ng-template #noTransactionBlock>
+  transaction-details works!
+</ng-template>

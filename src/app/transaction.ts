@@ -5,7 +5,7 @@ export class Transaction {
     title: string;
     description: string;
     amount: number;
-    date: Date;
+    date: Date = new Date();
     categoryId: number;
-    type: TransactionType;
+    type: TransactionType = TransactionType.EXPENSE;
 }
