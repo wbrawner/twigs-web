@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Transaction } from '../transaction'
 import { TransactionService } from '../transaction.service'
 
 @Component({
@@ -25,6 +26,6 @@ export class DashboardComponent implements OnInit {
   }
 
   getTransactions(): void {
-    this.transactionService.getTransactions().subscribe(transactions => this.balance = balance)
+    this.transactionService.getTransactions().subscribe(transactions => this.transactions = transactions)
   }
 }
