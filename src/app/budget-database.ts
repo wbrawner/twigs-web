@@ -1,8 +1,12 @@
+import { Injectable } from '@angular/core';
 import Dexie from 'dexie';
 import { TransactionType } from './transaction.type';
 import { Category } from './category'
 import { Transaction } from './transaction'
 
+@Injectable({
+  providedIn: 'root'
+})
 export class BudgetDatabase extends Dexie {
   transactions: Dexie.Table<ITransaction, number>;
   categories: Dexie.Table<ICategory, number>;

@@ -9,11 +9,7 @@ import { BudgetDatabase } from './budget-database';
 })
 export class TransactionService {
 
-  db: BudgetDatabase;
-
-  constructor() { 
-    this.db = new BudgetDatabase();
-  }
+  constructor(private db: BudgetDatabase) { }
 
   getTransactions(count?: number): Observable<Transaction[]> {
     if (count) {
@@ -42,7 +38,6 @@ export class TransactionService {
   }
 
   getBalance(): Observable<number> {
-    console.log("Getting balance")
     let sum = 0;
     return from(
       this.db.transactions.each(function(transaction) {
@@ -56,4 +51,5 @@ export class TransactionService {
       })
     )
   }
+
 }

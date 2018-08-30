@@ -10,6 +10,7 @@ import {
   MatInputModule,
   MatListModule, 
   MatRadioModule,
+  MatProgressBarModule,
   MatToolbarModule, 
 } from '@angular/material';
 
@@ -20,6 +21,11 @@ import { TransactionDetailsComponent } from './transaction-details/transaction-d
 import { NewTransactionComponent } from './new-transaction/new-transaction.component';
 import { AddEditTransactionComponent } from './add-edit-transaction/add-edit-transaction.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { CategoriesComponent } from './categories/categories.component';
+import { CategoryDetailsComponent } from './category-details/category-details.component';
+import { AddEditCategoryComponent } from './add-edit-category/add-edit-category.component';
+import { NewCategoryComponent } from './new-category/new-category.component';
+import { CategoryListComponent } from './category-list/category-list.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +34,12 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     TransactionDetailsComponent,
     NewTransactionComponent,
     AddEditTransactionComponent,
-    DashboardComponent
+    DashboardComponent,
+    CategoriesComponent,
+    CategoryDetailsComponent,
+    AddEditCategoryComponent,
+    NewCategoryComponent,
+    CategoryListComponent
   ],
   imports: [
     BrowserModule,
@@ -40,6 +51,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     MatInputModule,
     MatListModule,
     MatRadioModule,
+    MatProgressBarModule,
     MatToolbarModule,
     AppRoutingModule,
     FormsModule

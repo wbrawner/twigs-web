@@ -1,0 +1,16 @@
+<style>
+.categories mat-progress-bar div.mat-progress-bar-element.mat-progress-bar-buffer {
+  background-color: #BDBDBD !important;
+}
+</style>
+<mat-nav-list class="categories">
+  <a mat-list-item *ngFor="let category of categories" routerLink="/categories/{{ category.id }}">
+    <p matLine>{{category.name}}</p>
+    <style>
+::ng-deep .mat-progress-bar-fill::after {
+  background-color: "{{ category.color }}";
+}
+    </style>
+    <mat-progress-bar matLine mode="determinate" value="{{ getCategoryCompletion(category) }}"></mat-progress-bar>
+  </a>
+</mat-nav-list>

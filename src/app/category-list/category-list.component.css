@@ -1,0 +1,8 @@
+.categories mat-progress-bar.mat-progress-bar {
+  background-color: #BDBDBD;
+  margin-top: 0.5em;
+}
+
+::ng-deep .mat-progress-bar-buffer {
+  background-color: #BDBDBD;
+}

@@ -1,33 +1,61 @@
 .dashboard {
+  color: #F1F1F1;
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   padding: 1em;
 }
 
-.dashboard-primary {
+.dashboard > div {
   background: #212121;
-  color: #F1F1F1;
   display: inline-block;
+  margin: 1em;
+  padding: 1em;
   max-width: 500px;
-  padding: 5em 1em;
   position: relative;
-  text-align: center;
   width: 100%;
+}
+
+.dashboard .dashboard-primary {
+  padding: 5em 1em;
+  text-align: center;
 }
 
 .dashboard-primary > * {
   display: block;
 }
 
-.dashboard-primary h2 {
+.dashboard div h2, .dashboard div h3 {
   margin: 0;
+}
+
+.dashboard p, .dashboard a {
+  color: #F1F1F1;
+  text-align: center;
+  text-decoration: none;
 }
 
 .dashboard-primary a {
   bottom: 1em;
-  color: #F1F1F1;
   right: 1em;
   position: absolute;
   text-align: right;
-  text-decoration: none;
+}
+
+.dashboard .no-categories {
+  padding: 1em;
+  text-align: center;
+}
+
+.dashboard .no-categories a {
+  display: inline-block;
+  border: 1px dashed #F1F1F1;
+  padding: 1em;
+}
+
+a.view-all {
+  position: absolute;
+  right: 1em;
+  top: 1em;
+  font-size: 1em;
 }
