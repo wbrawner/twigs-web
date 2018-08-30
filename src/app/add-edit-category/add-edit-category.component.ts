@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { CategoryService } from '../category.service'
 import { Category } from '../category'
+import { CategoryType } from '../category.type'
 import { Location } from '@angular/common';
 
 @Component({
@@ -12,6 +13,7 @@ export class AddEditCategoryComponent implements OnInit {
 
   @Input() title: string;
   @Input() currentCategory: Category;
+  public categoryType = CategoryType;
 
   constructor(
     private categoryService: CategoryService,
