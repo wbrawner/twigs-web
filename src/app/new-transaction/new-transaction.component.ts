@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TransactionService } from '../transaction.service'
 import { Transaction } from '../transaction'
-import { TransactionType } from '../transaction.type'
-import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-new-transaction',
@@ -11,19 +8,12 @@ import { Location } from '@angular/common';
 })
 export class NewTransactionComponent implements OnInit {
 
-  public transaction = new Transaction()
-  public transactionType = TransactionType;
+  transaction: Transaction;
 
-  constructor(
-    private transactionService: TransactionService,
-    private location: Location
-  ) { }
+  constructor() { }
 
   ngOnInit() {
+    this.transaction = new Transaction()
   }
 
-  save(): void {
-    this.transactionService.saveTransaction(this.transaction);
-    this.location.back()
-  }
 }

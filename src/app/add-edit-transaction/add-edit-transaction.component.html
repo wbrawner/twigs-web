@@ -1,0 +1,39 @@
+<mat-toolbar>
+  <span>
+    <a (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon>
+    </a>
+  </span>
+  <span>
+    {{ title }}
+  </span>
+  <span class="action-item">
+    <a (click)="save()">Save</a>
+  </span>
+</mat-toolbar>
+<div *ngIf="!currentTransaction">
+  <p>Select a transaction from the list to view details about it or edit it.</p>
+</div>
+<div *ngIf="currentTransaction" class="transaction-form">
+  <mat-form-field>
+    <input matInput [(ngModel)]="currentTransaction.title" placeholder="Name" required>
+  </mat-form-field>
+  <mat-form-field>
+    <textarea matInput [(ngModel)]="currentTransaction.description" placeholder="Description"></textarea>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput type="number" [(ngModel)]="currentTransaction.amount" placeholder="Amount" required>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput type="date" [(ngModel)]="currentTransaction.date" placeholder="Date" required>
+    <!--
+      <input matInput [matDatePicker]="transactionDatePicker" [(ngModel)]="currentTransaction.date" placeholder="Date" required>
+      <mat-datepicker #transactionDatePicker></mat-datepicker>
+    -->
+  </mat-form-field>
+  <mat-radio-group [(ngModel)]="currentTransaction.type">
+    <mat-radio-button [value]="transactionType.EXPENSE">Expense</mat-radio-button>
+    <mat-radio-button [value]="transactionType.INCOME">Income</mat-radio-button>
+  </mat-radio-group>
+  <button mat-button *ngIf="currentTransaction.id" (click)="delete()">Delete</button>
+</div>

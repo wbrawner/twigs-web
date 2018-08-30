@@ -1,41 +1,39 @@
 import { Injectable } from '@angular/core';
-import { of, Observable } from 'rxjs';
+import { of, Observable, from } from 'rxjs';
 import { Transaction } from './transaction';
 import { TransactionType } from './transaction.type';
+import { BudgetDatabase } from './budget-database';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TransactionService {
-  transactions: Transaction[] = [
-    {id: 0, amount: Math.random() * 100, date: new Date(), description: "Spent some money", title: "An Expense", type: TransactionType.EXPENSE, categoryId: 0},
-    {id: 0, amount: Math.random() * 100, date: new Date(), description: "Earned some money", title: "Some Income", type: TransactionType.INCOME, categoryId: 0},
-    {id: 0, amount: Math.random() * 100, date: new Date(), description: "Spent some money", title: "An Expense", type: TransactionType.EXPENSE, categoryId: 0},
-    {id: 0, amount: Math.random() * 100, date: new Date(), description: "Earned some money", title: "Some Income", type: TransactionType.INCOME, categoryId: 0},
-    {id: 0, amount: Math.random() * 100, date: new Date(), description: "Spent some money", title: "An Expense", type: TransactionType.EXPENSE, categoryId: 0},
-    {id: 0, amount: Math.random() * 100, date: new Date(), description: "Earned some money", title: "Some Income", type: TransactionType.INCOME, categoryId: 0},
-    {id: 0, amount: Math.random() * 100, date: new Date(), description: "Spent some money", title: "An Expense", type: TransactionType.EXPENSE, categoryId: 0},
-    {id: 0, amount: Math.random() * 100, date: new Date(), description: "Earned some money", title: "Some Income", type: TransactionType.INCOME, categoryId: 0},
-    {id: 0, amount: Math.random() * 100, date: new Date(), description: "Spent some money", title: "An Expense", type: TransactionType.EXPENSE, categoryId: 0},
-    {id: 0, amount: Math.random() * 100, date: new Date(), description: "Earned some money", title: "Some Income", type: TransactionType.INCOME, categoryId: 0},
-  ]
 
-  constructor() { }
+  db: BudgetDatabase;
+
+  constructor() { 
+    this.db = new BudgetDatabase();
+  }
 
   getTransactions(): Observable<Transaction[]> {
-    return of(this.transactions)
+    return from(this.db.transactions.toCollection().toArray())
+  }
+
+  getTransaction(id: number): Observable<Transaction> {
+    return from(this.db.transactions.where('id').equals(id).first())
   }
 
   saveTransaction(transaction: Transaction): Observable<Transaction> {
-    // TODO: Replace this with a DB save method
-    var newId = 0;
-    for (let transaction of this.transactions) {
-      if (transaction.id > newId) {
-        newId = transaction.id + 1;
-      }
-    }
-    transaction.id = newId;
-    this.transactions.push(transaction)
+    this.db.transactions.put(transaction)
     return of(transaction)
+  }
+
+  updateTransaction(transaction: Transaction): Observable<any> {
+    this.db.transactions.update(transaction.id, transaction)
+    return of([])
+  }
+
+  deleteTransaction(transaction: Transaction): Observable<any> {
+    return from(this.db.transactions.delete(transaction.id))
   }
 }

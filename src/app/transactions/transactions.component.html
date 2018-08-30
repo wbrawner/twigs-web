@@ -1,14 +1,14 @@
-  <mat-toolbar>Transactions</mat-toolbar>
-  <mat-list *ngIf="transactions" class="transactions">
-    <mat-list-item *ngFor="let transaction of transactions">
-      <div matLine class="list-row-one">
-        <p>{{transaction.title}}</p>
-        <p class="amount" [class.expense]="transaction.type === transactionType.EXPENSE" [class.income]="transaction.type === transactionType.INCOME">{{
-          transaction.amount | currency }}</p>
-      </div>
-      <p matLine class="text-small">{{ transaction.date | date }}</p>
-    </mat-list-item>
-  </mat-list>
-  <a mat-fab routerLink="/transactions/new">
-    <mat-icon aria-label="Add">add</mat-icon>
+<mat-toolbar>Transactions</mat-toolbar>
+<mat-nav-list *ngIf="transactions" class="transactions">
+  <a mat-list-item *ngFor="let transaction of transactions" routerLink="/transactions/{{ transaction.id }}">
+    <div matLine class="list-row-one">
+      <p>{{transaction.title}}</p>
+      <p class="amount" [class.expense]="transaction.type === transactionType.EXPENSE" [class.income]="transaction.type === transactionType.INCOME">{{
+      transaction.amount | currency }}</p>
+    </div>
+    <p matLine class="text-small">{{ transaction.date | date }}</p>
   </a>
+</mat-nav-list>
+<a mat-fab routerLink="/transactions/new">
+  <mat-icon aria-label="Add">add</mat-icon>
+</a>

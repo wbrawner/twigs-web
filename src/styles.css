@@ -1,34 +1,43 @@
 /* You can add global styles to this file, and also import other style files */
 html, body {
-    background: #333333;
-    font-family: Roboto, "Helvetica Neue", sans-serif;
-    margin: 0;
-    padding: 0;
+  background: #333333;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+p {
+  margin: 0;
+}
+
+a.mat-fab {
+  position: fixed;
+  right: 2em;
+  bottom: 2em;
 }
 
 .text-small {
-    font-size: 1em;
-    color: #BDBDBD
+  font-size: 1em;
+  color: #BDBDBD
 }
 
 .mat-toolbar {
-    box-shadow: 0px 3px 3px 1px #212121;
+  box-shadow: 0px 3px 3px 1px #212121;
+  display: flex;
+  justify-content: space-between;
 }
 
-/* .page-title {
-    background: #333333;
-    color: #F1f1f1;
-    position: fixed;
-    left: 0;
-    top: 0;
-    right: 0;
-    z-index: 99;
-    padding: 1em;
+mat-toolbar mat-icon {
+  vertical-align: middle;
+  cursor: pointer;
 }
 
-.page-title h1 {
-    margin: 0;
+mat-toolbar .action-item {
+  font-weight: normal;
+  cursor: pointer;
+  font-size: 0.9em;
 }
-.content {
-    padding-top: 68px;
-} */
+
+mat-toolbar .action-item a {
+  vertical-align: middle;
+}

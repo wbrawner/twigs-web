@@ -1,5 +1,5 @@
-p {
-    margin: 0;
+mat-toolbar {
+  justify-content: center;
 }
 
 .amount.income {
@@ -15,8 +15,3 @@ p {
     justify-content: space-between;
 }
 
-a.mat-fab {
-    position: fixed;
-    right: 2em;
-    bottom: 2em;
-}
