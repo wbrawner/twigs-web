@@ -11,6 +11,7 @@ import {
   MatListModule, 
   MatRadioModule,
   MatProgressBarModule,
+  MatSelectModule,
   MatToolbarModule, 
 } from '@angular/material';
 
@@ -52,6 +53,7 @@ import { CategoryListComponent } from './category-list/category-list.component';
     MatListModule,
     MatRadioModule,
     MatProgressBarModule,
+    MatSelectModule,
     MatToolbarModule,
     AppRoutingModule,
     FormsModule

@@ -3,6 +3,8 @@ import { Transaction } from '../transaction'
 import { TransactionType } from '../transaction.type'
 import { TransactionService } from '../transaction.service'
 import { Location } from '@angular/common';
+import { Category } from '../category' 
+import { CategoryService } from '../category.service'
 
 @Component({
   selector: 'app-add-edit-transaction',
@@ -14,13 +16,16 @@ export class AddEditTransactionComponent implements OnInit {
   @Input() title: string;
   @Input() currentTransaction: Transaction;
   public transactionType = TransactionType;
+  public selectedCategory: Category;
 
   constructor(
+    private categoryService: CategoryService,
     private transactionService: TransactionService,
     private location: Location
   ) { }
 
   ngOnInit() {
+    this.getCategories()
   }
 
   goBack(): void {
@@ -41,5 +46,9 @@ export class AddEditTransactionComponent implements OnInit {
   delete(): void {
     this.transactionService.deleteTransaction(this.currentTransaction);
     this.goBack()
+  }
+
+  getCategories() {
+    this.categoryService.getCategories().subscribe(categories => this.categories = categories)
   }
 }

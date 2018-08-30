@@ -26,10 +26,13 @@
   </mat-form-field>
   <mat-form-field>
     <input matInput type="date" [(ngModel)]="currentTransaction.date" placeholder="Date" required>
-    <!--
-      <input matInput [matDatePicker]="transactionDatePicker" [(ngModel)]="currentTransaction.date" placeholder="Date" required>
-      <mat-datepicker #transactionDatePicker></mat-datepicker>
-    -->
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder="Category" [(ngModel)]="currentTransaction.categoryId">
+      <mat-option *ngFor="let category of categories" [value]="category.id">
+        {{ category.name }}
+      </mat-option>
+    </mat-select>
   </mat-form-field>
   <mat-radio-group [(ngModel)]="currentTransaction.type">
     <mat-radio-button [value]="transactionType.EXPENSE">Expense</mat-radio-button>
