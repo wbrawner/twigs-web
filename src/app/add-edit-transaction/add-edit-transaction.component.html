@@ -35,5 +35,5 @@
     <mat-radio-button [value]="transactionType.EXPENSE">Expense</mat-radio-button>
     <mat-radio-button [value]="transactionType.INCOME">Income</mat-radio-button>
   </mat-radio-group>
-  <button mat-button *ngIf="currentTransaction.id" (click)="delete()">Delete</button>
+  <button class="button-delete" mat-button color="warn" *ngIf="currentTransaction.id" (click)="delete()">Delete</button>
 </div>

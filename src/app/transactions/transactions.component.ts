@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Transaction } from '../transaction';
 import { TransactionType } from '../transaction.type';
 import { TransactionService } from '../transaction.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-transactions',
@@ -14,14 +15,21 @@ export class TransactionsComponent implements OnInit {
 
   public transactions: Transaction[]
 
-  constructor(private transactionService: TransactionService) { }
+  constructor(
+    private transactionService: TransactionService,
+    private location: Location
+  ) { }
 
   ngOnInit() {
     this.getTransactions()
   }
 
+  goBack(): void {
+    this.location.back()
+  }
+
   getTransactions(): void {
-    this.transactionService.getTransactions().subscribe(transactions => {
+    this.transactionService.getTransactions(5).subscribe(transactions => {
       this.transactions = transactions;
     })
   }

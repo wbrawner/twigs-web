@@ -1,0 +1,15 @@
+<mat-toolbar>
+  <!-- empty span object for spacing -->
+  <span></span>
+  <span>My Finances</span>
+  <!-- empty span object for spacing -->
+  <span></span>
+</mat-toolbar>
+<div class="dashboard">
+  <div class="dashboard-primary">
+    <h2 class="balance">
+      Current Balance: <span [ngClass]="{'income': balance > 0, 'expense': balance < 0}" >{{ balance | currency }}</span>
+    </h2>
+    <a routerLink="/transactions">View Transactions >></a>
+  </div>
+</div>

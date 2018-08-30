@@ -1,17 +1,6 @@
-mat-toolbar {
-  justify-content: center;
-}
-
-.amount.income {
-    color: #81C784;
-}
-
-.amount.expense {
-    color: #E57373;
-}
-
 .transactions .list-row-one {
     display: flex;
     justify-content: space-between;
+    padding-bottom: 0.2em;
 }
 

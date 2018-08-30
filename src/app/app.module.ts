@@ -19,6 +19,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { TransactionDetailsComponent } from './transaction-details/transaction-details.component';
 import { NewTransactionComponent } from './new-transaction/new-transaction.component';
 import { AddEditTransactionComponent } from './add-edit-transaction/add-edit-transaction.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { AddEditTransactionComponent } from './add-edit-transaction/add-edit-tra
     TransactionsComponent,
     TransactionDetailsComponent,
     NewTransactionComponent,
-    AddEditTransactionComponent
+    AddEditTransactionComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,

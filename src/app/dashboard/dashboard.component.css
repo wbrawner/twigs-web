@@ -1,0 +1,32 @@
+.dashboard {
+  display: flex;
+  justify-content: center;
+  padding: 1em;
+}
+
+.dashboard-primary {
+  background: #212121;
+  color: #F1F1F1;
+  display: inline-block;
+  max-width: 500px;
+  padding: 5em 1em;
+  position: relative;
+  text-align: center;
+  width: 100%;
+}
+
+.dashboard-primary > * {
+  display: block;
+}
+
+.dashboard-primary h2 {
+  margin: 0;
+}
+
+.dashboard-primary a {
+  bottom: 1em;
+  color: #F1F1F1;
+  right: 1em;
+  position: absolute;
+  text-align: right;
+}

@@ -15,8 +15,12 @@ export class TransactionService {
     this.db = new BudgetDatabase();
   }
 
-  getTransactions(): Observable<Transaction[]> {
-    return from(this.db.transactions.toCollection().toArray())
+  getTransactions(count: number?): Observable<Transaction[]> {
+    if (count) {
+      return from(this.db.transactions.toCollection().limit(count).toArray())
+    } else {
+      return from(this.db.transactions.toCollection().toArray())
+    }
   }
 
   getTransaction(id: number): Observable<Transaction> {
@@ -35,5 +39,21 @@ export class TransactionService {
 
   deleteTransaction(transaction: Transaction): Observable<any> {
     return from(this.db.transactions.delete(transaction.id))
+  }
+
+  getBalance(): Observable<number {
+    console.log("Getting balance")
+    let sum = 0;
+    return from(
+      this.db.transactions.each(function(transaction) {
+        if (transaction.type === TransactionType.INCOME) {
+          sum += transaction.amount
+        } else {
+          sum -= transaction.amount
+        }
+      }).then(function() {
+        return sum;
+      })
+    )
   }
 }
