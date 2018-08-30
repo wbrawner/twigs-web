@@ -28,8 +28,13 @@ mat-toolbar {
   justify-content: space-between;
 }
 
+mat-toolbar span {
+  display: inline-block;
+  min-width: 24px;
+}
+
 mat-toolbar a {
-  padding: 1em;
+  padding: 1em 0;
 }
 
 mat-toolbar span:nth-child(1) > a {
