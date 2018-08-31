@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Category } from '../category'
+import { CategoryType } from '../category.type'
 
 @Component({
   selector: 'app-category-list',
@@ -16,6 +17,32 @@ export class CategoryListComponent implements OnInit {
   ngOnInit() {
   }
 
+  /*
+  ngAfterViewInit() {
+    this.categoryProgressBars.changes.subscribe( list => 
+      list.forEach(progressBar =>
+        progressBar._elementRef.nativeElement.innerHTML += `
+        <style>
+        .mat-progress-bar-fill::after {
+          background-color: ${this.categories[0].color};
+          color: purple;
+        }
+        </style>
+        `
+      )
+    )
+  }
+  */
+
+  getCategoryRemainingBalance(category: Category): number {
+    let categoryBalance = this.categoryBalances.get(category.id)
+    if (!categoryBalance) {
+      categoryBalance = 0
+    }
+
+    return category.amount + categoryBalance;
+  }
+
   getCategoryCompletion(category: Category): number {
     if (category.amount <= 0) {
       return 0;
@@ -26,6 +53,16 @@ export class CategoryListComponent implements OnInit {
       categoryBalance = 0
     }
 
-    return categoryBalance / category.amount;
+    if (category.type === CategoryType.LIMIT) {
+      // If the category is a limit, then a negative balance needs to be turned into positive 
+      // and vice-versa for the completion to be properly calculated
+      if (categoryBalance < 0) {
+        categoryBalance = Math.abs(categoryBalance)
+      } else {
+        categoryBalance -= (categoryBalance * 2)
+      }
+    }
+
+    return categoryBalance / category.amount * 100;
   }
 }

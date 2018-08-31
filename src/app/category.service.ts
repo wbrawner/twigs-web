@@ -40,7 +40,7 @@ export class CategoryService {
   getBalance(category: Category): Observable<number> {
     let sum = 0;
     return from(
-      this.db.transactions.filter(transaction => transaction.category === category).each(function(transaction) {
+      this.db.transactions.filter(transaction => transaction.categoryId === category.id).each(function(transaction) {
         if (transaction.type === TransactionType.INCOME) {
           sum += transaction.amount
         } else {

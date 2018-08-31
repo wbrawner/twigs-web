@@ -11,7 +11,7 @@ import { Location } from '@angular/common';
 export class CategoriesComponent implements OnInit {
 
   public categories: Category[];
-  private categoryBalances: Map<number, number>;
+  public categoryBalances: Map<number, number>;
 
   constructor(
     private categoryService: CategoryService,

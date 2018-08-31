@@ -37,6 +37,11 @@ export class DashboardComponent implements OnInit {
   }
 
   getCategories(): void {
-    this.categoryService.getCategories(5).subscribe(categories => this.categories = categories)
+    this.categoryService.getCategories(5).subscribe(categories => {
+      this.categories = categories
+      for (let category of this.categories) {
+        this.categoryService.getBalance(category).subscribe(balance => this.categoryBalances.set(category.id,  balance))
+      }
+    })
   }
 }

@@ -17,6 +17,7 @@ export class AddEditTransactionComponent implements OnInit {
   @Input() currentTransaction: Transaction;
   public transactionType = TransactionType;
   public selectedCategory: Category;
+  public categories: Category[]
 
   constructor(
     private categoryService: CategoryService,
