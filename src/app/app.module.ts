@@ -27,6 +27,8 @@ import { CategoryDetailsComponent } from './category-details/category-details.co
 import { AddEditCategoryComponent } from './add-edit-category/add-edit-category.component';
 import { NewCategoryComponent } from './new-category/new-category.component';
 import { CategoryListComponent } from './category-list/category-list.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -56,7 +58,8 @@ import { CategoryListComponent } from './category-list/category-list.component';
     MatSelectModule,
     MatToolbarModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [],
   bootstrap: [AppComponent]
