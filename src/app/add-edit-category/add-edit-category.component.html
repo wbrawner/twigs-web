@@ -1,6 +1,6 @@
 <mat-toolbar>
   <span>
-    <a (click)="goBack()">
+    <a mat-button (click)="goBack()">
       <mat-icon>arrow_back</mat-icon>
     </a>
   </span>
@@ -8,7 +8,7 @@
     {{ title }}
   </span>
   <span class="action-item">
-    <a (click)="save()">Save</a>
+    <a mat-button (click)="save()">Save</a>
   </span>
 </mat-toolbar>
 <div *ngIf="!currentCategory">
