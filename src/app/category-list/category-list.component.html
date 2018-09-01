@@ -13,6 +13,6 @@
       {{ getCategoryRemainingBalance(category) | currency }} remaining
     </span>
     </p>
-    <mat-progress-bar matLine mode="determinate" #categoryProgress [attr.id]="'cat-' + category.id" value="{{ getCategoryCompletion(category) }}"></mat-progress-bar>
+    <mat-progress-bar matLine color="accent" mode="determinate" #categoryProgress [attr.id]="'cat-' + category.id" value="{{ getCategoryCompletion(category) }}"></mat-progress-bar>
   </a>
 </mat-nav-list>
