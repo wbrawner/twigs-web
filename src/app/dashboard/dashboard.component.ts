@@ -22,6 +22,7 @@ export class DashboardComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.balance = 0;
     this.getBalance();
     this.getTransactions();
     this.getCategories();
