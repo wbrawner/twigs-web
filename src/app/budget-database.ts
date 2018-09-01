@@ -15,8 +15,12 @@ export class BudgetDatabase extends Dexie {
   constructor () {
     super('BudgetDatabase')
     this.version(1).stores({
+      transactions: `++id, title, description, amount, date, category, type`,
+      categories: `++id, name, amount, repeat, color`
+    })
+    this.version(2).stores({
       transactions: `++id, title, description, amount, date, category_id, type`,
-      categories: `++id, name, amount, repeat, color, type-`
+      categories: `++id, name, amount, repeat, color, type`
     })
     this.transactions.mapToClass(Transaction)
     this.categories.mapToClass(Category)
