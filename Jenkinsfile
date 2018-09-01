@@ -41,7 +41,7 @@ pipeline {
         stage('Deploy to Dev') {
             steps {
                 sh 'rm /var/www/html/*'
-                sh 'cp dist/budget/* /var/www/html/'
+                sh 'cp -rv dist/budget/* /var/www/html/'
             }
         }
     }
