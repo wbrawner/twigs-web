@@ -8,15 +8,19 @@
 <div class="dashboard">
   <div class="dashboard-primary">
     <h2 class="balance">
-      Current Balance: <span [ngClass]="{'income': balance > 0, 'expense': balance < 0}" >{{ balance | currency }}</span>
+      Current Balance: <br />
+      <span [ngClass]="{'income': balance > 0, 'expense': balance < 0}" >{{ balance | currency }}</span>
     </h2>
-    <a routerLink="/transactions">View Transactions &gt;&gt;</a>
+    <div class="transaction-navigation">
+      <a mat-button routerLink="/transactions/new">Add Transaction</a>
+      <a mat-button routerLink="/transactions">View Transactions</a>
+    </div>
   </div>
   <div class="dashboard-categories">
     <h3 class="categories">Categories</h3>
-    <a routerLink="/categories" class="view-all" *ngIf="categories">View All</a>
-    <div class="no-categories" *ngIf="!categories">
-      <a routerLink="/categories/new">
+    <a mat-button routerLink="/categories" class="view-all" *ngIf="categories">View All</a>
+    <div class="no-categories" *ngIf="!categories || categories.length === 0">
+      <a mat-button routerLink="/categories/new">
         <mat-icon>add</mat-icon>
         <p>Add categories to get more insights into your income and expenses.</p>
       </a>

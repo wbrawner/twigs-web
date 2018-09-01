@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Category } from '../category'
-import { CategoryType } from '../category.type'
 
 @Component({
   selector: 'app-category-list',
@@ -53,14 +52,13 @@ export class CategoryListComponent implements OnInit {
       categoryBalance = 0
     }
 
-    if (category.type === CategoryType.LIMIT) {
-      // If the category is a limit, then a negative balance needs to be turned into positive 
-      // and vice-versa for the completion to be properly calculated
-      if (categoryBalance < 0) {
-        categoryBalance = Math.abs(categoryBalance)
-      } else {
-        categoryBalance -= (categoryBalance * 2)
-      }
+    // Invert the negative/positive values for calculating progress
+    // since the limit for a category is saved as a positive but the
+    // balance is used in the calculation. 
+    if (categoryBalance < 0) {
+      categoryBalance = Math.abs(categoryBalance)
+    } else {
+      categoryBalance -= (categoryBalance * 2)
     }
 
     return categoryBalance / category.amount * 100;
