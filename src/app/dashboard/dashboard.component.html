@@ -18,7 +18,7 @@
   <div class="dashboard-categories">
     <h3 class="categories">Categories</h3>
     <a routerLink="/categories" class="view-all" *ngIf="categories">View All</a>
-    <div class="no-categories" *ngIf="!categories">
+    <div class="no-categories" *ngIf="!categories || categories.length === 0">
       <a routerLink="/categories/new">
         <mat-icon>add</mat-icon>
         <p>Add categories to get more insights into your income and expenses.</p>
