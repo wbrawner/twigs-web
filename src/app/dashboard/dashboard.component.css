@@ -35,11 +35,13 @@
   text-decoration: none;
 }
 
-.dashboard-primary a {
+.dashboard-primary div {
   bottom: 1em;
+  display: flex;
+  justify-content: space-between;
+  left: 1em;
   right: 1em;
   position: absolute;
-  text-align: right;
 }
 
 .dashboard .no-categories {

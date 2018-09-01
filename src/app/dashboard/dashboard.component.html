@@ -10,7 +10,10 @@
     <h2 class="balance">
       Current Balance: <span [ngClass]="{'income': balance > 0, 'expense': balance < 0}" >{{ balance | currency }}</span>
     </h2>
-    <a routerLink="/transactions">View Transactions &gt;&gt;</a>
+    <div class="transaction-navigation">
+      <a routerLink="/transactions/new">Add Transaction</a>
+      <a routerLink="/transactions">View Transactions</a>
+    </div>
   </div>
   <div class="dashboard-categories">
     <h3 class="categories">Categories</h3>
