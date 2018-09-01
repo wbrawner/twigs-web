@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import Dexie from 'dexie';
 import { Category } from './category'
-import { CategoryType } from './category.type';
 import { Transaction } from './transaction'
 import { TransactionType } from './transaction.type';
 
@@ -21,6 +20,10 @@ export class BudgetDatabase extends Dexie {
     this.version(2).stores({
       transactions: `++id, title, description, amount, date, category_id, type`,
       categories: `++id, name, amount, repeat, color, type`
+    })
+    this.version(3).stores({
+      transactions: `++id, title, description, amount, date, category_id, type`,
+      categories: `++id, name, amount, repeat, color`
     })
     this.transactions.mapToClass(Transaction)
     this.categories.mapToClass(Category)
@@ -43,5 +46,4 @@ export interface ICategory{
   amount: number;
   repeat: string;
   color: string;
-  type: CategoryType;
 }

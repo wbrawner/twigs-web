@@ -21,10 +21,6 @@
   <mat-form-field>
     <input matInput type="number" [(ngModel)]="currentCategory.amount" placeholder="Amount" required>
   </mat-form-field>
-  <mat-radio-group [(ngModel)]="currentCategory.type">
-    <mat-radio-button [value]="categoryType.LIMIT">Limit</mat-radio-button>
-    <mat-radio-button [value]="categoryType.GOAL">Goal</mat-radio-button>
-  </mat-radio-group>
   <!--
   <mat-form-field>
     <input type="color" matInput [(ngModel)]="currentCategory.color" placeholder="Color">
