@@ -29,12 +29,12 @@ pipeline {
             steps {
                 sshPut remote: remote, from: 'archive.zip', into: '.'
                 sshCommand remote: remote, command: """
-                    mkdir -p /var/www/revisions/$GIT_COMMIT && \
-                    unzip -d /var/www/revisions/$GIT_COMMIT /root/archive.zip && \
+                    mkdir -p /var/www/budget.wbrawner.com/revisions/$GIT_COMMIT && \
+                    unzip -d /var/www/budget.wbrawner.com/revisions/$GIT_COMMIT /root/archive.zip && \
                     rm /root/archive.zip && \
-                    if [ test -L /var/www/html ]; then unlink /var/www/html; fi && \
-                    ln -s /var/www/revisions/$GIT_COMMIT /var/www/html && \
-                    if [ \$(ls /var/www/revisions | wc -l) -gt 5 ]; then ls -t /var/www/revisions | tail -n +5 | xargs rm -rf; fi
+                    if [ test -L /var/www/budget.wbrawner.com/html ]; then unlink /var/www/budget.wbrawner.com/html; fi && \
+                    ln -s /var/www/budget.wbrawner.com/revisions/$GIT_COMMIT /var/www/budget.wbrawner.com/html && \
+                    if [ \$(ls /var/www/budget.wbrawner.com/revisions | wc -l) -gt 5 ]; then ls -t /var/www/budget.wbrawner.com/revisions | tail -n +5 | xargs rm -rf; fi
                     """
             }
         }
