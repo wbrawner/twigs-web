@@ -12,7 +12,6 @@
       <span [ngClass]="{'income': balance > 0, 'expense': balance < 0}" >{{ balance | currency }}</span>
     </h2>
     <div class="transaction-navigation">
-      <a mat-button routerLink="/transactions/new">Add Transaction</a>
       <a mat-button routerLink="/transactions">View Transactions</a>
     </div>
   </div>
@@ -28,3 +27,6 @@
     <app-category-list [categories]="categories" [categoryBalances]="categoryBalances"></app-category-list>
   </div>
 </div>
+<a mat-fab routerLink="/transactions/new">
+  <mat-icon aria-label="Add">add</mat-icon>
+</a>
