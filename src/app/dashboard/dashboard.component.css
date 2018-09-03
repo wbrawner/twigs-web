@@ -38,7 +38,7 @@
 .dashboard-primary div {
   bottom: 0.5em;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   left: 0.5em;
   right: 0.5em;
   position: absolute;
@@ -53,6 +53,11 @@
   display: inline-block;
   border: 1px dashed #F1F1F1;
   padding: 1em;
+}
+
+.dashboard .no-categories p {
+  line-height: normal;
+  white-space: normal;
 }
 
 a.view-all {
