@@ -29,6 +29,7 @@ pipeline {
             steps {
                 sshPut remote: remote, from: 'archive.zip', into: '.'
                 sshCommand remote: remote, command: """
+                    if [ test -d /var/www/budget.wbrawner.com/revisions/$GIT_COMMIT ]; then rm -rf /var/www/budget.wbrawner.com/revisions/$GIT_COMMIT; fi && \
                     mkdir -p /var/www/budget.wbrawner.com/revisions/$GIT_COMMIT && \
                     unzip -d /var/www/budget.wbrawner.com/revisions/$GIT_COMMIT /root/archive.zip && \
                     rm /root/archive.zip && \
