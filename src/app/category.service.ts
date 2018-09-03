@@ -12,10 +12,11 @@ export class CategoryService {
   constructor(private db: BudgetDatabase) { }
 
   getCategories(count?: number): Observable<Category[]> {
+    let collection = this.db.categories.orderBy('name');
     if (count) {
-      return from(this.db.categories.toCollection().limit(count).toArray())
+      return from(collection.limit(count).toArray())
     } else {
-      return from(this.db.categories.toCollection().toArray())
+      return from(collection.toArray())
     }
   }
 
@@ -40,13 +41,13 @@ export class CategoryService {
   getBalance(category: Category): Observable<number> {
     let sum = 0;
     return from(
-      this.db.transactions.filter(transaction => transaction.categoryId === category.id).each(function(transaction) {
+      this.db.transactions.filter(transaction => transaction.categoryId === category.id).each(function (transaction) {
         if (transaction.type === TransactionType.INCOME) {
           sum += transaction.amount
         } else {
           sum -= transaction.amount
         }
-      }).then(function() {
+      }).then(function () {
         return sum;
       })
     )
