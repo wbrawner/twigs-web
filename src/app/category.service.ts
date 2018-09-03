@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { of, Observable, from } from 'rxjs';
-import { BudgetDatabase, ICategory } from './budget-database';
+import { BudgetDatabase } from './budget-database';
 import { TransactionType } from './transaction.type'
 import { Category } from './category'
 
