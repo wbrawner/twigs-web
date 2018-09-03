@@ -13,9 +13,9 @@ export class TransactionService {
 
   getTransactions(count?: number): Observable<Transaction[]> {
     if (count) {
-      return from(this.db.transactions.toCollection().limit(count).toArray())
+      return from(this.db.transactions.orderBy('date').reverse().limit(count).toArray())
     } else {
-      return from(this.db.transactions.toCollection().toArray())
+      return from(this.db.transactions.orderBy('date').reverse().toArray())
     }
   }
 
