@@ -27,16 +27,9 @@ pipeline {
                 }
             }
             steps {
-                sshPut remote: remote, from: 'archive.zip', into: '.'
-                sshCommand remote: remote, command: """
-                    if [ test -d /var/www/budget.wbrawner.com/revisions/$GIT_COMMIT ]; then rm -rf /var/www/budget.wbrawner.com/revisions/$GIT_COMMIT; fi && \
-                    mkdir -p /var/www/budget.wbrawner.com/revisions/$GIT_COMMIT && \
-                    unzip -d /var/www/budget.wbrawner.com/revisions/$GIT_COMMIT /root/archive.zip && \
-                    rm /root/archive.zip && \
-                    if [ test -L /var/www/budget.wbrawner.com/html ]; then unlink /var/www/budget.wbrawner.com/html; fi && \
-                    ln -s /var/www/budget.wbrawner.com/revisions/$GIT_COMMIT /var/www/budget.wbrawner.com/html && \
-                    if [ \$(ls /var/www/budget.wbrawner.com/revisions | wc -l) -gt 5 ]; then ls -t /var/www/budget.wbrawner.com/revisions | tail -n +5 | xargs rm -rf; fi
-                    """
+                withCredentials([string(credentialsId: '4a0b8908-75eb-4bc3-9961-db044f848bc5', variable: 'FIREBASE_DEPLOY_TOKEN')]) {
+                    sh 'firebase deploy --token "$FIREBASE_DEPLOY_TOKEN"'
+                }
             }
         }
         stage('Deploy to Dev') {
