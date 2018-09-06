@@ -29,7 +29,7 @@ export class TransactionsComponent implements OnInit {
   }
 
   getTransactions(): void {
-    this.transactionService.getTransactions(5).subscribe(transactions => {
+    this.transactionService.getTransactions().subscribe(transactions => {
       this.transactions = transactions;
     })
   }
