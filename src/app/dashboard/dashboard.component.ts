@@ -3,6 +3,8 @@ import { Transaction } from '../transaction'
 import { TransactionService } from '../transaction.service'
 import { CategoryService } from '../category.service'
 import { Category } from '../category'
+import { AppComponent } from '../app.component';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,11 +19,14 @@ export class DashboardComponent implements OnInit {
   categoryBalances: Map<number, number>;
 
   constructor(
+    private app: AppComponent,
     private transactionService: TransactionService,
     private categoryService: CategoryService
   ) { }
 
   ngOnInit() {
+    this.app.backEnabled = false;
+    this.app.title = 'My Finances';
     this.balance = 0;
     this.getBalance();
     this.getTransactions();
@@ -39,10 +44,10 @@ export class DashboardComponent implements OnInit {
 
   getCategories(): void {
     this.categoryService.getCategories(5).subscribe(categories => {
-      this.categories = categories
-      for (let category of this.categories) {
+      this.categories = categories;
+      for (const category of this.categories) {
         this.categoryService.getBalance(category).subscribe(balance => this.categoryBalances.set(category.id,  balance))
       }
-    })
+    });
   }
 }

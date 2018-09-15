@@ -4,6 +4,8 @@ import { TransactionType } from './transaction.type';
 
 export class Transaction implements ITransaction {
     id: number;
+    accountId: number;
+    remoteId: number;
     title: string;
     description: string;
     amount: number;

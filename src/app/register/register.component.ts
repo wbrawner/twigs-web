@@ -1,0 +1,38 @@
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { User } from '../user';
+import { AppComponent } from '../app.component';
+import { AuthService } from '../auth.service';
+import { Actionable } from '../actionable';
+
+@Component({
+  selector: 'app-register',
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.css']
+})
+export class RegisterComponent implements OnInit, OnDestroy, Actionable {
+
+  public user: User = new User();
+
+  constructor(
+    private app: AppComponent,
+    private authService: AuthService,
+  ) { }
+
+  ngOnInit() {
+    this.app.title = 'Login';
+    this.app.actionable = this;
+    this.app.backEnabled = true;
+  }
+
+  ngOnDestroy() {
+    this.app.actionable = null;
+  }
+
+  doAction(): void {
+    this.authService.register(this.user);
+  }
+
+  getActionLabel() {
+    return 'Submit';
+  }
+}

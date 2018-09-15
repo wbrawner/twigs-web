@@ -3,16 +3,17 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
-  MatButtonModule, 
-  MatDatepickerModule,  
-  MatFormFieldModule, 
-  MatIconModule, 
+  MatButtonModule,
+  MatDatepickerModule,
+  MatFormFieldModule,
+  MatIconModule,
   MatInputModule,
-  MatListModule, 
+  MatListModule,
   MatRadioModule,
   MatProgressBarModule,
   MatSelectModule,
-  MatToolbarModule, 
+  MatToolbarModule,
+  MatSidenavModule,
 } from '@angular/material';
 
 import { AppComponent } from './app.component';
@@ -29,6 +30,12 @@ import { NewCategoryComponent } from './new-category/new-category.component';
 import { CategoryListComponent } from './category-list/category-list.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { AddEditAccountComponent } from './add-edit-account/add-edit-account.component';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
+import { UserComponent } from './user/user.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -42,7 +49,12 @@ import { environment } from '../environments/environment';
     CategoryDetailsComponent,
     AddEditCategoryComponent,
     NewCategoryComponent,
-    CategoryListComponent
+    CategoryListComponent,
+    LoginComponent,
+    RegisterComponent,
+    AddEditAccountComponent,
+    EditProfileComponent,
+    UserComponent,
   ],
   imports: [
     BrowserModule,
@@ -57,9 +69,11 @@ import { environment } from '../environments/environment';
     MatProgressBarModule,
     MatSelectModule,
     MatToolbarModule,
+    MatSidenavModule,
     AppRoutingModule,
     FormsModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

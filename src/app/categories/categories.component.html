@@ -1,13 +1,3 @@
-<mat-toolbar>
-  <span>
-    <a mat-button (click)="goBack()">
-      <mat-icon>arrow_back</mat-icon>
-    </a>
-  </span>
-  <span>Categories</span>
-  <!-- empty span object for spacing -->
-  <span></span>
-</mat-toolbar>
 <app-category-list [categories]="categories" [categoryBalances]="categoryBalances"></app-category-list>
 <a mat-fab routerLink="/categories/new">
   <mat-icon aria-label="Add">add</mat-icon>

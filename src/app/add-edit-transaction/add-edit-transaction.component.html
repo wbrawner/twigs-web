@@ -1,20 +1,7 @@
-<mat-toolbar>
-  <span>
-    <a mat-button (click)="goBack()">
-      <mat-icon>arrow_back</mat-icon>
-    </a>
-  </span>
-  <span>
-    {{ title }}
-  </span>
-  <span class="action-item">
-    <a mat-button (click)="save()">Save</a>
-  </span>
-</mat-toolbar>
-<div *ngIf="!currentTransaction">
+<div [hidden]="currentTransaction">
   <p>Select a transaction from the list to view details about it or edit it.</p>
 </div>
-<div *ngIf="currentTransaction" class="transaction-form">
+<div [hidden]="!currentTransaction" class="form transaction-form">
   <mat-form-field>
     <input matInput [(ngModel)]="currentTransaction.title" placeholder="Name" required>
   </mat-form-field>

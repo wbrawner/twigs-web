@@ -1,13 +1,3 @@
-<mat-toolbar>
-  <span>
-    <a mat-button (click)="goBack()">
-      <mat-icon>arrow_back</mat-icon>
-    </a>
-  </span>
-  <span>Transactions</span>
-  <!-- empty span object for spacing -->
-  <span></span>
-</mat-toolbar>
 <mat-nav-list *ngIf="transactions" class="transactions">
   <a mat-list-item *ngFor="let transaction of transactions" routerLink="/transactions/{{ transaction.id }}">
     <div matLine class="list-row-one">

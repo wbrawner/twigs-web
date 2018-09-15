@@ -7,16 +7,20 @@ import { NewTransactionComponent } from './new-transaction/new-transaction.compo
 import { CategoriesComponent } from './categories/categories.component';
 import { CategoryDetailsComponent } from './category-details/category-details.component';
 import { NewCategoryComponent } from './new-category/new-category.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
   { path: 'transactions', component: TransactionsComponent },
   { path: 'transactions/new', component: NewTransactionComponent },
   { path: 'transactions/:id', component: TransactionDetailsComponent },
   { path: 'categories', component: CategoriesComponent },
   { path: 'categories/new', component: NewCategoryComponent },
   { path: 'categories/:id', component: CategoryDetailsComponent },
-]
+];
 
 @NgModule({
   imports: [

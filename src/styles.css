@@ -1,5 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
-html, body {
+
+html,
+body {
   background: #333333;
   font-family: Roboto, "Helvetica Neue", sans-serif;
   margin: 0;
@@ -9,6 +11,10 @@ html, body {
 p {
   color: #F1F1F1;
   margin: 0;
+}
+
+a.mat-button[hidden] {
+  display: none;
 }
 
 a.mat-fab {
@@ -26,13 +32,15 @@ mat-toolbar {
   box-shadow: 0px 3px 3px 1px #212121;
 }
 
-mat-toolbar.mat-toolbar-row, mat-toolbar.mat-toolbar-single-row {
+mat-toolbar.mat-toolbar-row,
+mat-toolbar.mat-toolbar-single-row {
   padding: 0;
 }
 
 mat-toolbar span {
   display: flex;
-  width: 33%;;
+  width: 33%;
+  ;
 }
 
 mat-toolbar span:nth-child(1) {
@@ -70,11 +78,40 @@ mat-toolbar .action-item a {
   vertical-align: middle;
 }
 
+mat-sidenav-container.mat-drawer-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+mat-sidenav-container .mat-drawer-backdrop.mat-drawer-shown {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
 .income {
-    color: #81C784;
+  color: #81C784;
 }
 
 .expense {
-    color: #E57373;
+  color: #E57373;
 }
 
+/**
+  * Forms
+  */
+
+.form {
+  padding: 1em;
+  color: #F1F1F1;
+}
+
+.form .mat-form-field,
+.form .button {
+  display: block;
+}
+
+.form mat-radio-button {
+  padding-bottom: 15px;
+}

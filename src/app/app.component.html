@@ -1,1 +1,29 @@
-<router-outlet></router-outlet>
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #sidenav mode="over" closed>
+    <mat-nav-list (click)="sidenav.close()">
+      <a mat-list-item routerLink="/accounts">Manage Accounts</a>
+      <a mat-list-item *ngIf="!authService.currentUser" routerLink="/login">Login</a>
+      <a mat-list-item *ngIf="!authService.currentUser" routerLink="/register">Register</a>
+      <a mat-list-item *ngIf="authService.currentUser" (click)="logout()">Logout</a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar>
+      <span>
+        <a mat-button [hidden]="!backEnabled" (click)="goBack()">
+          <mat-icon>arrow_back</mat-icon>
+        </a>
+        <a mat-button [hidden]="backEnabled" (click)="sidenav.open()">
+          <mat-icon>menu</mat-icon>
+        </a>
+      </span>
+      <span>
+        {{ title }}
+      </span>
+      <span class="action-item">
+        <a mat-button *ngIf="actionable" (click)="actionable.doAction()">{{ actionable.getActionLabel() }}</a>
+      </span>
+    </mat-toolbar>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

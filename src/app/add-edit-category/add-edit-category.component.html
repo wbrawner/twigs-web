@@ -1,20 +1,7 @@
-<mat-toolbar>
-  <span>
-    <a mat-button (click)="goBack()">
-      <mat-icon>arrow_back</mat-icon>
-    </a>
-  </span>
-  <span>
-    {{ title }}
-  </span>
-  <span class="action-item">
-    <a mat-button (click)="save()">Save</a>
-  </span>
-</mat-toolbar>
 <div *ngIf="!currentCategory">
   <p>Select a category from the list to view details about it or edit it.</p>
 </div>
-<div *ngIf="currentCategory" class="category-form">
+<div *ngIf="currentCategory" class="form category-form">
   <mat-form-field>
     <input matInput [(ngModel)]="currentCategory.name" placeholder="Name" required>
   </mat-form-field>
