@@ -36,6 +36,18 @@ import { AddEditAccountComponent } from './add-edit-account/add-edit-account.com
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { UserComponent } from './user/user.component';
 import { HttpClientModule } from '@angular/common/http';
+import { CurrencyMaskModule } from "ng2-currency-mask";
+import { CurrencyMaskConfig, CURRENCY_MASK_CONFIG } from "ng2-currency-mask/src/currency-mask.config";
+
+export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
+  align: 'left',
+  precision: 2,
+  prefix: '',
+  thousands: ',',
+  decimal: '.',
+  suffix: '',
+  allowNegative: false,
+};
 
 @NgModule({
   declarations: [
@@ -74,8 +86,11 @@ import { HttpClientModule } from '@angular/common/http';
     FormsModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     HttpClientModule,
+    CurrencyMaskModule,
   ],
-  providers: [],
+  providers: [
+    { provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

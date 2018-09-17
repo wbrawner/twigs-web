@@ -12,6 +12,7 @@ import { Actionable } from '../actionable';
 export class RegisterComponent implements OnInit, OnDestroy, Actionable {
 
   public user: User = new User();
+  public confirmedPassword: string;
 
   constructor(
     private app: AppComponent,
@@ -29,6 +30,10 @@ export class RegisterComponent implements OnInit, OnDestroy, Actionable {
   }
 
   doAction(): void {
+    if (this.user.password !== this.confirmedPassword) {
+      alert('Passwords don\'t match');
+      return;
+    }
     this.authService.register(this.user);
   }
 

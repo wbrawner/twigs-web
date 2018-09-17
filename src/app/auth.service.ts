@@ -7,14 +7,12 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class AuthService {
-  private currentUser: User;
+  public currentUser: User;
 
   constructor(
     private apiService: ApiService,
     private router: Router,
-  ) {
-    console.log('AuthService constructed');
-  }
+  ) { }
 
   login(user: User) {
     this.apiService.login(user.name, user.password).subscribe(

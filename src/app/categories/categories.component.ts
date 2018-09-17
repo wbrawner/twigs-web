@@ -20,6 +20,7 @@ export class CategoriesComponent implements OnInit {
 
   ngOnInit() {
     this.app.title = 'Categories';
+    this.app.backEnabled = true;
     this.getCategories();
     this.categoryBalances = new Map();
   }

@@ -90,6 +90,10 @@ mat-sidenav-container .mat-drawer-backdrop.mat-drawer-shown {
   background-color: rgba(0, 0, 0, 0.8);
 }
 
+mat-sidenav {
+  min-width: 300px;
+}
+
 .income {
   color: #81C784;
 }

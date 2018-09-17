@@ -2,7 +2,7 @@
   <div class="dashboard-primary">
     <h2 class="balance">
       Current Balance: <br />
-      <span [ngClass]="{'income': balance > 0, 'expense': balance < 0}" >{{ balance | currency }}</span>
+      <span [ngClass]="{'income': balance > 0, 'expense': balance < 0}" >{{ balance / 100 | currency }}</span>
     </h2>
     <div class="transaction-navigation">
       <a mat-button routerLink="/transactions">View Transactions</a>

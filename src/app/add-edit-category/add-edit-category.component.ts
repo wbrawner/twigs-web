@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { CategoryService } from '../category.service'
-import { Category } from '../category'
-import { Location } from '@angular/common';
+import { CategoryService } from '../category.service';
+import { Category } from '../category';
 import { Actionable } from '../actionable';
 import { AppComponent } from '../app.component';
 
@@ -31,6 +30,7 @@ export class AddEditCategoryComponent implements OnInit, Actionable, OnDestroy {
   }
 
   doAction(): void {
+    this.currentCategory.amount *= 100;
     if (this.currentCategory.id) {
       // This is an existing category, update it
       this.categoryService.updateCategory(this.currentCategory);

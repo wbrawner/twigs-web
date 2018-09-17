@@ -18,6 +18,7 @@ export class AddEditTransactionComponent implements OnInit, OnDestroy, Actionabl
   public transactionType = TransactionType;
   public selectedCategory: Category;
   public categories: Category[];
+  public rawAmount: string;
 
   constructor(
     private app: AppComponent,
@@ -37,6 +38,9 @@ export class AddEditTransactionComponent implements OnInit, OnDestroy, Actionabl
   }
 
   doAction(): void {
+    // The amount will be input as a decimal value so we need to convert it
+    // to an integer
+    this.currentTransaction.amount *= 100;
     if (this.currentTransaction.id) {
       // This is an existing transaction, update it
       this.transactionService.updateTransaction(this.currentTransaction);

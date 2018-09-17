@@ -6,7 +6,7 @@
     <input matInput [(ngModel)]="currentCategory.name" placeholder="Name" required>
   </mat-form-field>
   <mat-form-field>
-    <input matInput type="number" [(ngModel)]="currentCategory.amount" placeholder="Amount" required>
+    <input matInput type="text" [(ngModel)]="currentCategory.amount" placeholder="Amount" required currencyMask>
   </mat-form-field>
   <!--
   <mat-form-field>

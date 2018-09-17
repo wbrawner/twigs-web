@@ -16,30 +16,13 @@ export class CategoryListComponent implements OnInit {
   ngOnInit() {
   }
 
-  /*
-  ngAfterViewInit() {
-    this.categoryProgressBars.changes.subscribe( list => 
-      list.forEach(progressBar =>
-        progressBar._elementRef.nativeElement.innerHTML += `
-        <style>
-        .mat-progress-bar-fill::after {
-          background-color: ${this.categories[0].color};
-          color: purple;
-        }
-        </style>
-        `
-      )
-    )
-  }
-  */
-
   getCategoryRemainingBalance(category: Category): number {
-    let categoryBalance = this.categoryBalances.get(category.id)
+    let categoryBalance = this.categoryBalances.get(category.id);
     if (!categoryBalance) {
-      categoryBalance = 0
+      categoryBalance = 0;
     }
 
-    return category.amount + categoryBalance;
+    return (category.amount  / 100) + (categoryBalance  / 100);
   }
 
   getCategoryCompletion(category: Category): number {
@@ -49,12 +32,12 @@ export class CategoryListComponent implements OnInit {
 
     let categoryBalance = this.categoryBalances.get(category.id)
     if (!categoryBalance) {
-      categoryBalance = 0
+      categoryBalance = 0;
     }
 
     // Invert the negative/positive values for calculating progress
     // since the limit for a category is saved as a positive but the
-    // balance is used in the calculation. 
+    // balance is used in the calculation.
     if (categoryBalance < 0) {
       categoryBalance = Math.abs(categoryBalance)
     } else {
