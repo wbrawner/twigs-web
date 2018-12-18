@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable, of, from } from 'rxjs';
 import { Transaction } from './transaction';
+import * as firebase from 'firebase/app';
+import 'firebase/database';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -52,10 +54,16 @@ export class ApiService {
   }
 
   getTransactions(): Observable<any> {
-    return this.http.get(
-      host + '/transactions',
-      httpOptions
-    );
+    return Observable.create(subscriber => {
+      const transactionsRef = firebase.database().ref('transactions');
+      transactionsRef.on('child_changed', data => {
+        if (!data.val()) {
+          return;
+        }
+
+        subscriber.next(data.val());
+      });
+    });
   }
 
   saveTransaction(transaction: Transaction): Observable<Transaction> {

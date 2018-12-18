@@ -3,9 +3,9 @@
     <mat-nav-list (click)="sidenav.close()">
       <a mat-list-item routerLink="/accounts">Manage Accounts</a>
       <a mat-list-item (click)="exportData()">Export Data</a>
-      <a mat-list-item *ngIf="!authService.currentUser" routerLink="/login">Login</a>
-      <a mat-list-item *ngIf="!authService.currentUser" routerLink="/register">Register</a>
-      <a mat-list-item *ngIf="authService.currentUser" (click)="logout()">Logout</a>
+      <a mat-list-item *ngIf="!isLoggedIn()" routerLink="/login">Login</a>
+      <a mat-list-item *ngIf="!isLoggedIn()" routerLink="/register">Register</a>
+      <a mat-list-item *ngIf="isLoggedIn()" (click)="logout()">Logout</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>

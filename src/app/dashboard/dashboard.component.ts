@@ -39,7 +39,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getTransactions(): void {
-    this.transactionService.getTransactions(5).subscribe(transactions => this.transactions = transactions)
+    this.transactionService.getTransactions(5).subscribe(transactions => this.transactions = <Transaction[]> transactions);
   }
 
   getCategories(): void {

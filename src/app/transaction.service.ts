@@ -5,6 +5,7 @@ import { TransactionType } from './transaction.type';
 import { BudgetDatabase, ITransaction } from './budget-database';
 import { AuthService } from './auth.service';
 import { ApiService } from './api.service';
+import * as firebase from 'firebase/app';
 
 @Injectable({
   providedIn: 'root'
@@ -19,21 +20,14 @@ export class TransactionService {
 
   getTransactions(count?: number): Observable<ITransaction[]> {
     // Check if we have a currently logged in user
-    if (this.authService.currentUser) {
-      this.apiService.getTransactions().subscribe(
-        value => {
-          console.log(value);
-        },
-        error => {
-          console.error(error);
-        }
-      );
+    if (!firebase.auth().currentUser) {
+      if (count) {
+        return from(this.db.transactions.orderBy('date').reverse().limit(count).toArray());
+      } else {
+        return from(this.db.transactions.orderBy('date').reverse().toArray());
+      }
     }
-    if (count) {
-      return from(this.db.transactions.orderBy('date').reverse().limit(count).toArray());
-    } else {
-      return from(this.db.transactions.orderBy('date').reverse().toArray());
-    }
+    return this.apiService.getTransactions();
   }
 
   getTransaction(id: number): Observable<Transaction> {
@@ -53,7 +47,7 @@ export class TransactionService {
 
   saveTransaction(transaction: Transaction): Observable<Transaction> {
     this.db.transactions.put(transaction);
-    if (this.authService.currentUser) {
+    if (auth().currentUser) {
       return this.apiService.saveTransaction(transaction);
     } else {
       return of(transaction);

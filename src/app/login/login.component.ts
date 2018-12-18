@@ -11,7 +11,8 @@ import { AppComponent } from '../app.component';
 })
 export class LoginComponent implements OnInit, OnDestroy, Actionable {
 
-  public user: User = new User();
+  public email: string;
+  public password: string;
 
   constructor(
     private app: AppComponent,
@@ -29,7 +30,7 @@ export class LoginComponent implements OnInit, OnDestroy, Actionable {
   }
 
   doAction(): void {
-    this.authService.login(this.user);
+    this.authService.login(this.email, this.password);
   }
 
   getActionLabel() {
