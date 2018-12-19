@@ -1,8 +1,8 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { CategoryService } from '../category.service';
+import { Component, OnInit, Input, OnDestroy, Inject } from '@angular/core';
 import { Category } from '../category';
 import { Actionable } from '../actionable';
 import { AppComponent } from '../app.component';
+import { CATEGORY_SERVICE, CategoryService } from '../category.service';
 
 @Component({
   selector: 'app-add-edit-category',
@@ -13,10 +13,11 @@ export class AddEditCategoryComponent implements OnInit, Actionable, OnDestroy {
 
   @Input() title: string;
   @Input() currentCategory: Category;
+  @Input() group: string;
 
   constructor(
     private app: AppComponent,
-    private categoryService: CategoryService,
+    @Inject(CATEGORY_SERVICE) private categoryService: CategoryService,
   ) { }
 
   ngOnInit() {
@@ -31,14 +32,17 @@ export class AddEditCategoryComponent implements OnInit, Actionable, OnDestroy {
 
   doAction(): void {
     this.currentCategory.amount *= 100;
+    let observable;
     if (this.currentCategory.id) {
       // This is an existing category, update it
-      this.categoryService.updateCategory(this.currentCategory);
+      observable = this.categoryService.updateCategory(this.currentCategory.id, this.currentCategory);
     } else {
       // This is a new category, save it
-      this.categoryService.saveCategory(this.currentCategory);
+      observable = this.categoryService.createCategory(this.currentCategory.name, this.currentCategory.amount, this.app.group);
     }
-    this.app.goBack();
+    observable.subscribe(val => {
+      this.app.goBack();
+    });
   }
 
   getActionLabel(): string {
@@ -46,7 +50,7 @@ export class AddEditCategoryComponent implements OnInit, Actionable, OnDestroy {
   }
 
   delete(): void {
-    this.categoryService.deleteCategory(this.currentCategory);
+    this.categoryService.deleteCategory(this.currentCategory.id);
     this.app.goBack();
   }
 }

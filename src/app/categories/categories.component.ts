@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { CategoryService } from '../category.service';
+import { Component, OnInit, Input, Inject } from '@angular/core';
+import { CategoryService, CATEGORY_SERVICE } from '../category.service';
 import { Category } from '../category';
 import { AppComponent } from '../app.component';
+import { TransactionService, TRANSACTION_SERVICE } from '../transaction.service';
+import { Observable } from 'rxjs';
+import { TransactionType } from '../transaction.type';
 
 @Component({
   selector: 'app-categories',
@@ -10,12 +13,14 @@ import { AppComponent } from '../app.component';
 })
 export class CategoriesComponent implements OnInit {
 
+  @Input() group: string;
   public categories: Category[];
-  public categoryBalances: Map<number, number>;
+  public categoryBalances: Map<string, number>;
 
   constructor(
     private app: AppComponent,
-    private categoryService: CategoryService,
+    @Inject(CATEGORY_SERVICE) private categoryService: CategoryService,
+    @Inject(TRANSACTION_SERVICE) private transactionService: TransactionService,
   ) { }
 
   ngOnInit() {
@@ -26,11 +31,27 @@ export class CategoriesComponent implements OnInit {
   }
 
   getCategories(): void {
-    this.categoryService.getCategories().subscribe(categories => {
+    this.categoryService.getCategories(this.app.group).subscribe(categories => {
       this.categories = categories;
       for (const category of this.categories) {
-        this.categoryService.getBalance(category).subscribe(balance => this.categoryBalances.set(category.id,  balance))
+        this.getCategoryBalance(category.id).subscribe(balance => this.categoryBalances.set(category.id, balance));
       }
+    });
+  }
+
+  getCategoryBalance(category: string): Observable<number> {
+    return Observable.create(subscriber => {
+      this.transactionService.getTransactionsForCategory(category).subscribe(transactions => {
+        let balance = 0;
+        for (const transaction of transactions) {
+          if (transaction.type === TransactionType.INCOME) {
+            balance += transaction.amount;
+          } else {
+            balance -= transaction.amount;
+          }
+        }
+        subscriber.next(balance);
+      });
     });
   }
 }

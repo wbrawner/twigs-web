@@ -1,80 +1,27 @@
-import { Injectable } from '@angular/core';
-import { of, Observable, from } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Transaction } from './transaction';
-import { TransactionType } from './transaction.type';
-import { BudgetDatabase, ITransaction } from './budget-database';
-import { AuthService } from './auth.service';
-import { ApiService } from './api.service';
-import * as firebase from 'firebase/app';
+import { InjectionToken } from '@angular/core';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class TransactionService {
+export interface TransactionService {
 
-  constructor(
-    private db: BudgetDatabase,
-    private authService: AuthService,
-    private apiService: ApiService,
-  ) { }
+  getTransactions(group: string, count?: number): Observable<Transaction[]>;
 
-  getTransactions(count?: number): Observable<ITransaction[]> {
-    // Check if we have a currently logged in user
-    if (!firebase.auth().currentUser) {
-      if (count) {
-        return from(this.db.transactions.orderBy('date').reverse().limit(count).toArray());
-      } else {
-        return from(this.db.transactions.orderBy('date').reverse().toArray());
-      }
-    }
-    return this.apiService.getTransactions();
-  }
+  getTransactionsForCategory(category: string, count?: number): Observable<Transaction[]>;
 
-  getTransaction(id: number): Observable<Transaction> {
-    return Observable.create(subscriber => {
-      this.db.transactions.where('id').equals(id).first().then(transaction => {
-        if (!transaction) {
-          subscriber.error();
-          subscriber.complete();
-          return;
-        }
-        (transaction as Transaction).loadCategory(this.db);
-        (transaction as Transaction).loadAccount(this.db);
-        subscriber.next(transaction);
-      });
-    });
-  }
+  getTransaction(id: string): Observable<Transaction>;
 
-  saveTransaction(transaction: Transaction): Observable<Transaction> {
-    this.db.transactions.put(transaction);
-    if (auth().currentUser) {
-      return this.apiService.saveTransaction(transaction);
-    } else {
-      return of(transaction);
-    }
-  }
+  createTransaction(
+    name: string,
+    description: string,
+    amount: number,
+    date: Date,
+    isExpense: boolean,
+    category: string
+  ): Observable<Transaction>;
 
-  updateTransaction(transaction: Transaction): Observable<any> {
-    this.db.transactions.update(transaction.id, transaction);
-    return of([]);
-  }
+  updateTransaction(id: string, changes: object): Observable<boolean>;
 
-  deleteTransaction(transaction: Transaction): Observable<any> {
-    return from(this.db.transactions.delete(transaction.id));
-  }
-
-  getBalance(): Observable<number> {
-    let sum = 0;
-    return from(
-      this.db.transactions.each(function (transaction) {
-        if (transaction.type === TransactionType.INCOME) {
-          sum += transaction.amount;
-        } else {
-          sum -= transaction.amount;
-        }
-      }).then(function () {
-        return sum;
-      })
-    );
-  }
+  deleteTransaction(id: string): Observable<boolean>;
 }
+
+export let TRANSACTION_SERVICE = new InjectionToken<TransactionService>('transaction.service');

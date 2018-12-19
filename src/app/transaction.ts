@@ -1,29 +1,30 @@
-import { ITransaction, ICategory, BudgetDatabase, IAccount } from './budget-database';
+import { ITransaction } from './budget-database';
 import { Category } from './category';
 import { TransactionType } from './transaction.type';
+import * as firebase from 'firebase/app';
 
 export class Transaction implements ITransaction {
-    id: number;
-    accountId: number;
-    remoteId: number;
-    title: string;
-    description: string;
-    amount: number;
-    date: Date = new Date();
-    categoryId: number;
-    type: TransactionType = TransactionType.EXPENSE;
-    category: ICategory;
-    account: IAccount;
+  id: string;
+  accountId: string;
+  remoteId: string;
+  title: string;
+  description: string;
+  amount: number;
+  date: Date = new Date();
+  categoryId: string;
+  type: TransactionType = TransactionType.EXPENSE;
+  category: Category;
+  account: Account;
 
-    loadCategory(db: BudgetDatabase) {
-      db.categories.where('id').equals(this.categoryId).first().then(category => {
-        this.category = category;
-      });
-    }
-
-    loadAccount(db: BudgetDatabase) {
-      db.accounts.where('id').equals(this.accountId).first().then(account => {
-        this.account = account;
-      });
-    }
+  static fromSnapshotRef(snapshot: firebase.firestore.DocumentSnapshot): Transaction {
+    const transaction = new Transaction();
+    transaction.id = snapshot.id;
+    transaction.title = snapshot.get('name');
+    transaction.description = snapshot.get('description');
+    transaction.amount = snapshot.get('amount');
+    transaction.categoryId = snapshot.get('category');
+    transaction.date = snapshot.get('date');
+    transaction.type = snapshot.get('isExpense') ? TransactionType.EXPENSE : TransactionType.INCOME;
+    return transaction;
+  }
 }

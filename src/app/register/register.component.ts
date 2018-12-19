@@ -34,7 +34,7 @@ export class RegisterComponent implements OnInit, OnDestroy, Actionable {
       alert('Passwords don\'t match');
       return;
     }
-    this.authService.register(this.user);
+    this.authService.register(this.user.email, this.user.password);
   }
 
   getActionLabel() {

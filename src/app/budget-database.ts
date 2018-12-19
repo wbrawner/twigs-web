@@ -67,21 +67,21 @@ export class BudgetDatabase extends Dexie {
 }
 
 export interface ITransaction {
-  id: number;
-  accountId: number;
-  remoteId: number;
+  id: string;
+  accountId: string;
+  remoteId: string;
   title: string;
   description: string;
   amount: number;
   date: Date;
-  categoryId: number;
+  categoryId: string;
   type: TransactionType;
 }
 
 export interface ICategory {
-  id: number;
-  accountId: number;
-  remoteId: number;
+  id: string;
+  accountId: string;
+  remoteId: string;
   name: string;
   amount: number;
   repeat: string;

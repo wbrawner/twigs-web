@@ -38,7 +38,10 @@ import { UserComponent } from './user/user.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { CurrencyMaskConfig, CURRENCY_MASK_CONFIG } from 'ng2-currency-mask/src/currency-mask.config';
-import * as firebase from 'firebase/app';
+import { TransactionServiceFirebaseFirestoreImpl } from './transaction.service.firestore';
+import { TRANSACTION_SERVICE } from './transaction.service';
+import { CATEGORY_SERVICE } from './category.service';
+import { CategoryServiceFirebaseFirestoreImpl } from './category.service.firestore';
 
 export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
   align: 'left',
@@ -91,6 +94,8 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
   ],
   providers: [
     { provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig },
+    { provide: TRANSACTION_SERVICE, useClass: TransactionServiceFirebaseFirestoreImpl },
+    { provide: CATEGORY_SERVICE, useClass: CategoryServiceFirebaseFirestoreImpl },
   ],
   bootstrap: [AppComponent]
 })

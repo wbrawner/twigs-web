@@ -15,6 +15,7 @@ export class AppComponent {
   public title = 'Budget';
   public backEnabled = false;
   public actionable: Actionable;
+  public group = 'MG3KOiuPu0Xy38O2LdhJ';
 
   constructor(
     public authService: AuthService,
@@ -30,6 +31,10 @@ export class AppComponent {
       messagingSenderId: '527070722499'
     };
     firebase.initializeApp(config);
+  }
+
+  getUsername(): String {
+    return firebase.auth().currentUser.email;
   }
 
   goBack(): void {

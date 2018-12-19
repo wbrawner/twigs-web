@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { Transaction } from '../transaction'
-import { TransactionService } from '../transaction.service'
-import { CategoryService } from '../category.service'
-import { Category } from '../category'
+import { Component, OnInit, Inject } from '@angular/core';
+import { Transaction } from '../transaction';
+import { TransactionService, TRANSACTION_SERVICE } from '../transaction.service';
+import { Category } from '../category';
 import { AppComponent } from '../app.component';
-import { AuthService } from '../auth.service';
+import { TransactionType } from '../transaction.type';
+import { Observable } from 'rxjs';
+import { CategoryService, CATEGORY_SERVICE } from '../category.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,41 +14,62 @@ import { AuthService } from '../auth.service';
 })
 export class DashboardComponent implements OnInit {
 
-  public balance: number;
   public transactions: Transaction[];
   public categories: Category[];
-  categoryBalances: Map<number, number>;
+  categoryBalances: Map<string, number>;
 
   constructor(
     private app: AppComponent,
-    private transactionService: TransactionService,
-    private categoryService: CategoryService
+    @Inject(TRANSACTION_SERVICE) private transactionService: TransactionService,
+    @Inject(CATEGORY_SERVICE) private categoryService: CategoryService,
   ) { }
 
   ngOnInit() {
     this.app.backEnabled = false;
     this.app.title = 'My Finances';
-    this.balance = 0;
     this.getBalance();
     this.getTransactions();
     this.getCategories();
     this.categoryBalances = new Map();
   }
 
-  getBalance(): void {
-    this.transactionService.getBalance().subscribe(balance => this.balance = balance)
+  getBalance(): number {
+    let totalBalance = 0;
+    if (!this.categoryBalances) {
+      return 0;
+    }
+    this.categoryBalances.forEach(balance => {
+      totalBalance += balance;
+    });
+    return totalBalance;
   }
 
   getTransactions(): void {
-    this.transactionService.getTransactions(5).subscribe(transactions => this.transactions = <Transaction[]> transactions);
+    this.transactionService.getTransactions(this.app.group, 5).subscribe(transactions => this.transactions = <Transaction[]>transactions);
   }
 
   getCategories(): void {
-    this.categoryService.getCategories(5).subscribe(categories => {
+    this.categoryService.getCategories(this.app.group, 5).subscribe(categories => {
       this.categories = categories;
-      for (const category of this.categories) {
-        this.categoryService.getBalance(category).subscribe(balance => this.categoryBalances.set(category.id,  balance))
+      for (const category of categories) {
+        this.getCategoryBalance(category.id).subscribe(balance => this.categoryBalances.set(category.id, balance));
       }
+    });
+  }
+
+  getCategoryBalance(category: string): Observable<number> {
+    return Observable.create(subscriber => {
+      this.transactionService.getTransactionsForCategory(category).subscribe(transactions => {
+        let balance = 0;
+        for (const transaction of transactions) {
+          if (transaction.type === TransactionType.INCOME) {
+            balance += transaction.amount;
+          } else {
+            balance -= transaction.amount;
+          }
+        }
+        subscriber.next(balance);
+      });
     });
   }
 }

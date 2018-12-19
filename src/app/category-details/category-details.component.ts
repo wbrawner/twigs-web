@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { CategoryService } from '../category.service'
-import { Category } from '../category'
-import { ActivatedRoute } from '@angular/router'
+import { CategoryServiceFirebaseFirestoreImpl } from '../category.service.firestore';
+import { Category } from '../category';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-category-details',
@@ -14,15 +14,15 @@ export class CategoryDetailsComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private categoryService: CategoryService
+    private categoryService: CategoryServiceFirebaseFirestoreImpl
   ) { }
 
   ngOnInit() {
-    this.getCategory()
+    this.getCategory();
   }
 
   getCategory(): void {
-    const id = +this.route.snapshot.paramMap.get('id')
+    const id = this.route.snapshot.paramMap.get('id');
     this.categoryService.getCategory(id)
       .subscribe(category => {
         category.amount /= 100;

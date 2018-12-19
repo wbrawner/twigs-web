@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Category } from '../category'
+import { Category } from '../category';
 
 @Component({
   selector: 'app-category-list',
@@ -9,7 +9,7 @@ import { Category } from '../category'
 export class CategoryListComponent implements OnInit {
 
   @Input() categories: Category[];
-  @Input() categoryBalances: Map<number, number>;
+  @Input() categoryBalances: Map<string, number>;
 
   constructor() { }
 
@@ -30,7 +30,7 @@ export class CategoryListComponent implements OnInit {
       return 0;
     }
 
-    let categoryBalance = this.categoryBalances.get(category.id)
+    let categoryBalance = this.categoryBalances.get(category.id);
     if (!categoryBalance) {
       categoryBalance = 0;
     }
@@ -39,9 +39,9 @@ export class CategoryListComponent implements OnInit {
     // since the limit for a category is saved as a positive but the
     // balance is used in the calculation.
     if (categoryBalance < 0) {
-      categoryBalance = Math.abs(categoryBalance)
+      categoryBalance = Math.abs(categoryBalance);
     } else {
-      categoryBalance -= (categoryBalance * 2)
+      categoryBalance -= (categoryBalance * 2);
     }
 
     return categoryBalance / category.amount * 100;

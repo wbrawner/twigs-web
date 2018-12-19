@@ -1,6 +1,7 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav #sidenav mode="over" closed>
     <mat-nav-list (click)="sidenav.close()">
+      <a mat-list-item *ngIf="isLoggedIn()" routerLink="">{{ getUsername() }}</a>
       <a mat-list-item routerLink="/accounts">Manage Accounts</a>
       <a mat-list-item (click)="exportData()">Export Data</a>
       <a mat-list-item *ngIf="!isLoggedIn()" routerLink="/login">Login</a>

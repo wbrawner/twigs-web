@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { ApiService } from './api.service';
 import { User } from './user';
 import { Router } from '@angular/router';
 import * as firebase from 'firebase/app';
@@ -10,7 +9,6 @@ import * as firebase from 'firebase/app';
 export class AuthService {
 
   constructor(
-    private apiService: ApiService,
     private router: Router,
   ) { }
 
@@ -23,17 +21,14 @@ export class AuthService {
     });
   }
 
-  // register(user: User) {
-  //   this.apiService.register(user.name, user.email, user.password).subscribe(
-  //     value => {
-  //       this.login(value);
-  //     },
-  //     error => {
-  //       console.log('Registration failed');
-  //       console.log(error);
-  //     }
-  //   );
-  // }
+  register(email: string, password: string) {
+    firebase.auth().createUserWithEmailAndPassword(email, password).then(value => {
+      this.router.navigate(['/']);
+    }).catch(err => {
+      console.log('Login failed');
+      console.log(err);
+    });
+  }
 
   logout() {
     firebase.auth().signOut().then(value => {

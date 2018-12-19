@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Inject } from '@angular/core';
 import { Transaction } from '../transaction';
 import { TransactionType } from '../transaction.type';
-import { TransactionService } from '../transaction.service';
+import { TransactionService, TRANSACTION_SERVICE } from '../transaction.service';
 import { AppComponent } from '../app.component';
 
 @Component({
@@ -11,13 +11,14 @@ import { AppComponent } from '../app.component';
 })
 export class TransactionsComponent implements OnInit {
 
+  @Input() group: string;
   public transactionType = TransactionType;
 
-  public transactions: Transaction[]
+  public transactions: Transaction[];
 
   constructor(
     private app: AppComponent,
-    private transactionService: TransactionService,
+    @Inject(TRANSACTION_SERVICE) private transactionService: TransactionService,
   ) { }
 
   ngOnInit() {
@@ -27,7 +28,7 @@ export class TransactionsComponent implements OnInit {
   }
 
   getTransactions(): void {
-    this.transactionService.getTransactions().subscribe(transactions => {
+    this.transactionService.getTransactions(this.app.group).subscribe(transactions => {
       this.transactions = transactions;
     });
   }
