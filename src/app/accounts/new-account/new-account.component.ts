@@ -1,15 +1,20 @@
 import { Component, OnInit } from '@angular/core';
+import { Account } from '../account';
 
 @Component({
-  selector: 'app-new-account',
-  templateUrl: './new-account.component.html',
-  styleUrls: ['./new-account.component.css']
+    selector: 'app-new-account',
+    templateUrl: './new-account.component.html',
+    styleUrls: ['./new-account.component.css']
 })
 export class NewAccountComponent implements OnInit {
 
-  constructor() { }
+    public account: Account;
 
-  ngOnInit() {
-  }
+    constructor() {
+        this.account = new Account();
+    }
+
+    ngOnInit() {
+    }
 
 }

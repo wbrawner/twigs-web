@@ -7,69 +7,70 @@ import { UserService, USER_SERVICE } from 'src/app/users/user.service';
 import { User } from 'src/app/users/user';
 
 @Component({
-  selector: 'app-add-edit-account',
-  templateUrl: './add-edit-account.component.html',
-  styleUrls: ['./add-edit-account.component.css']
+    selector: 'app-add-edit-account',
+    templateUrl: './add-edit-account.component.html',
+    styleUrls: ['./add-edit-account.component.css']
 })
 export class AddEditAccountComponent implements OnInit, OnDestroy, Actionable {
-  @Input() title: string;
-  @Input() account: Account;
-  public users: User[];
-  public searchedUsers: User[];
+    @Input() title: string;
+    @Input() account: Account;
+    public users: User[];
+    public searchedUsers: User[];
 
-  constructor(
-    private app: AppComponent,
-    @Inject(ACCOUNT_SERVICE) private accountService: AccountService,
-    @Inject(USER_SERVICE) private userService: UserService,
-  ) {
-    this.app.title = this.title;
-    this.app.backEnabled = true;
-    this.app.actionable = this;
-  }
-
-  ngOnInit() {
-  }
-
-  ngOnDestroy(): void {
-    this.app.actionable = null;
-  }
-
-  doAction(): void {
-    let observable;
-    if (this.account.id) {
-      // This is an existing transaction, update it
-      observable = this.accountService.updateAccount(this.account.id, this.account);
-    } else {
-      // This is a new transaction, save it
-      observable = this.accountService.createAccount(
-        this.account.name,
-        this.account.description,
-        this.account.currency,
-        this.users
-      );
+    constructor(
+        private app: AppComponent,
+        @Inject(ACCOUNT_SERVICE) private accountService: AccountService,
+        @Inject(USER_SERVICE) private userService: UserService,
+    ) {
+        this.app.title = this.title;
+        this.app.backEnabled = true;
+        this.app.actionable = this;
     }
-    // TODO: Check if it was actually successful or not
-    observable.subscribe(val => {
-      this.app.goBack();
-    });
-  }
 
-  getActionLabel(): string {
-    return 'Save';
-  }
+    ngOnInit() {
+    }
 
-  delete(): void {
-    this.accountService.deleteAccount(this.account.id);
-    this.app.goBack();
-  }
+    ngOnDestroy(): void {
+        this.app.actionable = null;
+    }
 
-  searchUsers(username: string) {
-    this.userService.getUsersByUsername(username).subscribe(users => {
-      this.searchedUsers = users;
-    });
-  }
+    doAction(): void {
+        let observable;
+        if (this.account.id) {
+            // This is an existing transaction, update it
+            observable = this.accountService.updateAccount(this.account.id, this.account);
+        } else {
+            // This is a new transaction, save it
+            observable = this.accountService.createAccount(
+                this.account.name,
+                this.account.description,
+                this.account.currency,
+                this.users
+            );
+        }
+        // TODO: Check if it was actually successful or not
+        observable.subscribe(val => {
+            this.app.goBack();
+        });
+    }
 
-  clearUserSearch() {
-    this.searchedUsers = [];
-  }
+    getActionLabel(): string {
+        return 'Save';
+    }
+
+    delete(): void {
+        this.accountService.deleteAccount(this.account.id);
+        this.app.goBack();
+    }
+
+    // TODO: Implement a search box with suggestions to add users
+    searchUsers(username: string) {
+        this.userService.getUsersByUsername(username).subscribe(users => {
+            this.searchedUsers = users;
+        });
+    }
+
+    clearUserSearch() {
+        this.searchedUsers = [];
+    }
 }
