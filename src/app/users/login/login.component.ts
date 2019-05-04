@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy, OnChanges } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { User } from '../user';
-import { Actionable } from '../actionable';
-import { AppComponent } from '../app.component';
+import { Actionable } from 'src/app/actionable';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-login',

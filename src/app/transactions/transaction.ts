@@ -1,9 +1,8 @@
-import { ITransaction } from './budget-database';
-import { Category } from './category';
+import { Category } from '../categories/category';
 import { TransactionType } from './transaction.type';
 import * as firebase from 'firebase/app';
 
-export class Transaction implements ITransaction {
+export class Transaction {
   id: string;
   accountId: string;
   remoteId: string;

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Transaction } from '../transaction'
+import { Transaction } from '../transaction';
 
 @Component({
   selector: 'app-new-transaction',

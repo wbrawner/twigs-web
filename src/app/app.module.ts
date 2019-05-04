@@ -19,29 +19,34 @@ import {
 import { AppComponent } from './app.component';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { AppRoutingModule } from './app-routing.module';
-import { TransactionDetailsComponent } from './transaction-details/transaction-details.component';
-import { NewTransactionComponent } from './new-transaction/new-transaction.component';
-import { AddEditTransactionComponent } from './add-edit-transaction/add-edit-transaction.component';
+import { AccountsComponent } from './accounts/accounts.component';
+import { TransactionDetailsComponent } from './transactions/transaction-details/transaction-details.component';
+import { NewTransactionComponent } from './transactions/new-transaction/new-transaction.component';
+import { AddEditTransactionComponent } from './transactions/add-edit-transaction/add-edit-transaction.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CategoriesComponent } from './categories/categories.component';
-import { CategoryDetailsComponent } from './category-details/category-details.component';
-import { AddEditCategoryComponent } from './add-edit-category/add-edit-category.component';
-import { NewCategoryComponent } from './new-category/new-category.component';
-import { CategoryListComponent } from './category-list/category-list.component';
-import { ServiceWorkerModule } from '@angular/service-worker';
-import { environment } from '../environments/environment';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
-import { AddEditAccountComponent } from './add-edit-account/add-edit-account.component';
-import { EditProfileComponent } from './edit-profile/edit-profile.component';
-import { UserComponent } from './user/user.component';
+import { CategoryDetailsComponent } from './categories/category-details/category-details.component';
+import { AddEditCategoryComponent } from './categories/add-edit-category/add-edit-category.component';
+import { NewCategoryComponent } from './categories/new-category/new-category.component';
+import { CategoryListComponent } from './categories/category-list/category-list.component';
+import { LoginComponent } from './users/login/login.component';
+import { RegisterComponent } from './users/register/register.component';
+import { AddEditAccountComponent } from './accounts/add-edit-account/add-edit-account.component';
+import { EditProfileComponent } from './users/edit-profile/edit-profile.component';
+import { UserComponent } from './users/user.component';
+import { NewAccountComponent } from './accounts/new-account/new-account.component';
+import { AccountDetailsComponent } from './accounts/account-details/account-details.component';
+import { environment } from 'src/environments/environment';
 import { HttpClientModule } from '@angular/common/http';
+import { TRANSACTION_SERVICE } from './transactions/transaction.service';
+import { TransactionServiceFirebaseFirestoreImpl } from './transactions/transaction.service.firestore';
+import { CATEGORY_SERVICE } from './categories/category.service';
+import { CategoryServiceFirebaseFirestoreImpl } from './categories/category.service.firestore';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { CurrencyMaskConfig, CURRENCY_MASK_CONFIG } from 'ng2-currency-mask/src/currency-mask.config';
-import { TransactionServiceFirebaseFirestoreImpl } from './transaction.service.firestore';
-import { TRANSACTION_SERVICE } from './transaction.service';
-import { CATEGORY_SERVICE } from './category.service';
-import { CategoryServiceFirebaseFirestoreImpl } from './category.service.firestore';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { ACCOUNT_SERVICE } from './accounts/account.service';
+import { FirestoreAccountService } from './accounts/account.service.firestore';
 
 export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
   align: 'left',
@@ -71,6 +76,9 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     AddEditAccountComponent,
     EditProfileComponent,
     UserComponent,
+    NewAccountComponent,
+    AccountDetailsComponent,
+    AccountsComponent,
   ],
   imports: [
     BrowserModule,
@@ -96,6 +104,7 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     { provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig },
     { provide: TRANSACTION_SERVICE, useClass: TransactionServiceFirebaseFirestoreImpl },
     { provide: CATEGORY_SERVICE, useClass: CategoryServiceFirebaseFirestoreImpl },
+    { provide: ACCOUNT_SERVICE, useClass: FirestoreAccountService },
   ],
   bootstrap: [AppComponent]
 })

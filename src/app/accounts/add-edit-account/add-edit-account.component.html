@@ -1,0 +1,15 @@
+<div [hidden]="account">
+  <p>Select an account from the list to view details about it or edit it.</p>
+</div>
+<div [hidden]="!account" class="form account-form">
+  <mat-form-field>
+    <input matInput [(ngModel)]="account.name" placeholder="Name" required>
+  </mat-form-field>
+  <mat-form-field>
+    <textarea matInput [(ngModel)]="account.description" placeholder="Description"></textarea>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput type="text" [(ngModel)]="account.currency" placeholder="Currency" required>
+  </mat-form-field>
+  <button class="button-delete" mat-button color="warn" *ngIf="account.id" (click)="delete()">Delete</button>
+</div>

@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { User } from '../user';
-import { AppComponent } from '../app.component';
 import { AuthService } from '../auth.service';
-import { Actionable } from '../actionable';
+import { Actionable } from 'src/app/actionable';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-register',

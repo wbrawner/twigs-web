@@ -1,11 +1,11 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { Transaction } from '../transaction';
-import { TransactionService, TRANSACTION_SERVICE } from '../transaction.service';
-import { Category } from '../category';
+import { Transaction } from '../transactions/transaction';
+import { TransactionService, TRANSACTION_SERVICE } from '../transactions/transaction.service';
+import { Category } from '../categories/category';
 import { AppComponent } from '../app.component';
-import { TransactionType } from '../transaction.type';
+import { TransactionType } from '../transactions/transaction.type';
 import { Observable } from 'rxjs';
-import { CategoryService, CATEGORY_SERVICE } from '../category.service';
+import { CategoryService, CATEGORY_SERVICE } from '../categories/category.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -71,5 +71,9 @@ export class DashboardComponent implements OnInit {
         subscriber.next(balance);
       });
     });
+  }
+
+  isLoggedIn(): boolean {
+    return this.app.isLoggedIn();
   }
 }

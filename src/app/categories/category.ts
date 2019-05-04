@@ -1,6 +1,4 @@
-import { ICategory } from './budget-database';
-
-export class Category implements ICategory {
+export class Category {
   id: string;
   accountId: string;
   remoteId: string;

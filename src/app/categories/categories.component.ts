@@ -1,10 +1,10 @@
 import { Component, OnInit, Input, Inject } from '@angular/core';
-import { CategoryService, CATEGORY_SERVICE } from '../category.service';
-import { Category } from '../category';
+import { CategoryService, CATEGORY_SERVICE } from './category.service';
+import { Category } from './category';
 import { AppComponent } from '../app.component';
-import { TransactionService, TRANSACTION_SERVICE } from '../transaction.service';
+import { TransactionService, TRANSACTION_SERVICE } from '../transactions/transaction.service';
 import { Observable } from 'rxjs';
-import { TransactionType } from '../transaction.type';
+import { TransactionType } from '../transactions/transaction.type';
 
 @Component({
   selector: 'app-categories',

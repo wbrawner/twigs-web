@@ -2,10 +2,10 @@ import { Component, OnInit, Input, OnChanges, OnDestroy, Inject } from '@angular
 import { Transaction } from '../transaction';
 import { TransactionType } from '../transaction.type';
 import { TransactionService, TRANSACTION_SERVICE } from '../transaction.service';
-import { Category } from '../category';
-import { AppComponent } from '../app.component';
-import { Actionable } from '../actionable';
-import { CATEGORY_SERVICE, CategoryService } from '../category.service';
+import { Category } from 'src/app/categories/category';
+import { Actionable } from 'src/app/actionable';
+import { AppComponent } from 'src/app/app.component';
+import { CATEGORY_SERVICE, CategoryService } from 'src/app/categories/category.service';
 
 @Component({
   selector: 'app-add-edit-transaction',

@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, OnDestroy, Inject } from '@angular/core';
 import { Category } from '../category';
-import { Actionable } from '../actionable';
-import { AppComponent } from '../app.component';
 import { CATEGORY_SERVICE, CategoryService } from '../category.service';
+import { Actionable } from 'src/app/actionable';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-add-edit-category',

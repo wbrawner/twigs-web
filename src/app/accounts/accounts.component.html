@@ -1,0 +1,16 @@
+<mat-nav-list class="accounts">
+  <a mat-list-item *ngFor="let account of accounts" routerLink="/accounts/{{ account.id }}">
+    <p matLine class="account-list-title">
+      {{ account.name }}
+    </p>
+    <p matLine class="account-list-description">
+      {{ account.description }}
+    </p>
+  </a>
+</mat-nav-list>
+<div class="no-accounts" *ngIf="!accounts || accounts.length === 0">
+  <a mat-button routerLink="/accounts/new">
+    <mat-icon>add</mat-icon>
+    <p>Add accounts to begin tracking your budget.</p>
+  </a>
+</div>
