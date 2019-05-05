@@ -23,7 +23,6 @@ import { AccountsComponent } from './accounts/accounts.component';
 import { TransactionDetailsComponent } from './transactions/transaction-details/transaction-details.component';
 import { NewTransactionComponent } from './transactions/new-transaction/new-transaction.component';
 import { AddEditTransactionComponent } from './transactions/add-edit-transaction/add-edit-transaction.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { CategoriesComponent } from './categories/categories.component';
 import { CategoryDetailsComponent } from './categories/category-details/category-details.component';
 import { AddEditCategoryComponent } from './categories/add-edit-category/add-edit-category.component';
@@ -47,6 +46,8 @@ import { CurrencyMaskConfig, CURRENCY_MASK_CONFIG } from 'ng2-currency-mask/src/
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { ACCOUNT_SERVICE } from './accounts/account.service';
 import { FirestoreAccountService } from './accounts/account.service.firestore';
+import { USER_SERVICE } from './users/user.service';
+import { FirestoreUserService } from './users/user.service.firestore';
 
 export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
   align: 'left',
@@ -65,7 +66,6 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     TransactionDetailsComponent,
     NewTransactionComponent,
     AddEditTransactionComponent,
-    DashboardComponent,
     CategoriesComponent,
     CategoryDetailsComponent,
     AddEditCategoryComponent,
@@ -105,6 +105,7 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     { provide: TRANSACTION_SERVICE, useClass: TransactionServiceFirebaseFirestoreImpl },
     { provide: CATEGORY_SERVICE, useClass: CategoryServiceFirebaseFirestoreImpl },
     { provide: ACCOUNT_SERVICE, useClass: FirestoreAccountService },
+    { provide: USER_SERVICE, useClass: FirestoreUserService },
   ],
   bootstrap: [AppComponent]
 })

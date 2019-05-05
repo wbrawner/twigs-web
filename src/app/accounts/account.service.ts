@@ -10,7 +10,7 @@ export interface AccountService {
     name: string,
     description: string,
     currency: string,
-    members: User[],
+    members: string[],
   ): Observable<Account>;
   updateAccount(id: string, changes: object): Observable<Account>;
   deleteAccount(id: string): Observable<boolean>;

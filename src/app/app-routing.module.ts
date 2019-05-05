@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { TransactionDetailsComponent } from './transactions/transaction-details/transaction-details.component';
 import { NewTransactionComponent } from './transactions/new-transaction/new-transaction.component';
@@ -14,18 +13,18 @@ import { NewAccountComponent } from './accounts/new-account/new-account.componen
 import { AccountDetailsComponent } from './accounts/account-details/account-details.component';
 
 const routes: Routes = [
-  { path: '', component: DashboardComponent },
+  { path: '', component: AccountsComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'accounts', component: AccountsComponent },
   { path: 'accounts/new', component: NewAccountComponent },
   { path: 'accounts/:id', component: AccountDetailsComponent },
-  { path: 'transactions', component: TransactionsComponent },
-  { path: 'transactions/new', component: NewTransactionComponent },
-  { path: 'transactions/:id', component: TransactionDetailsComponent },
-  { path: 'categories', component: CategoriesComponent },
-  { path: 'categories/new', component: NewCategoryComponent },
-  { path: 'categories/:id', component: CategoryDetailsComponent },
+  { path: 'accounts/:accountId/transactions', component: TransactionsComponent },
+  { path: 'accounts/:accountId/transactions/new', component: NewTransactionComponent },
+  { path: 'accounts/:accountId/transactions/:id', component: TransactionDetailsComponent },
+  { path: 'accounts/:accountId/categories', component: CategoriesComponent },
+  { path: 'accounts/:accountId/categories/new', component: NewCategoryComponent },
+  { path: 'accounts/:accountId/categories/:id', component: CategoryDetailsComponent },
 ];
 
 @NgModule({

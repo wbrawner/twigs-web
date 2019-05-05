@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Category } from '../category';
+import { Account } from 'src/app/accounts/account';
 
 @Component({
   selector: 'app-category-list',
@@ -8,6 +9,7 @@ import { Category } from '../category';
 })
 export class CategoryListComponent implements OnInit {
 
+  @Input() accountId: string;
   @Input() categories: Category[];
   @Input() categoryBalances: Map<string, number>;
 

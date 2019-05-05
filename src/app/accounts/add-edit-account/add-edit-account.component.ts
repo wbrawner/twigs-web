@@ -5,6 +5,7 @@ import { AppComponent } from 'src/app/app.component';
 import { Actionable } from 'src/app/actionable';
 import { UserService, USER_SERVICE } from 'src/app/users/user.service';
 import { User } from 'src/app/users/user';
+import * as firebase from 'firebase';
 
 @Component({
     selector: 'app-add-edit-account',
@@ -14,8 +15,8 @@ import { User } from 'src/app/users/user';
 export class AddEditAccountComponent implements OnInit, OnDestroy, Actionable {
     @Input() title: string;
     @Input() account: Account;
-    public users: User[];
-    public searchedUsers: User[];
+    public userIds: string[] = [firebase.auth().currentUser.uid];
+    public searchedUsers: User[] = [];
 
     constructor(
         private app: AppComponent,
@@ -45,7 +46,7 @@ export class AddEditAccountComponent implements OnInit, OnDestroy, Actionable {
                 this.account.name,
                 this.account.description,
                 this.account.currency,
-                this.users
+                this.userIds
             );
         }
         // TODO: Check if it was actually successful or not

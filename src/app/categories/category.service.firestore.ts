@@ -3,6 +3,7 @@ import { of, Observable, from } from 'rxjs';
 import { Category } from './category';
 import * as firebase from 'firebase/app';
 import 'firebase/firestore';
+import { Account } from '../accounts/account';
 
 @Injectable({
   providedIn: 'root'
@@ -11,9 +12,9 @@ export class CategoryServiceFirebaseFirestoreImpl {
 
   constructor() { }
 
-  getCategories(group: string, count?: number): Observable<Category[]> {
+  getCategories(accountId: string, count?: number): Observable<Category[]> {
     return Observable.create(subscriber => {
-      let query = firebase.firestore().collection('categories').where('group', '==', group);
+      let query: any = firebase.firestore().collection('accounts').doc(accountId).collection('categories');
       if (count) {
         query = query.limit(count);
       }
@@ -26,7 +27,7 @@ export class CategoryServiceFirebaseFirestoreImpl {
 
         const categories = [];
         for (const categoryDoc of snapshot.docs) {
-          categories.push(Category.fromSnapshotRef(categoryDoc));
+          categories.push(Category.fromSnapshotRef(accountId, categoryDoc));
         }
         subscriber.next(categories);
       }, error => {
@@ -36,24 +37,23 @@ export class CategoryServiceFirebaseFirestoreImpl {
     });
   }
 
-  getCategory(id: string): Observable<Category> {
+  getCategory(accountId: string, id: string): Observable<Category> {
     return Observable.create(subscriber => {
-      firebase.firestore().collection('categories').doc(id).onSnapshot(snapshot => {
+      firebase.firestore().collection('accounts').doc(accountId).collection('categories').doc(id).onSnapshot(snapshot => {
         if (!snapshot.exists) {
           return;
         }
 
-        subscriber.next(Category.fromSnapshotRef(snapshot));
+        subscriber.next(Category.fromSnapshotRef(accountId, snapshot));
       });
     });
   }
 
-  createCategory(name: string, amount: number, group: string): Observable<Category> {
+  createCategory(accountId: string, name: string, amount: number): Observable<Category> {
     return Observable.create(subscriber => {
-      firebase.firestore().collection('categories').add({
+      firebase.firestore().collection('accounts').doc(accountId).collection('categories').add({
         name: name,
-        amount: amount,
-        group: group,
+        amount: amount
       }).then(docRef => {
         if (!docRef) {
           console.error('Failed to create category');
@@ -64,32 +64,34 @@ export class CategoryServiceFirebaseFirestoreImpl {
             subscriber.error('Unable to retrieve saved transaction data');
             return;
           }
-          subscriber.next(Category.fromSnapshotRef(snapshot));
+          subscriber.next(Category.fromSnapshotRef(accountId, snapshot));
         }).catch(err => {
           console.error(err);
         });
       }).catch(err => {
+        console.error('Failed to create new category: ');
         console.error(err);
         subscriber.error(err);
       });
     });
   }
 
-  updateCategory(id: string, changes: object): Observable<boolean> {
+  updateCategory(accountId: string, id: string, changes: object): Observable<boolean> {
     return Observable.create(subscriber => {
-      firebase.firestore().collection('categories').doc(id).onSnapshot(snapshot => {
-        if (!snapshot.exists) {
-          return;
-        }
-
-        subscriber.next(Category.fromSnapshotRef(snapshot));
-      });
+      firebase.firestore().collection('accounts').doc(accountId).collection('categories').doc(id)
+      .update(changes)
+        .then(function () {
+          subscriber.next(true);
+        })
+        .catch(function () {
+          subscriber.next(false);
+        });
     });
   }
 
-  deleteCategory(id: string): Observable<boolean> {
+  deleteCategory(accountId: string, id: string): Observable<boolean> {
     return Observable.create(subscriber => {
-      firebase.firestore().collection('categories').doc(id).delete().then(result => {
+      firebase.firestore().collection('accounts').doc(accountId).collection('categories').doc(id).delete().then(result => {
         subscriber.next(true);
       }).catch(err => {
         console.error(err);

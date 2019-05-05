@@ -20,9 +20,13 @@ export class AccountsComponent implements OnInit {
 
   ngOnInit() {
     this.app.backEnabled = true;
-    this.app.title = 'Transactions';
+    this.app.title = 'Accounts';
     this.accountService.getAccounts().subscribe(accounts => {
       this.accounts = accounts;
     });
+  }
+
+  isLoggedIn(): boolean {
+    return this.app.isLoggedIn();
   }
 }

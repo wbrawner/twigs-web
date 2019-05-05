@@ -4,7 +4,7 @@
 }
 </style>
 <mat-nav-list class="categories">
-  <a mat-list-item *ngFor="let category of categories" routerLink="/categories/{{ category.id }}">
+  <a mat-list-item *ngFor="let category of categories" routerLink="/accounts/{{ accountId }}/categories/{{ category.id }}">
     <p matLine class="category-list-title">
     <span>
       {{ category.name }}

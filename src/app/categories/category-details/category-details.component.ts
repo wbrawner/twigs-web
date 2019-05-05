@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { CategoryServiceFirebaseFirestoreImpl } from '../category.service.firestore';
 import { Category } from '../category';
 import { ActivatedRoute } from '@angular/router';
+import { Account } from 'src/app/accounts/account';
 
 @Component({
   selector: 'app-category-details',
@@ -10,6 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class CategoryDetailsComponent implements OnInit {
 
+  accountId: string;
   category: Category;
 
   constructor(
@@ -22,8 +24,9 @@ export class CategoryDetailsComponent implements OnInit {
   }
 
   getCategory(): void {
+    this.accountId = this.route.snapshot.paramMap.get('accountId');
     const id = this.route.snapshot.paramMap.get('id');
-    this.categoryService.getCategory(id)
+    this.categoryService.getCategory(this.accountId, id)
       .subscribe(category => {
         category.amount /= 100;
         this.category = category;

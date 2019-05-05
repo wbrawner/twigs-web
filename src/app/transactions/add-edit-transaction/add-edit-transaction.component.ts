@@ -6,6 +6,7 @@ import { Category } from 'src/app/categories/category';
 import { Actionable } from 'src/app/actionable';
 import { AppComponent } from 'src/app/app.component';
 import { CATEGORY_SERVICE, CategoryService } from 'src/app/categories/category.service';
+import { Account } from 'src/app/accounts/account';
 
 @Component({
   selector: 'app-add-edit-transaction',
@@ -15,9 +16,8 @@ import { CATEGORY_SERVICE, CategoryService } from 'src/app/categories/category.s
 export class AddEditTransactionComponent implements OnInit, OnDestroy, Actionable {
   @Input() title: string;
   @Input() currentTransaction: Transaction;
-  @Input() group: string;
+  @Input() accountId: string;
   public transactionType = TransactionType;
-  public selectedCategory: Category;
   public categories: Category[];
   public rawAmount: string;
 
@@ -41,17 +41,28 @@ export class AddEditTransactionComponent implements OnInit, OnDestroy, Actionabl
   doAction(): void {
     // The amount will be input as a decimal value so we need to convert it
     // to an integer
-    this.currentTransaction.amount *= 100;
     let observable;
     if (this.currentTransaction.id) {
       // This is an existing transaction, update it
-      observable = this.transactionService.updateTransaction(this.currentTransaction.id, this.currentTransaction);
+      observable = this.transactionService.updateTransaction(
+        this.accountId,
+        this.currentTransaction.id,
+        {
+          name: this.currentTransaction.title,
+          description: this.currentTransaction.description,
+          amount: this.currentTransaction.amount * 100,
+          date: this.currentTransaction.date,
+          category: this.currentTransaction.categoryId,
+          isExpense: this.currentTransaction.type === TransactionType.EXPENSE
+        }
+      );
     } else {
       // This is a new transaction, save it
       observable = this.transactionService.createTransaction(
+        this.accountId,
         this.currentTransaction.title,
         this.currentTransaction.description,
-        this.currentTransaction.amount,
+        this.currentTransaction.amount * 100,
         this.currentTransaction.date,
         this.currentTransaction.type === TransactionType.EXPENSE,
         this.currentTransaction.categoryId,
@@ -68,11 +79,12 @@ export class AddEditTransactionComponent implements OnInit, OnDestroy, Actionabl
   }
 
   delete(): void {
-    this.transactionService.deleteTransaction(this.currentTransaction.id);
-    this.app.goBack();
+    this.transactionService.deleteTransaction(this.accountId, this.currentTransaction.id).subscribe(() => {
+      this.app.goBack();
+    });
   }
 
   getCategories() {
-    this.categoryService.getCategories(this.app.group).subscribe(categories => this.categories = categories);
+    this.categoryService.getCategories(this.accountId).subscribe(categories => this.categories = categories);
   }
 }

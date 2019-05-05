@@ -1,5 +1,4 @@
-import { Injectable } from '@angular/core';
-import { Observable, Subscriber } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Transaction } from './transaction';
 import * as firebase from 'firebase/app';
 import 'firebase/firestore';
@@ -9,47 +8,33 @@ export class TransactionServiceFirebaseFirestoreImpl implements TransactionServi
 
   constructor() { }
 
-  getTransactionsForCategory(category: string): Observable<Transaction[]> {
-    const transactionsQuery = firebase.firestore().collection('transactions').where('category', '==', category);
+  getTransactions(accountId: string, category?: string, count?: number): Observable<Transaction[]> {
     return Observable.create(subscriber => {
-      const transactions = [];
-      transactionsQuery.onSnapshot(data => {
-        if (!data.empty) {
-          data.docs.map(transaction => transactions.push(Transaction.fromSnapshotRef(transaction)));
-        }
-        subscriber.next(transactions);
-      });
-    });
-  }
-
-  getTransactions(group: string, count?: number): Observable<Transaction[]> {
-    const categoriesQuery = firebase.firestore().collection('categories').where('group', '==', group);
-    return Observable.create(subscriber => {
-      categoriesQuery.onSnapshot(querySnapshot => {
-        if (querySnapshot.empty) {
-          subscriber.error(`Unable to query categories within group ${group}`);
+      let transactionQuery: any = firebase.firestore().collection('accounts').doc(accountId).collection('transactions');
+      if (category) {
+        transactionQuery = transactionQuery.where('category', '==', category);
+      }
+      if (count) {
+        transactionQuery = transactionQuery.limit(count);
+      }
+      transactionQuery.onSnapshot(snapshot => {
+        if (snapshot.empty) {
+          subscriber.error(`Unable to query transactions within account ${accountId}`);
           return;
         }
 
         const transactions = [];
-        querySnapshot.docs.map(categoryDoc => {
-          firebase.firestore().collection('transactions').where('category', '==', categoryDoc.id).get().then(results => {
-            if (results.empty) {
-              return;
-            }
-            for (const transactionDoc of results.docs) {
-              transactions.push(Transaction.fromSnapshotRef(transactionDoc));
-            }
-          });
+        snapshot.docs.forEach(transaction => {
+          transactions.push(Transaction.fromSnapshotRef(transaction));
         });
         subscriber.next(transactions);
       });
     });
   }
 
-  getTransaction(id: string): Observable<Transaction> {
+  getTransaction(accountId: string, id: string): Observable<Transaction> {
     return Observable.create(subscriber => {
-      firebase.firestore().collection('transactions').doc(id).onSnapshot(snapshot => {
+      firebase.firestore().collection('accounts').doc(accountId).collection('transactions').doc(id).onSnapshot(snapshot => {
         if (!snapshot.exists) {
           return;
         }
@@ -59,6 +44,7 @@ export class TransactionServiceFirebaseFirestoreImpl implements TransactionServi
   }
 
   createTransaction(
+    accountId: string,
     name: string,
     description: string,
     amount: number,
@@ -67,7 +53,7 @@ export class TransactionServiceFirebaseFirestoreImpl implements TransactionServi
     category: string
   ): Observable<Transaction> {
     return Observable.create(subscriber => {
-      firebase.firestore().collection('transactions').add({
+      firebase.firestore().collection('accounts').doc(accountId).collection('transactions').add({
         name: name,
         description: description,
         date: date,
@@ -89,9 +75,9 @@ export class TransactionServiceFirebaseFirestoreImpl implements TransactionServi
   }
 
 
-  updateTransaction(id: string, changes: object): Observable<boolean> {
+  updateTransaction(accountId: string, id: string, changes: object): Observable<boolean> {
     return Observable.create(subscriber => {
-      firebase.firestore().collection('transactions').doc(id).update(changes).then(result => {
+      firebase.firestore().collection('accounts').doc(accountId).collection('transactions').doc(id).update(changes).then(() => {
         subscriber.next(true);
       }).catch(err => {
         subscriber.next(false);
@@ -99,9 +85,9 @@ export class TransactionServiceFirebaseFirestoreImpl implements TransactionServi
     });
   }
 
-  deleteTransaction(id: string): Observable<boolean> {
+  deleteTransaction(accountId: string, id: string): Observable<boolean> {
     return Observable.create(subscriber => {
-      firebase.firestore().collection('transactions').doc(id).delete().then(data => {
+      firebase.firestore().collection('accounts').doc(accountId).collection('transactions').doc(id).delete().then(data => {
         subscriber.next(true);
       }).catch(err => {
         console.log(err);

@@ -5,9 +5,8 @@ import * as firebase from 'firebase/app';
 export class Transaction {
   id: string;
   accountId: string;
-  remoteId: string;
   title: string;
-  description: string;
+  description: string = null;
   amount: number;
   date: Date = new Date();
   categoryId: string;

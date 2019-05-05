@@ -1,3 +1,26 @@
-<p>
-  account-details works!
-</p>
+<div class="dashboard">
+  <div class="dashboard-primary" [hidden]="!account">
+    <h2 class="balance">
+      Current Balance: <br />
+      <span
+        [ngClass]="{'income': getBalance() > 0, 'expense': getBalance() < 0}">{{ getBalance() / 100 | currency }}</span>
+    </h2>
+    <div class="transaction-navigation">
+      <a mat-button routerLink="/accounts/{{ account.id }}/transactions">View Transactions</a>
+    </div>
+  </div>
+  <div class="dashboard-categories" [hidden]="!account">
+    <h3 class="categories">Categories</h3>
+    <a mat-button routerLink="/accounts/{{ account.id }}/categories" class="view-all" *ngIf="categories">View All</a>
+    <div class="no-categories" *ngIf="!categories || categories.length === 0">
+      <a mat-button routerLink="/accounts/{{ account.id }}/categories/new">
+        <mat-icon>add</mat-icon>
+        <p>Add categories to get more insights into your income and expenses.</p>
+      </a>
+    </div>
+    <app-category-list [accountId]="account.id" [categories]="categories" [categoryBalances]="categoryBalances"></app-category-list>
+  </div>
+</div>
+<a mat-fab routerLink="/accounts/{{ account.id }}/transactions/new" [hidden]="!account">
+  <mat-icon aria-label="Add">add</mat-icon>
+</a>

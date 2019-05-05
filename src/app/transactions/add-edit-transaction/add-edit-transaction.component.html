@@ -1,7 +1,7 @@
 <div [hidden]="currentTransaction">
   <p>Select a transaction from the list to view details about it or edit it.</p>
 </div>
-<div [hidden]="!currentTransaction" class="form transaction-form">
+<div [hidden]="!currentTransaction" *ngIf="currentTransaction" class="form transaction-form">
   <mat-form-field>
     <input matInput [(ngModel)]="currentTransaction.title" placeholder="Name" required>
   </mat-form-field>

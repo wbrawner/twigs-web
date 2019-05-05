@@ -1,18 +1,19 @@
 import { Observable } from 'rxjs';
 import { Category } from './category';
 import { InjectionToken } from '@angular/core';
+import { Account } from '../accounts/account';
 
 export interface CategoryService {
 
-  getCategories(group: string, count?: number): Observable<Category[]>;
+  getCategories(accountId: string, count?: number): Observable<Category[]>;
 
-  getCategory(id: string): Observable<Category>;
+  getCategory(accountId: string, id: string): Observable<Category>;
 
-  createCategory(name: string, amount: number, group: string): Observable<Category>;
+  createCategory(accountId: string, name: string, amount: number): Observable<Category>;
 
-  updateCategory(id: string, changes: object): Observable<boolean>;
+  updateCategory(accountId: string, id: string, changes: object): Observable<boolean>;
 
-  deleteCategory(id: string): Observable<boolean>;
+  deleteCategory(accountId: string, id: string): Observable<boolean>;
 }
 
 export let CATEGORY_SERVICE = new InjectionToken<CategoryService>('category.service');

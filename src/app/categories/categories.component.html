@@ -1,4 +1,4 @@
-<app-category-list [categories]="categories" [categoryBalances]="categoryBalances"></app-category-list>
-<a mat-fab routerLink="/categories/new">
+<app-category-list [accountId]="accountId" [categories]="categories" [categoryBalances]="categoryBalances"></app-category-list>
+<a mat-fab routerLink="/accounts/{{ accountId }}/categories/new">
   <mat-icon aria-label="Add">add</mat-icon>
 </a>

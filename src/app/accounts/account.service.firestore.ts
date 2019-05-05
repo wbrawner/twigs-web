@@ -9,11 +9,21 @@ export class FirestoreAccountService implements AccountService {
     getAccounts(): Observable<Account[]> {
         return Observable.create(subscriber => {
             const accounts = [];
-            firebase.firestore().collection('accounts').onSnapshot(data => {
-                if (!data.empty) {
-                    data.docs.map(account => accounts.push(Account.fromSnapshotRef(account)));
-                }
-                subscriber.next(accounts);
+            firebase.auth().onAuthStateChanged(user => {
+                if (user == null) { return; }
+                firebase.firestore().collection('accounts')
+                    .orderBy('name')
+                    .where('members', 'array-contains', user.uid)
+                    .onSnapshot(
+                        data => {
+                            if (!data.empty) {
+                                data.docs.map(account => accounts.push(Account.fromSnapshotRef(account)));
+                            }
+                            subscriber.next(accounts);
+                        },
+                        error => {
+                            console.error(error);
+                        });
             });
         });
     }
@@ -33,13 +43,14 @@ export class FirestoreAccountService implements AccountService {
         name: string,
         description: string,
         currency: string,
-        members: User[],
+        members: string[],
     ): Observable<Account> {
         return Observable.create(subscriber => {
             firebase.firestore().collection('accounts').add({
                 name: name,
                 description: description,
-                members: members.map(member => member.id)
+                currency: currency,
+                members: members
             }).then(docRef => {
                 docRef.get().then(snapshot => {
                     if (!snapshot) {
