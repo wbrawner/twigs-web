@@ -19,7 +19,8 @@ export class AccountDetailsComponent implements OnInit {
 
   account: Account;
   public transactions: Transaction[];
-  public categories: Category[];
+  public expenses: Category[] = [];
+  public income: Category[] = [];
   categoryBalances: Map<string, number>;
 
   constructor(
@@ -66,9 +67,13 @@ export class AccountDetailsComponent implements OnInit {
   }
 
   getCategories(): void {
-    this.categoryService.getCategories(this.account.id, 5).subscribe(categories => {
-      this.categories = categories;
+    this.categoryService.getCategories(this.account.id).subscribe(categories => {
       for (const category of categories) {
+        if (category.isExpense) {
+          this.expenses.push(category);
+        } else {
+          this.income.push(category);
+        }
         this.getCategoryBalance(category.id).subscribe(balance => this.categoryBalances.set(category.id, balance));
       }
     });

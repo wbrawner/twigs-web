@@ -1,3 +1,11 @@
 .button-delete {
   float: right;
 }
+
+.category-form * {
+  display: block;
+}
+
+mat-radio-button {
+  padding-bottom: 15px;
+}

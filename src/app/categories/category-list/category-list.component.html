@@ -1,8 +1,3 @@
-<style>
-.categories mat-progress-bar div.mat-progress-bar-element.mat-progress-bar-buffer {
-  background-color: #BDBDBD !important;
-}
-</style>
 <mat-nav-list class="categories">
   <a mat-list-item *ngFor="let category of categories" routerLink="/accounts/{{ accountId }}/categories/{{ category.id }}">
     <p matLine class="category-list-title">
@@ -10,9 +5,9 @@
       {{ category.name }}
     </span>
     <span class="remaining">
-      {{ getCategoryRemainingBalance(category) | currency }} remaining
+      {{ getCategoryRemainingBalance(category) | currency }} remaining of {{ category.amount / 100 | currency }}
     </span>
     </p>
-    <mat-progress-bar matLine color="accent" mode="determinate" #categoryProgress [attr.id]="'cat-' + category.id" value="{{ getCategoryCompletion(category) }}"></mat-progress-bar>
+    <mat-progress-bar matLine color="accent" [ngClass]="{'income': !category.isExpense, 'expense': category.isExpense}" mode="determinate" #categoryProgress [attr.id]="'cat-' + category.id" value="{{ getCategoryCompletion(category) }}"></mat-progress-bar>
   </a>
 </mat-nav-list>

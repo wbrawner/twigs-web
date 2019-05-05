@@ -9,7 +9,7 @@ export interface CategoryService {
 
   getCategory(accountId: string, id: string): Observable<Category>;
 
-  createCategory(accountId: string, name: string, amount: number): Observable<Category>;
+  createCategory(accountId: string, name: string, amount: number, isExpense: boolean): Observable<Category>;
 
   updateCategory(accountId: string, id: string, changes: object): Observable<boolean>;
 

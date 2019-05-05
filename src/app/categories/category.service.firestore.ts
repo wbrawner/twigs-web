@@ -14,7 +14,7 @@ export class CategoryServiceFirebaseFirestoreImpl {
 
   getCategories(accountId: string, count?: number): Observable<Category[]> {
     return Observable.create(subscriber => {
-      let query: any = firebase.firestore().collection('accounts').doc(accountId).collection('categories');
+      let query: any = firebase.firestore().collection('accounts').doc(accountId).collection('categories').orderBy('name');
       if (count) {
         query = query.limit(count);
       }
@@ -49,11 +49,12 @@ export class CategoryServiceFirebaseFirestoreImpl {
     });
   }
 
-  createCategory(accountId: string, name: string, amount: number): Observable<Category> {
+  createCategory(accountId: string, name: string, amount: number, isExpense: boolean): Observable<Category> {
     return Observable.create(subscriber => {
       firebase.firestore().collection('accounts').doc(accountId).collection('categories').add({
         name: name,
-        amount: amount
+        amount: amount,
+        isExpense: isExpense
       }).then(docRef => {
         if (!docRef) {
           console.error('Failed to create category');

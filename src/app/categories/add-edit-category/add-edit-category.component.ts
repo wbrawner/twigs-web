@@ -42,7 +42,8 @@ export class AddEditCategoryComponent implements OnInit, Actionable, OnDestroy {
         this.currentCategory.id,
         {
           name: this.currentCategory.name,
-          amount: this.currentCategory.amount * 100
+          amount: this.currentCategory.amount * 100,
+          isExpense: this.currentCategory.isExpense
         }
       );
     } else {
@@ -50,7 +51,8 @@ export class AddEditCategoryComponent implements OnInit, Actionable, OnDestroy {
       observable = this.categoryService.createCategory(
         this.accountId,
         this.currentCategory.name,
-        this.currentCategory.amount * 100
+        this.currentCategory.amount * 100,
+        this.currentCategory.isExpense
       );
     }
     observable.subscribe(val => {
@@ -63,7 +65,8 @@ export class AddEditCategoryComponent implements OnInit, Actionable, OnDestroy {
   }
 
   delete(): void {
-    this.categoryService.deleteCategory(this.accountId, this.currentCategory.id);
-    this.app.goBack();
+    this.categoryService.deleteCategory(this.accountId, this.currentCategory.id).subscribe(() => {
+      this.app.goBack();
+    });
   }
 }

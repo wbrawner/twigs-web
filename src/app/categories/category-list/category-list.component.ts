@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Category } from '../category';
-import { Account } from 'src/app/accounts/account';
 
 @Component({
   selector: 'app-category-list',
@@ -24,13 +23,15 @@ export class CategoryListComponent implements OnInit {
       categoryBalance = 0;
     }
 
-    return (category.amount  / 100) + (categoryBalance  / 100);
+    if (category.isExpense) {
+      return (category.amount / 100) + (categoryBalance / 100);
+    } else {
+      return (category.amount / 100) - (categoryBalance / 100);
+    }
   }
 
   getCategoryCompletion(category: Category): number {
-    if (category.amount <= 0) {
-      return 0;
-    }
+    const amount = category.amount > 0 ? category.amount : 1;
 
     let categoryBalance = this.categoryBalances.get(category.id);
     if (!categoryBalance) {
@@ -40,12 +41,14 @@ export class CategoryListComponent implements OnInit {
     // Invert the negative/positive values for calculating progress
     // since the limit for a category is saved as a positive but the
     // balance is used in the calculation.
-    if (categoryBalance < 0) {
-      categoryBalance = Math.abs(categoryBalance);
-    } else {
-      categoryBalance -= (categoryBalance * 2);
+    if (category.isExpense) {
+      if (categoryBalance < 0) {
+        categoryBalance = Math.abs(categoryBalance);
+      } else {
+        categoryBalance -= (categoryBalance * 2);
+      }
     }
 
-    return categoryBalance / category.amount * 100;
+    return categoryBalance / amount * 100;
   }
 }

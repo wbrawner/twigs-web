@@ -10,7 +10,11 @@ export class TransactionServiceFirebaseFirestoreImpl implements TransactionServi
 
   getTransactions(accountId: string, category?: string, count?: number): Observable<Transaction[]> {
     return Observable.create(subscriber => {
-      let transactionQuery: any = firebase.firestore().collection('accounts').doc(accountId).collection('transactions');
+      let transactionQuery: any = firebase.firestore()
+        .collection('accounts')
+        .doc(accountId)
+        .collection('transactions')
+        .orderBy('date', 'desc');
       if (category) {
         transactionQuery = transactionQuery.where('category', '==', category);
       }
@@ -18,11 +22,6 @@ export class TransactionServiceFirebaseFirestoreImpl implements TransactionServi
         transactionQuery = transactionQuery.limit(count);
       }
       transactionQuery.onSnapshot(snapshot => {
-        if (snapshot.empty) {
-          subscriber.error(`Unable to query transactions within account ${accountId}`);
-          return;
-        }
-
         const transactions = [];
         snapshot.docs.forEach(transaction => {
           transactions.push(Transaction.fromSnapshotRef(transaction));
