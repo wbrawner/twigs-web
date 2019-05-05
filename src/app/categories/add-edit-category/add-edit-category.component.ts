@@ -50,7 +50,7 @@ export class AddEditCategoryComponent implements OnInit, Actionable, OnDestroy {
       observable = this.categoryService.createCategory(
         this.accountId,
         this.currentCategory.name,
-        this.currentCategory.amount
+        this.currentCategory.amount * 100
       );
     }
     observable.subscribe(val => {
