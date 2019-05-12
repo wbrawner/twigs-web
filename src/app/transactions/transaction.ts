@@ -7,7 +7,7 @@ export class Transaction {
   accountId: string;
   title: string;
   description: string = null;
-  amount: number;
+  amount = 0;
   date: Date = new Date();
   categoryId: string;
   type: TransactionType = TransactionType.EXPENSE;

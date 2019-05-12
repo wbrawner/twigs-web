@@ -12,7 +12,7 @@
     <input matInput type="text" [(ngModel)]="currentTransaction.amount" placeholder="Amount" required currencyMask>
   </mat-form-field>
   <mat-form-field>
-    <input matInput type="date" [(ngModel)]="currentTransaction.date" placeholder="Date" required>
+    <input matInput type="date" [ngModel]="currentTransaction.date | date:'yyyy-MM-dd'" (ngModelChange)="currentTransaction.date = $event" placeholder="Date" required>
   </mat-form-field>
   <mat-form-field>
     <mat-select placeholder="Category" [(ngModel)]="currentTransaction.categoryId">

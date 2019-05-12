@@ -48,6 +48,8 @@ import { ACCOUNT_SERVICE } from './accounts/account.service';
 import { FirestoreAccountService } from './accounts/account.service.firestore';
 import { USER_SERVICE } from './users/user.service';
 import { FirestoreUserService } from './users/user.service.firestore';
+import { CategoryBreakdownComponent } from './categories/category-breakdown/category-breakdown.component';
+import { ChartsModule } from 'ng2-charts';
 
 export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
   align: 'left',
@@ -79,6 +81,7 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     NewAccountComponent,
     AccountDetailsComponent,
     AccountsComponent,
+    CategoryBreakdownComponent,
   ],
   imports: [
     BrowserModule,
@@ -99,6 +102,7 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     HttpClientModule,
     CurrencyMaskModule,
+    ChartsModule,
   ],
   providers: [
     { provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig },

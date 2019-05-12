@@ -5,33 +5,41 @@
       <span
         [ngClass]="{'income': getBalance() > 0, 'expense': getBalance() < 0}">{{ getBalance() / 100 | currency }}</span>
     </h2>
+    <app-category-breakdown [barChartLabels]="barChartLabels" [barChartData]="barChartData">
+      </app-category-breakdown>
     <div class="transaction-navigation">
-      <a mat-button routerLink="/accounts/{{ account.id }}/transactions">View Transactions</a>
+      <a mat-button routerLink="/accounts/{{ account.id }}/transactions" *ngIf="account">View Transactions</a>
     </div>
   </div>
   <div class="dashboard-categories" [hidden]="!account">
     <h3 class="categories">Income</h3>
-    <a mat-button routerLink="/accounts/{{ account.id }}/categories/new" class="view-all">Add Category</a>
+    <a mat-button routerLink="/accounts/{{ account.id }}/categories/new" class="view-all" *ngIf="account">Add Category</a>
     <div class="no-categories" *ngIf="!income || income.length === 0">
-      <a mat-button routerLink="/accounts/{{ account.id }}/categories/new">
+      <a mat-button routerLink="/accounts/{{ account.id }}/categories/new" *ngIf="account">
         <mat-icon>add</mat-icon>
         <p>Add categories to gain more insights into your income.</p>
       </a>
     </div>
-    <app-category-list [accountId]="account.id" [categories]="income" [categoryBalances]="categoryBalances"></app-category-list>
+    <div class="category-info" *ngIf="income && income.length > 0">
+      <app-category-list [accountId]="account.id" [categories]="income" [categoryBalances]="categoryBalances">
+      </app-category-list>
+    </div>
   </div>
   <div class="dashboard-categories" [hidden]="!account">
     <h3 class="categories">Expenses</h3>
-    <a mat-button routerLink="/accounts/{{ account.id }}/categories/new" class="view-all">Add Category</a>
+    <a mat-button routerLink="/accounts/{{ account.id }}/categories/new" class="view-all" *ngIf="account">Add Category</a>
     <div class="no-categories" *ngIf="!expenses || expenses.length === 0">
-      <a mat-button routerLink="/accounts/{{ account.id }}/categories/new">
+      <a mat-button routerLink="/accounts/{{ account.id }}/categories/new" *ngIf="account">
         <mat-icon>add</mat-icon>
         <p>Add categories to gain more insights into your expenses.</p>
       </a>
     </div>
-    <app-category-list [accountId]="account.id" [categories]="expenses" [categoryBalances]="categoryBalances"></app-category-list>
+    <div class="category-info" *ngIf="expenses && expenses.length > 0">
+      <app-category-list [accountId]="account.id" [categories]="expenses" [categoryBalances]="categoryBalances">
+      </app-category-list>
+    </div>
   </div>
 </div>
-<a mat-fab routerLink="/accounts/{{ account.id }}/transactions/new" [hidden]="!account">
+<a mat-fab routerLink="/accounts/{{ account.id }}/transactions/new" *ngIf="account">
   <mat-icon aria-label="Add">add</mat-icon>
 </a>
