@@ -27,7 +27,7 @@ export class CategoryBreakdownComponent implements OnInit, OnChanges {
   ];
   barChartType: ChartType = 'horizontalBar';
   barChartLegend = true;
-  @ViewChild(BaseChartDirective) chart: BaseChartDirective;
+  @ViewChild(BaseChartDirective, {static: false}) chart: BaseChartDirective;
 
   constructor() { }
 
