@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, OnDestroy, Inject } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, OnDestroy, Inject, SimpleChanges } from '@angular/core';
 import { Transaction } from '../transaction';
 import { TransactionType } from '../transaction.type';
 import { TransactionService, TRANSACTION_SERVICE } from '../transaction.service';
@@ -7,19 +7,22 @@ import { Actionable } from 'src/app/actionable';
 import { AppComponent } from 'src/app/app.component';
 import { CATEGORY_SERVICE, CategoryService } from 'src/app/categories/category.service';
 import { Account } from 'src/app/accounts/account';
+import { Time } from '@angular/common';
 
 @Component({
   selector: 'app-add-edit-transaction',
   templateUrl: './add-edit-transaction.component.html',
   styleUrls: ['./add-edit-transaction.component.css']
 })
-export class AddEditTransactionComponent implements OnInit, OnDestroy, Actionable {
+export class AddEditTransactionComponent implements OnInit, OnChanges, OnDestroy, Actionable {
   @Input() title: string;
   @Input() currentTransaction: Transaction;
   @Input() accountId: string;
   public transactionType = TransactionType;
   public categories: Category[];
   public rawAmount: string;
+  public currentTime: string;
+  public transactionDate: string;
 
   constructor(
     private app: AppComponent,
@@ -32,6 +35,24 @@ export class AddEditTransactionComponent implements OnInit, OnDestroy, Actionabl
     this.app.backEnabled = true;
     this.app.actionable = this;
     this.getCategories();
+    let d: Date;
+    if (this.currentTransaction) {
+      d = new Date(this.currentTransaction.date);
+    } else {
+      d = new Date();
+    }
+    this.transactionDate = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+    this.currentTime = `${d.getHours()}:${d.getMinutes()}`;
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (!changes.currentTransaction) {
+      return;
+    }
+
+    const d = new Date(changes.currentTransaction.currentValue.date * 1000);
+    this.transactionDate = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+    this.currentTime = `${d.getHours()}:${d.getMinutes()}`;
   }
 
   ngOnDestroy() {
@@ -42,6 +63,13 @@ export class AddEditTransactionComponent implements OnInit, OnDestroy, Actionabl
     // The amount will be input as a decimal value so we need to convert it
     // to an integer
     let observable;
+    const dateParts = this.transactionDate.split('-');
+    this.currentTransaction.date.setFullYear(parseInt(dateParts[0], 10));
+    this.currentTransaction.date.setMonth(parseInt(dateParts[1], 10) - 1);
+    this.currentTransaction.date.setDate(parseInt(dateParts[2], 10));
+    const timeParts = this.currentTime.split(':');
+    this.currentTransaction.date.setHours(parseInt(timeParts[0], 10));
+    this.currentTransaction.date.setMinutes(parseInt(timeParts[1], 10));
     if (this.currentTransaction.id) {
       // This is an existing transaction, update it
       observable = this.transactionService.updateTransaction(
