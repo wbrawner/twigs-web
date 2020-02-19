@@ -24,9 +24,9 @@ export class TwigsHttpService implements TwigsService {
   };
 
   // TODO: Set this up in environment variables
-  // private apiUrl = 'https://budget-api.intra.wbrawner.com';
+  private apiUrl = 'https://budget-api.intra.wbrawner.com';
   // private apiUrl = 'https://code.brawner.home/spring';
-  private apiUrl = 'http://localhost:8080';
+  // private apiUrl = 'http://localhost:8080';
 
   // Auth
   login(email: string, password: string): Observable<User> {
