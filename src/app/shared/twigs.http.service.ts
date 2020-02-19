@@ -17,9 +17,6 @@ export class TwigsHttpService implements TwigsService {
   ) { }
 
   private options = {
-    headers: new HttpHeaders({
-      'Origin': window.location.href.split('/')[2]
-    }),
     withCredentials: true
   };
 
