@@ -80,7 +80,8 @@ export class TwigsHttpService implements TwigsService {
   // Categories
   getCategories(budgetId: number, count?: number): Observable<Category[]> {
     const params = {
-      'budgetIds': [budgetId]
+      params: new HttpParams()
+        .set('budgetIds', `${budgetId}`)
     };
     return this.http.get<Category[]>(`${this.apiUrl}/categories`, Object.assign(params, this.options));
   }
@@ -109,13 +110,14 @@ export class TwigsHttpService implements TwigsService {
 
   // Transactions
   getTransactions(budgetId?: number, categoryId?: number, count?: number): Observable<Transaction[]> {
-    const params = {};
+    let httpParams = new HttpParams();
     if (budgetId) {
-      params['budgetId'] = budgetId;
+      httpParams = httpParams.set('budgetId', `${budgetId}`);
     }
     if (categoryId) {
-      params['categoryId'] = categoryId;
+      httpParams = httpParams.set('categoryId', `${categoryId}`);
     }
+    const params = { params: httpParams };
     return this.http.get<Transaction[]>(`${this.apiUrl}/transactions`, Object.assign(params, this.options));
   }
 
