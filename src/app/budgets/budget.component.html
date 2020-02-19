@@ -1,0 +1,23 @@
+<div class="dashboard" *ngIf="!isLoggedIn()">
+  <h2 class="log-in">Get started</h2>
+  <p>To begin tracking your finances, <a routerLink="/login">login</a> or <a routerLink="/register">create an account</a>!</p>
+</div>
+<mat-nav-list class="budgets" *ngIf="isLoggedIn()">
+  <a mat-list-item *ngFor="let budget of budgets" routerLink="/budgets/{{ budget.id }}">
+    <p matLine class="budget-list-title">
+      {{ budget.name }}
+    </p>
+    <p matLine class="budget-list-description">
+      {{ budget.description }}
+    </p>
+  </a>
+</mat-nav-list>
+<div class="no-budgets" *ngIf="!budgets || budgets.length === 0">
+  <a mat-button routerLink="/budgets/new">
+    <mat-icon>add</mat-icon>
+    <p>Add budgets to begin tracking your finances.</p>
+  </a>
+</div>
+<a mat-fab routerLink="/budgets/new">
+  <mat-icon aria-label="Add">add</mat-icon>
+</a>

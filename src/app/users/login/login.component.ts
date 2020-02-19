@@ -1,8 +1,9 @@
-import { Component, OnInit, OnDestroy, OnChanges } from '@angular/core';
-import { AuthService } from '../auth.service';
+import { Component, OnInit, OnDestroy, Inject, ChangeDetectorRef } from '@angular/core';
+import { TwigsService, TWIGS_SERVICE } from '../../shared/twigs.service';
 import { User } from '../user';
 import { Actionable } from 'src/app/actionable';
 import { AppComponent } from 'src/app/app.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +17,8 @@ export class LoginComponent implements OnInit, OnDestroy, Actionable {
 
   constructor(
     private app: AppComponent,
-    private authService: AuthService,
+    @Inject(TWIGS_SERVICE) private twigsService: TwigsService,
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -30,7 +32,15 @@ export class LoginComponent implements OnInit, OnDestroy, Actionable {
   }
 
   doAction(): void {
-    this.authService.login(this.email, this.password);
+    this.twigsService.login(this.email, this.password)
+      .subscribe(user => {
+        this.app.user = user;
+        this.router.navigate(['/'])
+      },
+      error => {
+        console.error(error)
+        alert("Login failed. Please verify you have the correct credentials");
+      })
   }
 
   getActionLabel() {

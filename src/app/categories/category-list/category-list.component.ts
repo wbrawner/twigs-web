@@ -8,9 +8,9 @@ import { Category } from '../category';
 })
 export class CategoryListComponent implements OnInit {
 
-  @Input() accountId: string;
+  @Input() budgetId: string;
   @Input() categories: Category[];
-  @Input() categoryBalances: Map<string, number>;
+  @Input() categoryBalances: Map<number, number>;
 
   constructor() { }
 
@@ -23,7 +23,7 @@ export class CategoryListComponent implements OnInit {
       categoryBalance = 0;
     }
 
-    if (category.isExpense) {
+    if (category.expense) {
       return (category.amount / 100) + (categoryBalance / 100);
     } else {
       return (category.amount / 100) - (categoryBalance / 100);
@@ -41,7 +41,7 @@ export class CategoryListComponent implements OnInit {
     // Invert the negative/positive values for calculating progress
     // since the limit for a category is saved as a positive but the
     // balance is used in the calculation.
-    if (category.isExpense) {
+    if (category.expense) {
       if (categoryBalance < 0) {
         categoryBalance = Math.abs(categoryBalance);
       } else {

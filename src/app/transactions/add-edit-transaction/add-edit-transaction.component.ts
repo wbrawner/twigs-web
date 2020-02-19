@@ -1,13 +1,10 @@
 import { Component, OnInit, Input, OnChanges, OnDestroy, Inject, SimpleChanges } from '@angular/core';
 import { Transaction } from '../transaction';
 import { TransactionType } from '../transaction.type';
-import { TransactionService, TRANSACTION_SERVICE } from '../transaction.service';
 import { Category } from 'src/app/categories/category';
 import { Actionable } from 'src/app/actionable';
 import { AppComponent } from 'src/app/app.component';
-import { CATEGORY_SERVICE, CategoryService } from 'src/app/categories/category.service';
-import { Account } from 'src/app/accounts/account';
-import { Time } from '@angular/common';
+import { TWIGS_SERVICE, TwigsService } from 'src/app/shared/twigs.service';
 
 @Component({
   selector: 'app-add-edit-transaction',
@@ -17,7 +14,7 @@ import { Time } from '@angular/common';
 export class AddEditTransactionComponent implements OnInit, OnChanges, OnDestroy, Actionable {
   @Input() title: string;
   @Input() currentTransaction: Transaction;
-  @Input() accountId: string;
+  @Input() budgetId: number;
   public transactionType = TransactionType;
   public categories: Category[];
   public rawAmount: string;
@@ -26,8 +23,7 @@ export class AddEditTransactionComponent implements OnInit, OnChanges, OnDestroy
 
   constructor(
     private app: AppComponent,
-    @Inject(CATEGORY_SERVICE) private categoryService: CategoryService,
-    @Inject(TRANSACTION_SERVICE) private transactionService: TransactionService,
+    @Inject(TWIGS_SERVICE) private twigsService: TwigsService,
   ) { }
 
   ngOnInit() {
@@ -72,8 +68,8 @@ export class AddEditTransactionComponent implements OnInit, OnChanges, OnDestroy
     this.currentTransaction.date.setMinutes(parseInt(timeParts[1], 10));
     if (this.currentTransaction.id) {
       // This is an existing transaction, update it
-      observable = this.transactionService.updateTransaction(
-        this.accountId,
+      observable = this.twigsService.updateTransaction(
+        this.budgetId,
         this.currentTransaction.id,
         {
           name: this.currentTransaction.title,
@@ -81,18 +77,18 @@ export class AddEditTransactionComponent implements OnInit, OnChanges, OnDestroy
           amount: this.currentTransaction.amount * 100,
           date: this.currentTransaction.date,
           category: this.currentTransaction.categoryId,
-          isExpense: this.currentTransaction.type === TransactionType.EXPENSE
+          isExpense: this.currentTransaction.isExpense
         }
       );
     } else {
       // This is a new transaction, save it
-      observable = this.transactionService.createTransaction(
-        this.accountId,
+      observable = this.twigsService.createTransaction(
+        this.budgetId,
         this.currentTransaction.title,
         this.currentTransaction.description,
         this.currentTransaction.amount * 100,
         this.currentTransaction.date,
-        this.currentTransaction.type === TransactionType.EXPENSE,
+        this.currentTransaction.isExpense,
         this.currentTransaction.categoryId,
       );
     }
@@ -107,12 +103,12 @@ export class AddEditTransactionComponent implements OnInit, OnChanges, OnDestroy
   }
 
   delete(): void {
-    this.transactionService.deleteTransaction(this.accountId, this.currentTransaction.id).subscribe(() => {
+    this.twigsService.deleteTransaction(this.budgetId, this.currentTransaction.id).subscribe(() => {
       this.app.goBack();
     });
   }
 
   getCategories() {
-    this.categoryService.getCategories(this.accountId).subscribe(categories => this.categories = categories);
+    this.twigsService.getCategories(this.budgetId).subscribe(categories => this.categories = categories);
   }
 }

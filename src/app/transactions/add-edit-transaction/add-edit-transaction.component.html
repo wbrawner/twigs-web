@@ -20,7 +20,7 @@
   <mat-form-field>
     <mat-select placeholder="Category" [(ngModel)]="currentTransaction.categoryId">
       <mat-option *ngFor="let category of categories" [value]="category.id">
-        {{ category.name }}
+        {{ category.title }}
       </mat-option>
     </mat-select>
   </mat-form-field>

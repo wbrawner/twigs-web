@@ -9,7 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class NewCategoryComponent implements OnInit {
 
-  accountId: string;
+  budgetId: string;
   category: Category;
 
   constructor(
@@ -17,7 +17,7 @@ export class NewCategoryComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.accountId = this.route.snapshot.paramMap.get('accountId');
+    this.budgetId = this.route.snapshot.paramMap.get('budgetId');
     this.category = new Category();
     // TODO: Set random color for category, improve color picker
     // this.category.color =

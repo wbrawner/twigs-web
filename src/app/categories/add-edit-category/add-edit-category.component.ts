@@ -1,10 +1,8 @@
 import { Component, OnInit, Input, OnDestroy, Inject } from '@angular/core';
 import { Category } from '../category';
-import { CATEGORY_SERVICE, CategoryService } from '../category.service';
 import { Actionable } from 'src/app/actionable';
 import { AppComponent } from 'src/app/app.component';
-import { Account } from 'src/app/accounts/account';
-import { ACCOUNT_SERVICE, AccountService } from 'src/app/accounts/account.service';
+import { TWIGS_SERVICE, TwigsService } from 'src/app/shared/twigs.service';
 
 @Component({
   selector: 'app-add-edit-category',
@@ -13,14 +11,13 @@ import { ACCOUNT_SERVICE, AccountService } from 'src/app/accounts/account.servic
 })
 export class AddEditCategoryComponent implements OnInit, Actionable, OnDestroy {
 
-  @Input() accountId: string;
+  @Input() budgetId: number;
   @Input() title: string;
   @Input() currentCategory: Category;
 
   constructor(
     private app: AppComponent,
-    @Inject(ACCOUNT_SERVICE) private accountService: AccountService,
-    @Inject(CATEGORY_SERVICE) private categoryService: CategoryService,
+    @Inject(TWIGS_SERVICE) private twigsService: TwigsService,
   ) { }
 
   ngOnInit() {
@@ -37,22 +34,22 @@ export class AddEditCategoryComponent implements OnInit, Actionable, OnDestroy {
     let observable;
     if (this.currentCategory.id) {
       // This is an existing category, update it
-      observable = this.categoryService.updateCategory(
-        this.accountId,
+      observable = this.twigsService.updateCategory(
+        this.budgetId,
         this.currentCategory.id,
         {
-          name: this.currentCategory.name,
+          name: this.currentCategory.title,
           amount: this.currentCategory.amount * 100,
-          isExpense: this.currentCategory.isExpense
+          expense: this.currentCategory.expense
         }
       );
     } else {
       // This is a new category, save it
-      observable = this.categoryService.createCategory(
-        this.accountId,
-        this.currentCategory.name,
+      observable = this.twigsService.createCategory(
+        this.budgetId,
+        this.currentCategory.title,
         this.currentCategory.amount * 100,
-        this.currentCategory.isExpense
+        this.currentCategory.expense
       );
     }
     observable.subscribe(val => {
@@ -65,7 +62,7 @@ export class AddEditCategoryComponent implements OnInit, Actionable, OnDestroy {
   }
 
   delete(): void {
-    this.categoryService.deleteCategory(this.accountId, this.currentCategory.id).subscribe(() => {
+    this.twigsService.deleteCategory(this.budgetId, this.currentCategory.id).subscribe(() => {
       this.app.goBack();
     });
   }

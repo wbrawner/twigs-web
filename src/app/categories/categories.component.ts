@@ -1,12 +1,11 @@
 import { Component, OnInit, Input, Inject } from '@angular/core';
-import { CategoryService, CATEGORY_SERVICE } from './category.service';
 import { Category } from './category';
 import { AppComponent } from '../app.component';
-import { TransactionService, TRANSACTION_SERVICE } from '../transactions/transaction.service';
 import { Observable } from 'rxjs';
 import { TransactionType } from '../transactions/transaction.type';
-import { Account } from '../accounts/account';
+import { Budget } from '../budgets/budget';
 import { ActivatedRoute } from '@angular/router';
+import { TWIGS_SERVICE, TwigsService } from '../shared/twigs.service';
 
 @Component({
   selector: 'app-categories',
@@ -15,19 +14,18 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class CategoriesComponent implements OnInit {
 
-  accountId: string;
+  budgetId: number;
   public categories: Category[];
-  public categoryBalances: Map<string, number>;
+  public categoryBalances: Map<number, number>;
 
   constructor(
     private route: ActivatedRoute,
     private app: AppComponent,
-    @Inject(CATEGORY_SERVICE) private categoryService: CategoryService,
-    @Inject(TRANSACTION_SERVICE) private transactionService: TransactionService,
+    @Inject(TWIGS_SERVICE) private twigsService: TwigsService,
   ) { }
 
   ngOnInit() {
-    this.accountId = this.route.snapshot.paramMap.get('accountId');
+    this.budgetId = Number.parseInt(this.route.snapshot.paramMap.get('budgetId'));
     this.app.title = 'Categories';
     this.app.backEnabled = true;
     this.getCategories();
@@ -35,7 +33,7 @@ export class CategoriesComponent implements OnInit {
   }
 
   getCategories(): void {
-    this.categoryService.getCategories(this.accountId).subscribe(categories => {
+    this.twigsService.getCategories(this.budgetId).subscribe(categories => {
       this.categories = categories;
       for (const category of this.categories) {
         this.getCategoryBalance(category).subscribe(balance => this.categoryBalances.set(category.id, balance));
@@ -45,13 +43,13 @@ export class CategoriesComponent implements OnInit {
 
   getCategoryBalance(category: Category): Observable<number> {
     return Observable.create(subscriber => {
-      this.transactionService.getTransactions(this.accountId, category.id).subscribe(transactions => {
+      this.twigsService.getTransactions(this.budgetId, category.id).subscribe(transactions => {
         let balance = 0;
         for (const transaction of transactions) {
-          if (transaction.type === TransactionType.INCOME) {
-            balance += transaction.amount;
-          } else {
+          if (transaction.isExpense) {
             balance -= transaction.amount;
+          } else {
+            balance += transaction.amount;
           }
         }
         subscriber.next(balance);

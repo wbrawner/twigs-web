@@ -8,23 +8,23 @@ import { CategoryDetailsComponent } from './categories/category-details/category
 import { NewCategoryComponent } from './categories/new-category/new-category.component';
 import { LoginComponent } from './users/login/login.component';
 import { RegisterComponent } from './users/register/register.component';
-import { AccountsComponent } from './accounts/accounts.component';
-import { NewAccountComponent } from './accounts/new-account/new-account.component';
-import { AccountDetailsComponent } from './accounts/account-details/account-details.component';
+import { BudgetsComponent } from './budgets/budget.component';
+import { NewBudgetComponent } from './budgets/new-budget/new-budget.component';
+import { BudgetDetailsComponent } from './budgets/budget-details/budget-details.component';
 
 const routes: Routes = [
-  { path: '', component: AccountsComponent },
+  { path: '', component: BudgetsComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'accounts', component: AccountsComponent },
-  { path: 'accounts/new', component: NewAccountComponent },
-  { path: 'accounts/:id', component: AccountDetailsComponent },
-  { path: 'accounts/:accountId/transactions', component: TransactionsComponent },
-  { path: 'accounts/:accountId/transactions/new', component: NewTransactionComponent },
-  { path: 'accounts/:accountId/transactions/:id', component: TransactionDetailsComponent },
-  { path: 'accounts/:accountId/categories', component: CategoriesComponent },
-  { path: 'accounts/:accountId/categories/new', component: NewCategoryComponent },
-  { path: 'accounts/:accountId/categories/:id', component: CategoryDetailsComponent },
+  { path: 'budgets', component: BudgetsComponent },
+  { path: 'budgets/new', component: NewBudgetComponent },
+  { path: 'budgets/:id', component: BudgetDetailsComponent },
+  { path: 'budgets/:budgetId/transactions', component: TransactionsComponent },
+  { path: 'budgets/:budgetId/transactions/new', component: NewTransactionComponent },
+  { path: 'budgets/:budgetId/transactions/:id', component: TransactionDetailsComponent },
+  { path: 'budgets/:budgetId/categories', component: CategoriesComponent },
+  { path: 'budgets/:budgetId/categories/new', component: NewCategoryComponent },
+  { path: 'budgets/:budgetId/categories/:id', component: CategoryDetailsComponent },
 ];
 
 @NgModule({

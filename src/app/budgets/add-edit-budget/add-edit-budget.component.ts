@@ -1,31 +1,29 @@
 import { Component, OnInit, Input, Inject, OnDestroy } from '@angular/core';
-import { Account } from '../account';
-import { ACCOUNT_SERVICE, AccountService } from '../account.service';
+import { Budget } from '../budget';
 import { AppComponent } from 'src/app/app.component';
 import { Actionable } from 'src/app/actionable';
-import { UserService, USER_SERVICE } from 'src/app/users/user.service';
 import { User } from 'src/app/users/user';
-import * as firebase from 'firebase';
+import { TWIGS_SERVICE, TwigsService } from 'src/app/shared/twigs.service';
 
 @Component({
-    selector: 'app-add-edit-account',
-    templateUrl: './add-edit-account.component.html',
-    styleUrls: ['./add-edit-account.component.css']
+    selector: 'app-add-edit-budget',
+    templateUrl: './add-edit-budget.component.html',
+    styleUrls: ['./add-edit-budget.component.css']
 })
-export class AddEditAccountComponent implements OnInit, OnDestroy, Actionable {
+export class AddEditBudgetComponent implements OnInit, OnDestroy, Actionable {
     @Input() title: string;
-    @Input() account: Account;
-    public userIds: string[] = [firebase.auth().currentUser.uid];
+    @Input() budget: Budget;
+    public userIds: number[];
     public searchedUsers: User[] = [];
 
     constructor(
         private app: AppComponent,
-        @Inject(ACCOUNT_SERVICE) private accountService: AccountService,
-        @Inject(USER_SERVICE) private userService: UserService,
+        @Inject(TWIGS_SERVICE) private twigsService: TwigsService,
     ) {
         this.app.title = this.title;
         this.app.backEnabled = true;
         this.app.actionable = this;
+        this.userIds = [this.app.user.id];
     }
 
     ngOnInit() {
@@ -37,15 +35,14 @@ export class AddEditAccountComponent implements OnInit, OnDestroy, Actionable {
 
     doAction(): void {
         let observable;
-        if (this.account.id) {
+        if (this.budget.id) {
             // This is an existing transaction, update it
-            observable = this.accountService.updateAccount(this.account.id, this.account);
+            observable = this.twigsService.updateBudget(this.budget.id, this.budget);
         } else {
             // This is a new transaction, save it
-            observable = this.accountService.createAccount(
-                this.account.name,
-                this.account.description,
-                this.account.currency,
+            observable = this.twigsService.createBudget(
+                this.budget.name,
+                this.budget.description,
                 this.userIds
             );
         }
@@ -60,13 +57,13 @@ export class AddEditAccountComponent implements OnInit, OnDestroy, Actionable {
     }
 
     delete(): void {
-        this.accountService.deleteAccount(this.account.id);
+        this.twigsService.deleteBudget(this.budget.id);
         this.app.goBack();
     }
 
     // TODO: Implement a search box with suggestions to add users
     searchUsers(username: string) {
-        this.userService.getUsersByUsername(username).subscribe(users => {
+        this.twigsService.getUsersByUsername(username).subscribe(users => {
             this.searchedUsers = users;
         });
     }

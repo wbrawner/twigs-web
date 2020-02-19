@@ -1,8 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { CategoryServiceFirebaseFirestoreImpl } from '../category.service.firestore';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Category } from '../category';
 import { ActivatedRoute } from '@angular/router';
-import { Account } from 'src/app/accounts/account';
+import { TWIGS_SERVICE, TwigsService } from 'src/app/shared/twigs.service';
 
 @Component({
   selector: 'app-category-details',
@@ -11,12 +10,12 @@ import { Account } from 'src/app/accounts/account';
 })
 export class CategoryDetailsComponent implements OnInit {
 
-  accountId: string;
+  budgetId: number;
   category: Category;
 
   constructor(
     private route: ActivatedRoute,
-    private categoryService: CategoryServiceFirebaseFirestoreImpl
+    @Inject(TWIGS_SERVICE) private twigsService: TwigsService,
   ) { }
 
   ngOnInit() {
@@ -24,9 +23,8 @@ export class CategoryDetailsComponent implements OnInit {
   }
 
   getCategory(): void {
-    this.accountId = this.route.snapshot.paramMap.get('accountId');
-    const id = this.route.snapshot.paramMap.get('id');
-    this.categoryService.getCategory(this.accountId, id)
+    const id = Number.parseInt(this.route.snapshot.paramMap.get('id'));
+    this.twigsService.getCategory(id)
       .subscribe(category => {
         category.amount /= 100;
         this.category = category;

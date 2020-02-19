@@ -1,8 +1,7 @@
 import { Component, OnInit, Input, Inject } from '@angular/core';
-import { TransactionService, TRANSACTION_SERVICE } from '../transaction.service';
 import { ActivatedRoute } from '@angular/router';
 import { Transaction } from '../transaction';
-import { Account } from 'src/app/accounts/account';
+import { TWIGS_SERVICE, TwigsService } from 'src/app/shared/twigs.service';
 
 @Component({
   selector: 'app-transaction-details',
@@ -11,12 +10,12 @@ import { Account } from 'src/app/accounts/account';
 })
 export class TransactionDetailsComponent implements OnInit {
 
-  accountId: string;
+  budgetId: number;
   transaction: Transaction;
 
   constructor(
     private route: ActivatedRoute,
-    @Inject(TRANSACTION_SERVICE) private transactionService: TransactionService,
+    @Inject(TWIGS_SERVICE) private twigsService: TwigsService,
   ) { }
 
   ngOnInit() {
@@ -24,9 +23,8 @@ export class TransactionDetailsComponent implements OnInit {
   }
 
   getTransaction(): void {
-    this.accountId = this.route.snapshot.paramMap.get('accountId');
-    const id = this.route.snapshot.paramMap.get('id');
-    this.transactionService.getTransaction(this.accountId, id)
+    const id = Number.parseInt(this.route.snapshot.paramMap.get('id'));
+    this.twigsService.getTransaction(id)
       .subscribe(transaction => {
         transaction.amount /= 100;
         this.transaction = transaction;

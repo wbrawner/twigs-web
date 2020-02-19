@@ -19,7 +19,7 @@ import {
 import { AppComponent } from './app.component';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { AppRoutingModule } from './app-routing.module';
-import { AccountsComponent } from './accounts/accounts.component';
+import { BudgetsComponent } from './budgets/budget.component';
 import { TransactionDetailsComponent } from './transactions/transaction-details/transaction-details.component';
 import { NewTransactionComponent } from './transactions/new-transaction/new-transaction.component';
 import { AddEditTransactionComponent } from './transactions/add-edit-transaction/add-edit-transaction.component';
@@ -30,26 +30,21 @@ import { NewCategoryComponent } from './categories/new-category/new-category.com
 import { CategoryListComponent } from './categories/category-list/category-list.component';
 import { LoginComponent } from './users/login/login.component';
 import { RegisterComponent } from './users/register/register.component';
-import { AddEditAccountComponent } from './accounts/add-edit-account/add-edit-account.component';
+import { AddEditBudgetComponent } from './budgets/add-edit-budget/add-edit-budget.component';
 import { EditProfileComponent } from './users/edit-profile/edit-profile.component';
 import { UserComponent } from './users/user.component';
-import { NewAccountComponent } from './accounts/new-account/new-account.component';
-import { AccountDetailsComponent } from './accounts/account-details/account-details.component';
+import { NewBudgetComponent } from './budgets/new-budget/new-budget.component';
+import { BudgetDetailsComponent } from './budgets/budget-details/budget-details.component';
 import { environment } from 'src/environments/environment';
 import { HttpClientModule } from '@angular/common/http';
-import { TRANSACTION_SERVICE } from './transactions/transaction.service';
-import { TransactionServiceFirebaseFirestoreImpl } from './transactions/transaction.service.firestore';
-import { CATEGORY_SERVICE } from './categories/category.service';
-import { CategoryServiceFirebaseFirestoreImpl } from './categories/category.service.firestore';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { CurrencyMaskConfig, CURRENCY_MASK_CONFIG } from 'ng2-currency-mask/src/currency-mask.config';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { ACCOUNT_SERVICE } from './accounts/account.service';
-import { FirestoreAccountService } from './accounts/account.service.firestore';
-import { USER_SERVICE } from './users/user.service';
-import { FirestoreUserService } from './users/user.service.firestore';
 import { CategoryBreakdownComponent } from './categories/category-breakdown/category-breakdown.component';
 import { ChartsModule } from 'ng2-charts';
+import { TWIGS_SERVICE } from './shared/twigs.service';
+import { TwigsHttpService } from './shared/twigs.http.service';
+import { TwigsLocalService } from './shared/twigs.local.service';
 
 export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
   align: 'left',
@@ -75,12 +70,12 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     CategoryListComponent,
     LoginComponent,
     RegisterComponent,
-    AddEditAccountComponent,
+    AddEditBudgetComponent,
     EditProfileComponent,
     UserComponent,
-    NewAccountComponent,
-    AccountDetailsComponent,
-    AccountsComponent,
+    NewBudgetComponent,
+    BudgetDetailsComponent,
+    BudgetsComponent,
     CategoryBreakdownComponent,
   ],
   imports: [
@@ -106,10 +101,8 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
   ],
   providers: [
     { provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig },
-    { provide: TRANSACTION_SERVICE, useClass: TransactionServiceFirebaseFirestoreImpl },
-    { provide: CATEGORY_SERVICE, useClass: CategoryServiceFirebaseFirestoreImpl },
-    { provide: ACCOUNT_SERVICE, useClass: FirestoreAccountService },
-    { provide: USER_SERVICE, useClass: FirestoreUserService },
+    { provide: TWIGS_SERVICE, useClass: TwigsHttpService },
+    // { provide: TWIGS_SERVICE, useClass: TwigsLocalService },
   ],
   bootstrap: [AppComponent]
 })

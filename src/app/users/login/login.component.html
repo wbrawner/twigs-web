@@ -3,6 +3,6 @@
     <input matInput placeholder="Email" [(ngModel)]="email" />
   </mat-form-field>
   <mat-form-field>
-    <input matInput type="password" placeholder="Password" [(ngModel)]="password" />
+    <input matInput type="password" placeholder="Password" [(ngModel)]="password" (keyup.enter)="doAction()"/>
   </mat-form-field>
 </div>

@@ -1,8 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { User } from '../user';
-import { AuthService } from '../auth.service';
+import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
+import { TwigsService, TWIGS_SERVICE } from '../../shared/twigs.service';
 import { Actionable } from 'src/app/actionable';
 import { AppComponent } from 'src/app/app.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -11,16 +11,19 @@ import { AppComponent } from 'src/app/app.component';
 })
 export class RegisterComponent implements OnInit, OnDestroy, Actionable {
 
-  public user: User = new User();
+  public username: string;
+  public email: string;
+  public password: string;
   public confirmedPassword: string;
 
   constructor(
     private app: AppComponent,
-    private authService: AuthService,
+    @Inject(TWIGS_SERVICE) private twigsService: TwigsService,
+    private router: Router,
   ) { }
 
   ngOnInit() {
-    this.app.title = 'Login';
+    this.app.title = 'Register';
     this.app.actionable = this;
     this.app.backEnabled = true;
   }
@@ -30,11 +33,17 @@ export class RegisterComponent implements OnInit, OnDestroy, Actionable {
   }
 
   doAction(): void {
-    if (this.user.password !== this.confirmedPassword) {
+    if (this.password !== this.confirmedPassword) {
       alert('Passwords don\'t match');
       return;
     }
-    this.authService.register(this.user.email, this.user.password);
+    this.twigsService.register(this.username, this.email, this.password).subscribe(user => {
+      console.log(user);
+      this.router.navigate(['/'])
+    }, error => {
+      console.error(error);
+      alert("Registration failed!")
+    })
   }
 
   getActionLabel() {

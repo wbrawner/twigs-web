@@ -1,0 +1,12 @@
+<div [hidden]="budget">
+  <p>Select a budget from the list to view details about it or edit it.</p>
+</div>
+<div [hidden]="!budget" class="form budget-form">
+  <mat-form-field>
+    <input matInput [(ngModel)]="budget.name" placeholder="Name" required>
+  </mat-form-field>
+  <mat-form-field>
+    <textarea matInput [(ngModel)]="budget.description" placeholder="Description"></textarea>
+  </mat-form-field>
+  <button class="button-delete" mat-button color="warn" *ngIf="budget.id" (click)="delete()">Delete</button>
+</div>

@@ -1,10 +1,10 @@
 import { Component, OnInit, Input, Inject } from '@angular/core';
 import { Transaction } from './transaction';
 import { TransactionType } from './transaction.type';
-import { TransactionService, TRANSACTION_SERVICE } from './transaction.service';
 import { AppComponent } from '../app.component';
-import { Account } from '../accounts/account';
+import { Budget } from '../budgets/budget';
 import { ActivatedRoute } from '@angular/router';
+import { TWIGS_SERVICE, TwigsService } from '../shared/twigs.service';
 
 @Component({
   selector: 'app-transactions',
@@ -13,7 +13,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class TransactionsComponent implements OnInit {
 
-  accountId: string;
+  budgetId: number;
   public transactionType = TransactionType;
 
   public transactions: Transaction[];
@@ -21,18 +21,18 @@ export class TransactionsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private app: AppComponent,
-    @Inject(TRANSACTION_SERVICE) private transactionService: TransactionService,
+    @Inject(TWIGS_SERVICE) private twigsService: TwigsService,
   ) { }
 
   ngOnInit() {
-    this.accountId = this.route.snapshot.paramMap.get('accountId');
+    this.budgetId = Number.parseInt(this.route.snapshot.paramMap.get('budgetId'));
     this.app.backEnabled = true;
     this.app.title = 'Transactions';
     this.getTransactions();
   }
 
   getTransactions(): void {
-    this.transactionService.getTransactions(this.accountId).subscribe(transactions => {
+    this.twigsService.getTransactions(this.budgetId).subscribe(transactions => {
       this.transactions = transactions;
     });
   }

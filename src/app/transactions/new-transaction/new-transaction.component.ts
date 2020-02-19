@@ -9,7 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class NewTransactionComponent implements OnInit {
 
-  accountId: string;
+  budgetId: string;
   transaction: Transaction;
 
   constructor(
@@ -17,7 +17,7 @@ export class NewTransactionComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.accountId = this.route.snapshot.paramMap.get('accountId');
+    this.budgetId = this.route.snapshot.paramMap.get('budgetId');
     this.transaction = new Transaction();
   }
 

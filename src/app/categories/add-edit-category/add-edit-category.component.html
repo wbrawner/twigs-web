@@ -3,12 +3,12 @@
 </div>
 <div *ngIf="currentCategory" class="form category-form">
   <mat-form-field (keyup.enter)="doAction()">
-    <input matInput [(ngModel)]="currentCategory.name" placeholder="Name" required>
+    <input matInput [(ngModel)]="currentCategory.title" placeholder="Name" required>
   </mat-form-field>
   <mat-form-field (keyup.enter)="doAction()">
     <input matInput type="text" [(ngModel)]="currentCategory.amount" placeholder="Amount" required currencyMask>
   </mat-form-field>
-  <mat-radio-group [(ngModel)]="currentCategory.isExpense">
+  <mat-radio-group [(ngModel)]="currentCategory.expense">
     <mat-radio-button [value]="true">Expense</mat-radio-button>
     <mat-radio-button [value]="false">Income</mat-radio-button>
   </mat-radio-group>
