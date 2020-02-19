@@ -18,7 +18,11 @@ export class AppComponent {
   constructor(
     @Inject(TWIGS_SERVICE) private twigsService: TwigsService,
     private location: Location,
-  ) {  }
+  ) {
+    this.twigsService.getProfile().subscribe(user => {
+      this.user = user;
+    });
+   }
 
   getUsername(): String {
     return this.user.username;

@@ -156,6 +156,10 @@ export class TwigsHttpService implements TwigsService {
   }
 
   // Users
+  getProfile(): Observable<User> {
+    return this.http.get<User>(`${this.apiUrl}/users/me`, this.options);
+  }
+
   getUsersByUsername(username: string): Observable<User[]> {
     return Observable.create(subscriber => {
       subscriber.error("Not yet implemented")

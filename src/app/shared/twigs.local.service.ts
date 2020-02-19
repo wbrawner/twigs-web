@@ -301,6 +301,12 @@ export class TwigsLocalService implements TwigsService {
   }
 
   // Users
+  getProfile(): Observable<User> {
+    return Observable.create(subscriber => {
+      subscriber.error("Not yet implemented")
+    });
+  }
+
   getUsersByUsername(username: string): Observable<User[]> {
     return Observable.create(subscriber => {
       subscriber.next(this.users.filter(user => user.username.indexOf(username) > -1 ));

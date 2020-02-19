@@ -22,15 +22,10 @@
               "src/browserconfig.xml",
               "src/favicon-16x16.png",
               "src/favicon-32x32.png",
+              "src/favicon-96x96.png",
               "src/favicon.ico",
               "src/assets",
               "src/manifest.json",
-              "src/mstile-70x70.png",
-              "src/mstile-144x144.png",
-              "src/mstile-150x150.png",
-              "src/mstile-310x150.png",
-              "src/mstile-310x310.png",
-              "src/safari-pinned-tab.svg"
             ],
             "styles": [
               "src/styles.css",
