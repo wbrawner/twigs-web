@@ -77,7 +77,7 @@ export class AddEditTransactionComponent implements OnInit, OnChanges, OnDestroy
           amount: this.currentTransaction.amount * 100,
           date: this.currentTransaction.date,
           category: this.currentTransaction.categoryId,
-          isExpense: this.currentTransaction.isExpense
+          expense: this.currentTransaction.expense
         }
       );
     } else {
@@ -88,7 +88,7 @@ export class AddEditTransactionComponent implements OnInit, OnChanges, OnDestroy
         this.currentTransaction.description,
         this.currentTransaction.amount * 100,
         this.currentTransaction.date,
-        this.currentTransaction.isExpense,
+        this.currentTransaction.expense,
         this.currentTransaction.categoryId,
       );
     }

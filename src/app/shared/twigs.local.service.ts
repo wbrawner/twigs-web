@@ -249,7 +249,7 @@ export class TwigsLocalService implements TwigsService {
       transaction.description = description;
       transaction.amount = amount;
       transaction.date = date;
-      transaction.isExpense = isExpense;
+      transaction.expense = isExpense;
       transaction.categoryId = category;
       transaction.budgetId = budgetId;
       transaction.id = this.transactions.length + 1;

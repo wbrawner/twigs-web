@@ -131,7 +131,7 @@ export class TwigsHttpService implements TwigsService {
     description: string,
     amount: number,
     date: Date,
-    isExpense: boolean,
+    expense: boolean,
     category: number
   ): Observable<Transaction> {
     const params = {
@@ -139,7 +139,7 @@ export class TwigsHttpService implements TwigsService {
       'description': description,
       'date': date,
       'amount': amount,
-      'expense': isExpense,
+      'expense': expense,
       'categoryId': category,
       'budgetId': budgetId
     };

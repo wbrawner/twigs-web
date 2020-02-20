@@ -46,7 +46,7 @@ export class CategoriesComponent implements OnInit {
       this.twigsService.getTransactions(this.budgetId, category.id).subscribe(transactions => {
         let balance = 0;
         for (const transaction of transactions) {
-          if (transaction.isExpense) {
+          if (transaction.expense) {
             balance -= transaction.amount;
           } else {
             balance += transaction.amount;
