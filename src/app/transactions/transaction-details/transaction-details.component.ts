@@ -28,6 +28,7 @@ export class TransactionDetailsComponent implements OnInit {
       .subscribe(transaction => {
         transaction.amount /= 100;
         this.transaction = transaction;
+        this.budgetId = transaction.budgetId;
       });
   }
 }

@@ -6,6 +6,8 @@ import { TwigsService } from './twigs.service';
 import { Budget } from '../budgets/budget';
 import { Category } from '../categories/category';
 import { Transaction } from '../transactions/transaction';
+import { environment } from '../../environments/environment';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -20,10 +22,7 @@ export class TwigsHttpService implements TwigsService {
     withCredentials: true
   };
 
-  // TODO: Set this up in environment variables
-  private apiUrl = 'https://budget-api.intra.wbrawner.com';
-  // private apiUrl = 'https://code.brawner.home/spring';
-  // private apiUrl = 'http://localhost:8080';
+  private apiUrl = environment.apiUrl;
 
   // Auth
   login(email: string, password: string): Observable<User> {
@@ -118,11 +117,21 @@ export class TwigsHttpService implements TwigsService {
       httpParams = httpParams.set('categoryId', `${categoryId}`);
     }
     const params = { params: httpParams };
-    return this.http.get<Transaction[]>(`${this.apiUrl}/transactions`, Object.assign(params, this.options));
+    return this.http.get<Transaction[]>(`${this.apiUrl}/transactions`, Object.assign(params, this.options))
+    .pipe(map(transactions => {
+      transactions.forEach(transaction => {
+        transaction.date = new Date(transaction.date);
+      });
+      return transactions;
+    }));
   }
 
   getTransaction(id: number): Observable<Transaction> {
-    return this.http.get<Transaction>(`${this.apiUrl}/transactions/${id}`, this.options);
+    return this.http.get<Transaction>(`${this.apiUrl}/transactions/${id}`, this.options)
+    .pipe(map(transaction => {
+      transaction.date = new Date(transaction.date);
+      return transaction;
+    }));
   }
 
   createTransaction(

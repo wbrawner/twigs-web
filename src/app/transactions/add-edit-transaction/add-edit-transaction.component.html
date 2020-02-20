@@ -24,9 +24,9 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-radio-group [(ngModel)]="currentTransaction.type">
-    <mat-radio-button [value]="transactionType.EXPENSE">Expense</mat-radio-button>
-    <mat-radio-button [value]="transactionType.INCOME">Income</mat-radio-button>
+  <mat-radio-group [(ngModel)]="currentTransaction.expense">
+    <mat-radio-button [value]="true">Expense</mat-radio-button>
+    <mat-radio-button [value]="false">Income</mat-radio-button>
   </mat-radio-group>
   <button class="button-delete" mat-button color="warn" *ngIf="currentTransaction.id" (click)="delete()">Delete</button>
 </div>
