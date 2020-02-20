@@ -33,7 +33,9 @@ export class AppComponent {
   }
 
   logout(): void {
-    this.twigsService.logout();
+    this.twigsService.logout().subscribe(_ => {
+      this.location.go('/');
+    });
   }
 
   isLoggedIn() {

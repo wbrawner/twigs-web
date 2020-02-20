@@ -43,7 +43,7 @@ export class TwigsHttpService implements TwigsService {
   }
 
   logout(): Observable<void> {
-    return Observable.throw('Not Implemented');
+    return this.http.post<void>(this.apiUrl + '/logout', this.options);
   }
 
   // Budgets
