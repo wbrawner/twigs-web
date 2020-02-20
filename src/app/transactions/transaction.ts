@@ -4,7 +4,7 @@ export class Transaction {
   description: string = null;
   date: Date = new Date();
   amount: number;
-  expense: boolean;
+  expense = true;
   categoryId: number;
   budgetId: number;
   createdBy: number;
