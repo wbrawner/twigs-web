@@ -1,6 +1,10 @@
 <div class="dashboard" *ngIf="!isLoggedIn()">
-  <h2 class="log-in">Get started</h2>
-  <p>To begin tracking your finances, <a routerLink="/login">login</a> or <a routerLink="/register">create an account</a>!</p>
+  <h2 class="log-in">Welcome to Twigs!</h2>
+  <p>To begin tracking your finances, login or create an account!</p>
+  <div class="auth-button-container">
+    <a routerLink="/register" mat-stroked-button color="accent">Register</a>
+    <a routerLink="/login" mat-raised-button color="accent">Login</a>
+  </div>
 </div>
 <mat-nav-list class="budgets" *ngIf="isLoggedIn()">
   <a mat-list-item *ngFor="let budget of budgets" routerLink="/budgets/{{ budget.id }}">
@@ -12,12 +16,12 @@
     </p>
   </a>
 </mat-nav-list>
-<div class="no-budgets" *ngIf="!budgets || budgets.length === 0">
+<div class="no-budgets" *ngIf="isLoggedIn() && (!budgets || budgets.length === 0)">
   <a mat-button routerLink="/budgets/new">
     <mat-icon>add</mat-icon>
     <p>Add budgets to begin tracking your finances.</p>
   </a>
 </div>
-<a mat-fab routerLink="/budgets/new">
+<a mat-fab routerLink="/budgets/new" *ngIf="isLoggedIn()">
   <mat-icon aria-label="Add">add</mat-icon>
 </a>

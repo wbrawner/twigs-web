@@ -1,0 +1,28 @@
+.dashboard {
+    color: #F1F1F1;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 1em;
+    flex-direction: column;
+}
+
+.auth-button-container {
+    display: flex;
+    flex-grow: 1;
+    width: 100%;
+    max-width: 500px;
+    justify-content: space-between;
+    padding-top: 1em;
+}
+
+.auth-button-container > a {
+    flex-grow: 1;
+    margin: 1em;
+}
+
+@media all and (max-width: 400px) {
+    .auth-button-container {
+        flex-direction: column-reverse;
+    }
+}
