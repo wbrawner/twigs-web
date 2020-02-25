@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { TwigsService, TWIGS_SERVICE } from '../../shared/twigs.service';
-import { Actionable } from 'src/app/actionable';
 import { AppComponent } from 'src/app/app.component';
 import { Router } from '@angular/router';
 
@@ -9,12 +8,13 @@ import { Router } from '@angular/router';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent implements OnInit, OnDestroy, Actionable {
+export class RegisterComponent implements OnInit {
 
   public username: string;
   public email: string;
   public password: string;
   public confirmedPassword: string;
+  public isLoading = false;
 
   constructor(
     private app: AppComponent,
@@ -24,29 +24,22 @@ export class RegisterComponent implements OnInit, OnDestroy, Actionable {
 
   ngOnInit() {
     this.app.title = 'Register';
-    this.app.actionable = this;
     this.app.backEnabled = true;
   }
 
-  ngOnDestroy() {
-    this.app.actionable = null;
-  }
-
-  doAction(): void {
+  register(): void {
     if (this.password !== this.confirmedPassword) {
       alert('Passwords don\'t match');
       return;
     }
+    this.isLoading = true;
     this.twigsService.register(this.username, this.email, this.password).subscribe(user => {
       console.log(user);
       this.router.navigate(['/'])
     }, error => {
       console.error(error);
       alert("Registration failed!")
+      this.isLoading = false;
     })
-  }
-
-  getActionLabel() {
-    return 'Submit';
   }
 }

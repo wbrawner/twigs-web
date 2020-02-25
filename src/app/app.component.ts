@@ -1,6 +1,5 @@
 import { Component, Inject } from '@angular/core';
 import { Location } from '@angular/common';
-import { Actionable } from './actionable';
 import { User } from './users/user';
 import { TWIGS_SERVICE, TwigsService } from './shared/twigs.service';
 
@@ -12,8 +11,8 @@ import { TWIGS_SERVICE, TwigsService } from './shared/twigs.service';
 export class AppComponent {
   public title = 'Twigs';
   public backEnabled = false;
-  public actionable: Actionable;
   public user: User;
+  public online = window.navigator.onLine;
 
   constructor(
     @Inject(TWIGS_SERVICE) private twigsService: TwigsService,

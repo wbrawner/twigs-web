@@ -14,6 +14,7 @@ import {
   MatSelectModule,
   MatToolbarModule,
   MatSidenavModule,
+  MatProgressSpinnerModule,
 } from '@angular/material';
 
 import { AppComponent } from './app.component';
@@ -92,6 +93,7 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     MatSelectModule,
     MatToolbarModule,
     MatSidenavModule,
+    MatProgressSpinnerModule,
     AppRoutingModule,
     FormsModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),

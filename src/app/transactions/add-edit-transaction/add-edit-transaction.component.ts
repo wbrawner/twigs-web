@@ -2,7 +2,6 @@ import { Component, OnInit, Input, OnChanges, OnDestroy, Inject, SimpleChanges }
 import { Transaction } from '../transaction';
 import { TransactionType } from '../transaction.type';
 import { Category } from 'src/app/categories/category';
-import { Actionable } from 'src/app/actionable';
 import { AppComponent } from 'src/app/app.component';
 import { TWIGS_SERVICE, TwigsService } from 'src/app/shared/twigs.service';
 
@@ -11,7 +10,7 @@ import { TWIGS_SERVICE, TwigsService } from 'src/app/shared/twigs.service';
   templateUrl: './add-edit-transaction.component.html',
   styleUrls: ['./add-edit-transaction.component.css']
 })
-export class AddEditTransactionComponent implements OnInit, OnChanges, OnDestroy, Actionable {
+export class AddEditTransactionComponent implements OnInit, OnChanges {
   @Input() title: string;
   @Input() currentTransaction: Transaction;
   @Input() budgetId: number;
@@ -29,7 +28,6 @@ export class AddEditTransactionComponent implements OnInit, OnChanges, OnDestroy
   ngOnInit() {
     this.app.title = this.title;
     this.app.backEnabled = true;
-    this.app.actionable = this;
     this.getCategories();
     let d: Date;
     if (this.currentTransaction) {
@@ -51,11 +49,7 @@ export class AddEditTransactionComponent implements OnInit, OnChanges, OnDestroy
     this.currentTime = `${d.getHours()}:${d.getMinutes()}`;
   }
 
-  ngOnDestroy() {
-    this.app.actionable = null;
-  }
-
-  doAction(): void {
+  save(): void {
     // The amount will be input as a decimal value so we need to convert it
     // to an integer
     let observable;
@@ -96,10 +90,6 @@ export class AddEditTransactionComponent implements OnInit, OnChanges, OnDestroy
     observable.subscribe(val => {
       this.app.goBack();
     });
-  }
-
-  getActionLabel(): string {
-    return 'Save';
   }
 
   delete(): void {

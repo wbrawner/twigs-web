@@ -1,4 +1,5 @@
-<div class="dashboard" *ngIf="!isLoggedIn()">
+<mat-progress-spinner *ngIf="loading" diameter="50" mode="indeterminate"></mat-progress-spinner>
+<div class="dashboard" *ngIf="!loading && !isLoggedIn()">
   <h2 class="log-in">Welcome to Twigs!</h2>
   <p>To begin tracking your finances, login or create an account!</p>
   <div class="auth-button-container">
@@ -6,7 +7,7 @@
     <a routerLink="/login" mat-raised-button color="accent">Login</a>
   </div>
 </div>
-<mat-nav-list class="budgets" *ngIf="isLoggedIn()">
+<mat-nav-list class="budgets" *ngIf="!loading && isLoggedIn()">
   <a mat-list-item *ngFor="let budget of budgets" routerLink="/budgets/{{ budget.id }}">
     <p matLine class="budget-list-title">
       {{ budget.name }}
@@ -16,12 +17,12 @@
     </p>
   </a>
 </mat-nav-list>
-<div class="no-budgets" *ngIf="isLoggedIn() && (!budgets || budgets.length === 0)">
+<div class="no-budgets" *ngIf="!loading && isLoggedIn() && (!budgets || budgets.length === 0)">
   <a mat-button routerLink="/budgets/new">
     <mat-icon>add</mat-icon>
     <p>Add budgets to begin tracking your finances.</p>
   </a>
 </div>
-<a mat-fab routerLink="/budgets/new" *ngIf="isLoggedIn()">
+<a mat-fab routerLink="/budgets/new" *ngIf="!loading && isLoggedIn()">
   <mat-icon aria-label="Add">add</mat-icon>
 </a>

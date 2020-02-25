@@ -94,6 +94,11 @@ mat-sidenav {
   min-width: 300px;
 }
 
+.mat-progress-spinner {
+  top: 5em;
+  left: calc(50% - 25px);
+}
+
 .income {
   color: #81C784;
 }

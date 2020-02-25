@@ -17,5 +17,6 @@
     <input type="color" matInput [(ngModel)]="currentCategory.color" placeholder="Color">
   </mat-form-field>
   -->
+  <button mat-button color="accent" (click)="save()">Save</button>
   <button class="button-delete" mat-button color="warn" *ngIf="currentCategory.id" (click)="delete()">Delete</button>
 </div>

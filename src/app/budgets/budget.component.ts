@@ -12,6 +12,7 @@ export class BudgetsComponent implements OnInit {
 
   @Input() budgetId: string;
   public budgets: Budget[];
+  public loading = true;
 
   constructor(
     private app: AppComponent,
@@ -21,9 +22,15 @@ export class BudgetsComponent implements OnInit {
   ngOnInit() {
     this.app.backEnabled = this.isLoggedIn();
     this.app.title = 'Budgets';
-    this.twigsService.getBudgets().subscribe(budgets => {
-      this.budgets = budgets;
-    });
+    this.twigsService.getBudgets().subscribe(
+      budgets => {
+        this.budgets = budgets;
+        this.loading = false;
+      },
+      error => {
+        this.loading = false;
+      }
+    );
   }
 
   isLoggedIn(): boolean {

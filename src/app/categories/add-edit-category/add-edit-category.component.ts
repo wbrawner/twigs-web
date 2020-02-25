@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, OnDestroy, Inject } from '@angular/core';
 import { Category } from '../category';
-import { Actionable } from 'src/app/actionable';
 import { AppComponent } from 'src/app/app.component';
 import { TWIGS_SERVICE, TwigsService } from 'src/app/shared/twigs.service';
 
@@ -9,7 +8,7 @@ import { TWIGS_SERVICE, TwigsService } from 'src/app/shared/twigs.service';
   templateUrl: './add-edit-category.component.html',
   styleUrls: ['./add-edit-category.component.css']
 })
-export class AddEditCategoryComponent implements OnInit, Actionable, OnDestroy {
+export class AddEditCategoryComponent implements OnInit {
 
   @Input() budgetId: number;
   @Input() title: string;
@@ -21,16 +20,11 @@ export class AddEditCategoryComponent implements OnInit, Actionable, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.app.actionable = this;
     this.app.backEnabled = true;
     this.app.title = this.title;
   }
 
-  ngOnDestroy() {
-    this.app.actionable = null;
-  }
-
-  doAction(): void {
+  save(): void {
     let observable;
     if (this.currentCategory.id) {
       // This is an existing category, update it
@@ -55,10 +49,6 @@ export class AddEditCategoryComponent implements OnInit, Actionable, OnDestroy {
     observable.subscribe(val => {
       this.app.goBack();
     });
-  }
-
-  getActionLabel(): string {
-    return 'Save';
   }
 
   delete(): void {

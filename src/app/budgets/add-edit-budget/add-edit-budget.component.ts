@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, Inject, OnDestroy } from '@angular/core';
 import { Budget } from '../budget';
 import { AppComponent } from 'src/app/app.component';
-import { Actionable } from 'src/app/actionable';
 import { User } from 'src/app/users/user';
 import { TWIGS_SERVICE, TwigsService } from 'src/app/shared/twigs.service';
 
@@ -10,7 +9,7 @@ import { TWIGS_SERVICE, TwigsService } from 'src/app/shared/twigs.service';
     templateUrl: './add-edit-budget.component.html',
     styleUrls: ['./add-edit-budget.component.css']
 })
-export class AddEditBudgetComponent implements OnInit, OnDestroy, Actionable {
+export class AddEditBudgetComponent {
     @Input() title: string;
     @Input() budget: Budget;
     public userIds: number[];
@@ -22,18 +21,10 @@ export class AddEditBudgetComponent implements OnInit, OnDestroy, Actionable {
     ) {
         this.app.title = this.title;
         this.app.backEnabled = true;
-        this.app.actionable = this;
         this.userIds = [this.app.user.id];
     }
 
-    ngOnInit() {
-    }
-
-    ngOnDestroy(): void {
-        this.app.actionable = null;
-    }
-
-    doAction(): void {
+    save(): void {
         let observable;
         if (this.budget.id) {
             // This is an existing transaction, update it
@@ -50,10 +41,6 @@ export class AddEditBudgetComponent implements OnInit, OnDestroy, Actionable {
         observable.subscribe(val => {
             this.app.goBack();
         });
-    }
-
-    getActionLabel(): string {
-        return 'Save';
     }
 
     delete(): void {
