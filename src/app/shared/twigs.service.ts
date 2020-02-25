@@ -1,6 +1,6 @@
 import { InjectionToken } from '@angular/core';
 import { Observable } from 'rxjs';
-import { User } from '../users/user';
+import { User, UserPermission } from '../users/user';
 import { Budget } from '../budgets/budget';
 import { Category } from '../categories/category';
 import { Transaction } from '../transactions/transaction';
@@ -17,7 +17,7 @@ export interface TwigsService {
   createBudget(
     name: string,
     description: string,
-    userIds: number[],
+    users: UserPermission[],
   ): Observable<Budget>;
   updateBudget(id: number, changes: object): Observable<Budget>;
   deleteBudget(id: number): Observable<void>;

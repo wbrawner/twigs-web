@@ -1,7 +1,8 @@
-<div [hidden]="budget">
+<mat-progress-spinner *ngIf="isLoading" mode="indeterminate" diameter="50"></mat-progress-spinner>
+<div *ngIf="!isLoading && !budget">
   <p>Select a budget from the list to view details about it or edit it.</p>
 </div>
-<div [hidden]="!budget" class="form budget-form">
+<div *ngIf="!isLoading && budget" class="form budget-form">
   <mat-form-field>
     <input matInput [(ngModel)]="budget.name" placeholder="Name" required>
   </mat-form-field>

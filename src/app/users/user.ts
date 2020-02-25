@@ -9,3 +9,19 @@ export class User {
     this.email = email;
   }
 }
+
+export class UserPermission {
+  user: number;
+  permission: Permission;
+
+  constructor(user: number, permission: Permission) {
+    this.user = user;
+    this.permission = permission;
+  }
+}
+
+export enum Permission {
+  READ,
+  WRITE,
+  OWNER
+}

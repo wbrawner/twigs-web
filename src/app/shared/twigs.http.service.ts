@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable, Subscriber } from 'rxjs';
-import { User } from '../users/user';
+import { User, UserPermission, Permission } from '../users/user';
 import { TwigsService } from './twigs.service';
 import { Budget } from '../budgets/budget';
 import { Category } from '../categories/category';
@@ -43,7 +43,7 @@ export class TwigsHttpService implements TwigsService {
   }
 
   logout(): Observable<void> {
-    return this.http.post<void>(this.apiUrl + '/logout', this.options);
+    return this.http.post<void>(this.apiUrl + '/login?logout', this.options);
   }
 
   // Budgets
@@ -58,12 +58,17 @@ export class TwigsHttpService implements TwigsService {
   createBudget(
     name: string,
     description: string,
-    userIds: number[],
+    users: UserPermission[],
   ): Observable<Budget> {
     const params = {
       'name': name,
       'description': description,
-      'userIds': userIds
+      'users': users.map(user => {
+        return {
+          user: user.user, 
+          permission: Permission[user.permission]
+        };
+      })
     };
     return this.http.post<Budget>(this.apiUrl + '/budgets/new', params, this.options);
   }

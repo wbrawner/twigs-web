@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
+  public isLoading = false;
   public email: string;
   public password: string;
 
@@ -26,6 +27,7 @@ export class LoginComponent implements OnInit {
   }
 
   login(): void {
+    this.isLoading = true;
     this.twigsService.login(this.email, this.password)
       .subscribe(user => {
         this.app.user = user;
@@ -34,6 +36,7 @@ export class LoginComponent implements OnInit {
       error => {
         console.error(error)
         alert("Login failed. Please verify you have the correct credentials");
+        this.isLoading = false;
       })
   }
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Inject, OnDestroy } from '@angular/core';
 import { Budget } from '../budget';
 import { AppComponent } from 'src/app/app.component';
-import { User } from 'src/app/users/user';
+import { User, UserPermission, Permission } from 'src/app/users/user';
 import { TWIGS_SERVICE, TwigsService } from 'src/app/shared/twigs.service';
 
 @Component({
@@ -12,8 +12,9 @@ import { TWIGS_SERVICE, TwigsService } from 'src/app/shared/twigs.service';
 export class AddEditBudgetComponent {
     @Input() title: string;
     @Input() budget: Budget;
-    public userIds: number[];
+    public users: UserPermission[];
     public searchedUsers: User[] = [];
+    public isLoading = false;
 
     constructor(
         private app: AppComponent,
@@ -21,11 +22,12 @@ export class AddEditBudgetComponent {
     ) {
         this.app.title = this.title;
         this.app.backEnabled = true;
-        this.userIds = [this.app.user.id];
+        this.users = [new UserPermission(this.app.user.id, Permission.OWNER)];
     }
 
     save(): void {
         let observable;
+        this.isLoading = true;
         if (this.budget.id) {
             // This is an existing transaction, update it
             observable = this.twigsService.updateBudget(this.budget.id, this.budget);
@@ -34,7 +36,7 @@ export class AddEditBudgetComponent {
             observable = this.twigsService.createBudget(
                 this.budget.name,
                 this.budget.description,
-                this.userIds
+                this.users
             );
         }
         // TODO: Check if it was actually successful or not
@@ -44,6 +46,7 @@ export class AddEditBudgetComponent {
     }
 
     delete(): void {
+        this.isLoading = true;
         this.twigsService.deleteBudget(this.budget.id);
         this.app.goBack();
     }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable, Subscriber } from 'rxjs';
-import { User } from '../users/user';
+import { User, UserPermission } from '../users/user';
 import { TwigsService } from './twigs.service';
 import { Budget } from '../budgets/budget';
 import { Category } from '../categories/category';
@@ -82,14 +82,14 @@ export class TwigsLocalService implements TwigsService {
   createBudget(
     name: string,
     description: string,
-    userIds: number[],
+    users: UserPermission[],
   ): Observable<Budget> {
     return Observable.create(subscriber => {
       const budget = new Budget();
       budget.name = name;
       budget.description = description;
       budget.users = this.users.filter(user => {
-        return userIds.indexOf(user.id) > -1;
+        return users.map(userPerm => userPerm.user).indexOf(user.id) > -1;
       });
       budget.id = this.budgets.length + 1;
       this.budgets.push(budget);
