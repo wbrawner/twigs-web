@@ -4,6 +4,7 @@ import { TransactionType } from '../transaction.type';
 import { Category } from 'src/app/categories/category';
 import { AppComponent } from 'src/app/app.component';
 import { TWIGS_SERVICE, TwigsService } from 'src/app/shared/twigs.service';
+import { MatRadioChange } from '@angular/material';
 
 @Component({
   selector: 'app-add-edit-transaction',
@@ -28,13 +29,15 @@ export class AddEditTransactionComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.app.title = this.title;
     this.app.backEnabled = true;
-    this.getCategories();
-    let d: Date;
+    let d: Date, expense: boolean;
     if (this.currentTransaction) {
       d = new Date(this.currentTransaction.date);
+      expense = this.currentTransaction.expense;
     } else {
       d = new Date();
+      expense = true;
     }
+    this.updateCategories(new MatRadioChange(undefined, expense));
     this.transactionDate = d.toLocaleDateString(undefined, {year: 'numeric', month: '2-digit', day: '2-digit'});
     this.currentTime = d.toLocaleTimeString(undefined, {hour: '2-digit', hour12: false, minute: '2-digit'});
   }
@@ -49,14 +52,18 @@ export class AddEditTransactionComponent implements OnInit, OnChanges {
     this.currentTime = d.toLocaleTimeString(undefined, {hour: '2-digit', hour12: false, minute: '2-digit'});
   }
 
+  updateCategories(change: MatRadioChange) {
+    this.twigsService.getCategories(this.budgetId)
+    .subscribe(newCategories => {
+      this.categories = newCategories.filter(category => category.expense === change.value)
+    })
+  }
+
   save(): void {
     // The amount will be input as a decimal value so we need to convert it
     // to an integer
     let observable;
-    const dateParts = this.transactionDate.split('-');
-    this.currentTransaction.date.setFullYear(parseInt(dateParts[0], 10));
-    this.currentTransaction.date.setMonth(parseInt(dateParts[1], 10) - 1);
-    this.currentTransaction.date.setDate(parseInt(dateParts[2], 10));
+    this.currentTransaction.date = new Date(this.transactionDate);
     const timeParts = this.currentTime.split(':');
     this.currentTransaction.date.setHours(parseInt(timeParts[0], 10));
     this.currentTransaction.date.setMinutes(parseInt(timeParts[1], 10));
@@ -96,9 +103,5 @@ export class AddEditTransactionComponent implements OnInit, OnChanges {
     this.twigsService.deleteTransaction(this.budgetId, this.currentTransaction.id).subscribe(() => {
       this.app.goBack();
     });
-  }
-
-  getCategories() {
-    this.twigsService.getCategories(this.budgetId).subscribe(categories => this.categories = categories);
   }
 }

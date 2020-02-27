@@ -11,6 +11,7 @@ mat-radio-button {
   padding-bottom: 15px;
 }
 
-.button-delete {
-  float: right;
+button {
+  width: 100%;
+  margin: 1em 0;
 }

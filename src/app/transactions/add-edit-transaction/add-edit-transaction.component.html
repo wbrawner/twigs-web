@@ -17,6 +17,10 @@
   <mat-form-field>
     <input matInput type="time" [(ngModel)]="currentTime" placeholder="Time" required>
   </mat-form-field>
+  <mat-radio-group [(ngModel)]="currentTransaction.expense" (change)="updateCategories($event)">
+    <mat-radio-button [value]="true">Expense</mat-radio-button>
+    <mat-radio-button [value]="false">Income</mat-radio-button>
+  </mat-radio-group>
   <mat-form-field>
     <mat-select placeholder="Category" [(ngModel)]="currentTransaction.categoryId">
       <mat-option *ngFor="let category of categories" [value]="category.id">
@@ -24,10 +28,6 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-radio-group [(ngModel)]="currentTransaction.expense">
-    <mat-radio-button [value]="true">Expense</mat-radio-button>
-    <mat-radio-button [value]="false">Income</mat-radio-button>
-  </mat-radio-group>
-  <button mat-button color="accent" (click)="save()">Save</button>
-  <button class="button-delete" mat-button color="warn" *ngIf="currentTransaction.id" (click)="delete()">Delete</button>
+  <button mat-raised-button color="accent" (click)="save()">Save</button>
+  <button class="button-delete" mat-raised-button color="warn" *ngIf="currentTransaction.id" (click)="delete()">Delete</button>
 </div>
