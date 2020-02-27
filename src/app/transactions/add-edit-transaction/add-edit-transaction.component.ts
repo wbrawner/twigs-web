@@ -35,8 +35,8 @@ export class AddEditTransactionComponent implements OnInit, OnChanges {
     } else {
       d = new Date();
     }
-    this.transactionDate = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
-    this.currentTime = `${d.getHours()}:${d.getMinutes()}`;
+    this.transactionDate = d.toLocaleDateString(undefined, {year: 'numeric', month: '2-digit', day: '2-digit'});
+    this.currentTime = d.toLocaleTimeString(undefined, {hour: '2-digit', hour12: false, minute: '2-digit'});
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -45,8 +45,8 @@ export class AddEditTransactionComponent implements OnInit, OnChanges {
     }
 
     const d = new Date(changes.currentTransaction.currentValue.date * 1000);
-    this.transactionDate = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
-    this.currentTime = `${d.getHours()}:${d.getMinutes()}`;
+    this.transactionDate = d.toLocaleDateString(undefined, {year: 'numeric', month: '2-digit', day: '2-digit'});
+    this.currentTime = d.toLocaleTimeString(undefined, {hour: '2-digit', hour12: false, minute: '2-digit'});
   }
 
   save(): void {
