@@ -37,15 +37,17 @@ import { UserComponent } from './users/user.component';
 import { NewBudgetComponent } from './budgets/new-budget/new-budget.component';
 import { BudgetDetailsComponent } from './budgets/budget-details/budget-details.component';
 import { environment } from 'src/environments/environment';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { CurrencyMaskConfig, CURRENCY_MASK_CONFIG } from 'ng2-currency-mask/src/currency-mask.config';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { CategoryBreakdownComponent } from './categories/category-breakdown/category-breakdown.component';
 import { ChartsModule } from 'ng2-charts';
 import { TWIGS_SERVICE } from './shared/twigs.service';
+import { AuthInterceptor } from './shared/auth.interceptor';
 import { TwigsHttpService } from './shared/twigs.http.service';
 import { TwigsLocalService } from './shared/twigs.local.service';
+import { CookieService } from 'ngx-cookie-service';
 
 export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
   align: 'left',
@@ -103,8 +105,10 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
   ],
   providers: [
     { provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: TWIGS_SERVICE, useClass: TwigsHttpService },
     // { provide: TWIGS_SERVICE, useClass: TwigsLocalService },
+    CookieService
   ],
   bootstrap: [AppComponent]
 })

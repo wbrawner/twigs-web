@@ -8,6 +8,7 @@ import { Category } from '../categories/category';
 import { Transaction } from '../transactions/transaction';
 import { environment } from '../../environments/environment';
 import { map } from 'rxjs/operators';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,8 @@ import { map } from 'rxjs/operators';
 export class TwigsHttpService implements TwigsService {
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private cookieService: CookieService
   ) { }
 
   private options = {
@@ -26,11 +28,14 @@ export class TwigsHttpService implements TwigsService {
 
   // Auth
   login(email: string, password: string): Observable<User> {
-    const params = {
-      'username': email,
-      'password': password
-    };
-    return this.http.post<User>(this.apiUrl + '/users/login', params, this.options);
+    // const params = {
+    //   'username': email,
+    //   'password': password
+    // };
+    // return this.http.post<User>(this.apiUrl + '/users/login', params, this.options);
+    const credentials = btoa(`${email}:${password}`)
+    this.cookieService.set( 'Authorization', credentials, 14);
+    return this.getProfile();
   }
 
   register(username: string, email: string, password: string): Observable<User> {

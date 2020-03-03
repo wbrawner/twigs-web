@@ -2,6 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { Location } from '@angular/common';
 import { User } from './users/user';
 import { TWIGS_SERVICE, TwigsService } from './shared/twigs.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +18,11 @@ export class AppComponent {
   constructor(
     @Inject(TWIGS_SERVICE) private twigsService: TwigsService,
     private location: Location,
+    private cookieService: CookieService
   ) {
+    if (!this.cookieService.check('Authorization')) {
+      return;
+    }
     this.twigsService.getProfile().subscribe(user => {
       this.user = user;
     });
