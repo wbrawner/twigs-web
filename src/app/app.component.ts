@@ -1,8 +1,11 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ApplicationRef } from '@angular/core';
 import { Location } from '@angular/common';
 import { User } from './users/user';
 import { TWIGS_SERVICE, TwigsService } from './shared/twigs.service';
 import { CookieService } from 'ngx-cookie-service';
+import { SwUpdate } from '@angular/service-worker';
+import { first } from 'rxjs/operators';
+import { interval, concat } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -14,19 +17,35 @@ export class AppComponent {
   public backEnabled = false;
   public user: User;
   public online = window.navigator.onLine;
+  public currentVersion = '';
 
   constructor(
     @Inject(TWIGS_SERVICE) private twigsService: TwigsService,
     private location: Location,
-    private cookieService: CookieService
+    private cookieService: CookieService,
+    private appRef: ApplicationRef,
+    private updates: SwUpdate
   ) {
-    if (!this.cookieService.check('Authorization')) {
-      return;
+    if (this.cookieService.check('Authorization')) {
+      this.twigsService.getProfile().subscribe(user => {
+        this.user = user;
+      });
     }
-    this.twigsService.getProfile().subscribe(user => {
-      this.user = user;
+
+    updates.available.subscribe(event => {
+      console.log('current version is', event.current);
+      console.log('available version is', event.available);
     });
-   }
+    updates.activated.subscribe(event => {
+      console.log('old version was', event.previous);
+      console.log('new version is', event.current);
+    });
+
+    const appIsStable$ = appRef.isStable.pipe(first(isStable => isStable === true));
+    const everySixHours$ = interval(6 * 60 * 60 * 1000);
+    const everySixHoursOnceAppIsStable$ = concat(appIsStable$, everySixHours$);
+    everySixHoursOnceAppIsStable$.subscribe(() => updates.checkForUpdate());
+  }
 
   getUsername(): String {
     return this.user.username;
