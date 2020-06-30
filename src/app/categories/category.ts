@@ -3,5 +3,6 @@ export class Category {
   title: string;
   amount: number;
   expense: boolean;
+  archived: boolean;
   budgetId: number;
 }
