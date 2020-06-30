@@ -12,6 +12,7 @@
     <mat-radio-button [value]="true">Expense</mat-radio-button>
     <mat-radio-button [value]="false">Income</mat-radio-button>
   </mat-radio-group>
+  <mat-checkbox *ngIf="currentCategory.id" [(ngModel)]="currentCategory.archived">Archived</mat-checkbox>
   <!--
   <mat-form-field>
     <input type="color" matInput [(ngModel)]="currentCategory.color" placeholder="Color">

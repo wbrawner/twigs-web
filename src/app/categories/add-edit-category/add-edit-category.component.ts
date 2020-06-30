@@ -34,7 +34,8 @@ export class AddEditCategoryComponent implements OnInit {
         {
           name: this.currentCategory.title,
           amount: this.currentCategory.amount * 100,
-          expense: this.currentCategory.expense
+          expense: this.currentCategory.expense,
+          archived: this.currentCategory.archived
         }
       );
     } else {
