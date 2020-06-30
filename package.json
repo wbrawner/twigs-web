@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "node_modules/@angular/cli/bin/ng",
     "start": "node_modules/@angular/cli/bin/ng serve --host '0.0.0.0'",
-    "code-server": "node_modules/@angular/cli/bin/ng serve --host \"0.0.0.0\" --disable-host-check --base-href /angular/",
+    "code-server": "node_modules/@angular/cli/bin/ng serve --configuration=codeserver --host \"0.0.0.0\" --disable-host-check --poll=2000",
     "build": "node_modules/@angular/cli/bin/ng build",
     "package": "node_modules/@angular/cli/bin/ng build --prod --service-worker",
     "publish": "node_modules/@angular/cli/bin/ng build --prod --service-worker && firebase deploy",

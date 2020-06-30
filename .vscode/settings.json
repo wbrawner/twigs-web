@@ -1,0 +1,12 @@
+{
+    "database.connections": [
+        {
+            "type": "mysql",
+            "name": "root@captain.intra.wbrawner.com (MySql)",
+            "host": "captain.intra.wbrawner.com:3306",
+            "username": "root",
+            "database": null,
+            "password": "U7YE8YsmES8LHB2B39WXNjTQk4d48LzQEZG3cj6wSb2fgeRLEYtrrqTwiqAhrpR3"
+        }
+    ]
+}

@@ -51,6 +51,14 @@
               "vendorChunk": false,
               "buildOptimizer": true,
               "serviceWorker": true
+            },
+            "codeserver": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.codeserver.ts"
+                }
+              ]
             }
           }
         },
@@ -62,6 +70,9 @@
           "configurations": {
             "production": {
               "browserTarget": "twigs:build:production"
+            },
+            "codeserver": {
+              "browserTarget": "twigs:build:codeserver"
             }
           }
         },
