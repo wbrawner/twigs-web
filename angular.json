@@ -13,6 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "outputPath": "dist/twigs",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -25,7 +26,7 @@
               "src/favicon-96x96.png",
               "src/favicon.ico",
               "src/assets",
-              "src/manifest.json",
+              "src/manifest.json"
             ],
             "styles": [
               "src/styles.css",
@@ -35,6 +36,12 @@
           },
           "configurations": {
             "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -53,6 +60,12 @@
               "serviceWorker": true
             },
             "codeserver": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -142,5 +155,8 @@
       }
     }
   },
-  "defaultProject": "twigs"
+  "defaultProject": "twigs",
+  "cli": {
+    "analytics": "b8304464-255e-47bb-976a-7ed81af63238"
+  }
 }

@@ -4,7 +4,7 @@ import { TransactionType } from '../transaction.type';
 import { Category } from 'src/app/categories/category';
 import { AppComponent } from 'src/app/app.component';
 import { TWIGS_SERVICE, TwigsService } from 'src/app/shared/twigs.service';
-import { MatRadioChange } from '@angular/material';
+import { MatRadioChange } from '@angular/material/radio';
 
 @Component({
   selector: 'app-add-edit-transaction',
