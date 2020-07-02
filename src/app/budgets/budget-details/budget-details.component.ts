@@ -47,7 +47,7 @@ export class BudgetDetailsComponent implements OnInit {
     const id = Number.parseInt(this.route.snapshot.paramMap.get('id'));
     this.twigsService.getBudget(id)
       .subscribe(budget => {
-        this.app.title = Budget.name;
+        this.app.title = budget.name;
         this.budget = budget;
         this.getBalance();
         this.getTransactions();
