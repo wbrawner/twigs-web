@@ -34,7 +34,7 @@ export class TwigsHttpService implements TwigsService {
     // };
     // return this.http.post<User>(this.apiUrl + '/users/login', params, this.options);
     const credentials = btoa(`${email}:${password}`)
-    this.cookieService.set( 'Authorization', credentials, 14);
+    this.cookieService.set('Authorization', credentials, 14);
     return this.getProfile();
   }
 
@@ -70,7 +70,7 @@ export class TwigsHttpService implements TwigsService {
       'description': description,
       'users': users.map(user => {
         return {
-          user: user.user, 
+          user: user.user,
           permission: Permission[user.permission]
         };
       })
@@ -105,7 +105,7 @@ export class TwigsHttpService implements TwigsService {
       'amount': amount,
       'expense': isExpense,
       'budgetId': budgetId
-      };
+    };
     return this.http.post<Category>(this.apiUrl + '/categories/new', params, this.options);
   }
 
@@ -118,30 +118,38 @@ export class TwigsHttpService implements TwigsService {
   }
 
   // Transactions
-  getTransactions(budgetId?: number, categoryId?: number, count?: number): Observable<Transaction[]> {
+  getTransactions(
+    budgetId?: number,
+    categoryId?: number,
+    count?: number,
+    from?: Date
+  ): Observable<Transaction[]> {
     let httpParams = new HttpParams();
     if (budgetId) {
-      httpParams = httpParams.set('budgetId', `${budgetId}`);
+      httpParams = httpParams.set('budgetIds', `${budgetId}`);
     }
     if (categoryId) {
       httpParams = httpParams.set('categoryId', `${categoryId}`);
     }
+    if (from) {
+      httpParams = httpParams.set('from', from.toISOString());
+    }
     const params = { params: httpParams };
     return this.http.get<Transaction[]>(`${this.apiUrl}/transactions`, Object.assign(params, this.options))
-    .pipe(map(transactions => {
-      transactions.forEach(transaction => {
-        transaction.date = new Date(transaction.date);
-      });
-      return transactions;
-    }));
+      .pipe(map(transactions => {
+        transactions.forEach(transaction => {
+          transaction.date = new Date(transaction.date);
+        });
+        return transactions;
+      }));
   }
 
   getTransaction(id: number): Observable<Transaction> {
     return this.http.get<Transaction>(`${this.apiUrl}/transactions/${id}`, this.options)
-    .pipe(map(transaction => {
-      transaction.date = new Date(transaction.date);
-      return transaction;
-    }));
+      .pipe(map(transaction => {
+        transaction.date = new Date(transaction.date);
+        return transaction;
+      }));
   }
 
   createTransaction(

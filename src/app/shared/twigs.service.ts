@@ -30,7 +30,12 @@ export interface TwigsService {
   deleteCategory(budgetId: number, id: number): Observable<void>;
 
   // Transactions
-  getTransactions(budgetId?: number, categoryId?: number, count?: number): Observable<Transaction[]>;
+  getTransactions(
+    budgetId?: number,
+    categoryId?: number,
+    count?: number,
+    from?: Date
+  ): Observable<Transaction[]>;
   getTransaction(id: number): Observable<Transaction>;
   createTransaction(
     budgetId: number,

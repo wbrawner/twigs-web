@@ -32,7 +32,12 @@ export class TransactionsComponent implements OnInit {
   }
 
   getTransactions(): void {
-    this.twigsService.getTransactions(this.budgetId).subscribe(transactions => {
+    let date = new Date();
+    date.setHours(0);
+    date.setMinutes(0);
+    date.setSeconds(0);
+    date.setDate(1);
+    this.twigsService.getTransactions(this.budgetId, null, null, date).subscribe(transactions => {
       this.transactions = transactions;
     });
   }

@@ -89,7 +89,12 @@ export class BudgetDetailsComponent implements OnInit {
   }
 
   getTransactions(): void {
-    this.twigsService.getTransactions(this.budget.id, null, 5)
+    let date = new Date();
+    date.setHours(0);
+    date.setMinutes(0);
+    date.setSeconds(0);
+    date.setDate(1);
+    this.twigsService.getTransactions(this.budget.id, null, 5, date)
       .subscribe(transactions => this.transactions = <Transaction[]>transactions);
   }
 
@@ -134,7 +139,12 @@ export class BudgetDetailsComponent implements OnInit {
 
   getCategoryBalance(category: number): Observable<number> {
     return Observable.create(subscriber => {
-      this.twigsService.getTransactions(this.budget.id, category).subscribe(transactions => {
+      let date = new Date();
+      date.setHours(0);
+      date.setMinutes(0);
+      date.setSeconds(0);
+      date.setDate(1);  
+      this.twigsService.getTransactions(this.budget.id, category, null, date).subscribe(transactions => {
         let balance = 0;
         for (const transaction of transactions) {
           if (transaction.expense) {
