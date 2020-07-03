@@ -129,7 +129,7 @@ export class TwigsHttpService implements TwigsService {
       httpParams = httpParams.set('budgetIds', `${budgetId}`);
     }
     if (categoryId) {
-      httpParams = httpParams.set('categoryId', `${categoryId}`);
+      httpParams = httpParams.set('categoryIds', `${categoryId}`);
     }
     if (from) {
       httpParams = httpParams.set('from', from.toISOString());
