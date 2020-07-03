@@ -44,7 +44,7 @@ export class TwigsHttpService implements TwigsService {
       'email': email,
       'password': password
     };
-    return this.http.post<User>(this.apiUrl + '/users/new', params, this.options);
+    return this.http.post<User>(this.apiUrl + '/users', params, this.options);
   }
 
   logout(): Observable<void> {
@@ -75,7 +75,7 @@ export class TwigsHttpService implements TwigsService {
         };
       })
     };
-    return this.http.post<Budget>(this.apiUrl + '/budgets/new', params, this.options);
+    return this.http.post<Budget>(this.apiUrl + '/budgets', params, this.options);
   }
 
   updateBudget(id: number, changes: object): Observable<Budget> {
@@ -106,7 +106,7 @@ export class TwigsHttpService implements TwigsService {
       'expense': isExpense,
       'budgetId': budgetId
     };
-    return this.http.post<Category>(this.apiUrl + '/categories/new', params, this.options);
+    return this.http.post<Category>(this.apiUrl + '/categories', params, this.options);
   }
 
   updateCategory(budgetId: number, id: number, changes: object): Observable<Category> {
@@ -170,7 +170,7 @@ export class TwigsHttpService implements TwigsService {
       'categoryId': category,
       'budgetId': budgetId
     };
-    return this.http.post<Transaction>(this.apiUrl + '/transactions/new', params, this.options);
+    return this.http.post<Transaction>(this.apiUrl + '/transactions', params, this.options);
   }
 
   updateTransaction(budgetId: number, id: number, changes: object): Observable<Transaction> {
