@@ -1,0 +1,5 @@
+.transactions .list-row-one {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 0.2em;
+}

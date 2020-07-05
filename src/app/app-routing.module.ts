@@ -25,6 +25,7 @@ const routes: Routes = [
   { path: 'budgets/:budgetId/categories', component: CategoriesComponent },
   { path: 'budgets/:budgetId/categories/new', component: NewCategoryComponent },
   { path: 'budgets/:budgetId/categories/:id', component: CategoryDetailsComponent },
+  { path: 'budgets/:budgetId/categories/:id/edit', component: CategoryDetailsComponent },
 ];
 
 @NgModule({

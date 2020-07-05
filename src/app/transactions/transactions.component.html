@@ -1,14 +1,4 @@
-<mat-nav-list *ngIf="transactions" class="transactions">
-  <a mat-list-item *ngFor="let transaction of transactions" routerLink="/budgets/{{ budgetId }}/transactions/{{ transaction.id }}">
-    <div matLine class="list-row-one">
-      <p>{{transaction.title}}</p>
-      <p class="amount" [class.expense]="transaction.type === transactionType.EXPENSE" [class.income]="transaction.type === transactionType.INCOME">
-        {{ transaction.amount / 100 | currency }}
-      </p>
-    </div>
-    <p matLine class="text-small">{{ transaction.date | date }}</p>
-  </a>
-</mat-nav-list>
+<app-transaction-list [budgetId]="budgetId" [categoryId]="categoryId"></app-transaction-list>
 <a mat-fab routerLink="/budgets/{{ budgetId }}/transactions/new">
   <mat-icon aria-label="Add">add</mat-icon>
 </a>
