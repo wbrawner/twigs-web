@@ -164,7 +164,7 @@ export class TwigsHttpService implements TwigsService {
     const params = {
       'title': name,
       'description': description,
-      'date': date,
+      'date': date.toISOString(),
       'amount': amount,
       'expense': expense,
       'categoryId': category,

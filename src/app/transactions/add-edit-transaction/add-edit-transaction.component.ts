@@ -63,7 +63,11 @@ export class AddEditTransactionComponent implements OnInit, OnChanges {
     // The amount will be input as a decimal value so we need to convert it
     // to an integer
     let observable;
-    this.currentTransaction.date = new Date(this.transactionDate);
+    this.currentTransaction.date = new Date();
+    const dateParts = this.transactionDate.split('-');
+    this.currentTransaction.date.setFullYear(parseInt(dateParts[0], 10));
+    this.currentTransaction.date.setMonth(parseInt(dateParts[1], 10) - 1);
+    this.currentTransaction.date.setDate(parseInt(dateParts[2], 10));
     const timeParts = this.currentTime.split(':');
     this.currentTransaction.date.setHours(parseInt(timeParts[0], 10));
     this.currentTransaction.date.setMinutes(parseInt(timeParts[1], 10));
