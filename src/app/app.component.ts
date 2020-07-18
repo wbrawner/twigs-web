@@ -4,8 +4,10 @@ import { User } from './users/user';
 import { TWIGS_SERVICE, TwigsService } from './shared/twigs.service';
 import { CookieService } from 'ngx-cookie-service';
 import { SwUpdate } from '@angular/service-worker';
-import { first } from 'rxjs/operators';
+import { first, filter, map } from 'rxjs/operators';
 import { interval, concat } from 'rxjs';
+import { Router, ActivationEnd } from '@angular/router';
+import { Actionable, isActionable } from './shared/actionable';
 
 @Component({
   selector: 'app-root',
@@ -18,13 +20,14 @@ export class AppComponent {
   public user: User;
   public online = window.navigator.onLine;
   public currentVersion = '';
+  public actionable: Actionable;
 
   constructor(
     @Inject(TWIGS_SERVICE) private twigsService: TwigsService,
     private location: Location,
     private cookieService: CookieService,
     private appRef: ApplicationRef,
-    private updates: SwUpdate
+    private updates: SwUpdate,
   ) {
     if (this.cookieService.check('Authorization')) {
       this.twigsService.getProfile().subscribe(user => {

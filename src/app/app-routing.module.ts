@@ -11,6 +11,7 @@ import { RegisterComponent } from './users/register/register.component';
 import { BudgetsComponent } from './budgets/budget.component';
 import { NewBudgetComponent } from './budgets/new-budget/new-budget.component';
 import { BudgetDetailsComponent } from './budgets/budget-details/budget-details.component';
+import { EditCategoryComponent } from './categories/edit-category/edit-category.component';
 
 const routes: Routes = [
   { path: '', component: BudgetsComponent },
@@ -25,7 +26,7 @@ const routes: Routes = [
   { path: 'budgets/:budgetId/categories', component: CategoriesComponent },
   { path: 'budgets/:budgetId/categories/new', component: NewCategoryComponent },
   { path: 'budgets/:budgetId/categories/:id', component: CategoryDetailsComponent },
-  { path: 'budgets/:budgetId/categories/:id/edit', component: CategoryDetailsComponent },
+  { path: 'budgets/:budgetId/categories/:id/edit', component: EditCategoryComponent },
 ];
 
 @NgModule({

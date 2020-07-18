@@ -24,6 +24,9 @@
       <span>
         {{ title }}
       </span>
+      <span class="action-item">
+        <a mat-button *ngIf="actionable" (click)="actionable.doAction()">{{ actionable.getActionLabel() }}</a>
+      </span>
     </mat-toolbar>
     <router-outlet></router-outlet>
   </mat-sidenav-content>
