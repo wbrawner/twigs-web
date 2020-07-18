@@ -25,7 +25,7 @@ import { NewTransactionComponent } from './transactions/new-transaction/new-tran
 import { AddEditTransactionComponent } from './transactions/add-edit-transaction/add-edit-transaction.component';
 import { CategoriesComponent } from './categories/categories.component';
 import { CategoryDetailsComponent } from './categories/category-details/category-details.component';
-import { AddEditCategoryComponent } from './categories/add-edit-category/add-edit-category.component';
+import { CategoryFormComponent } from './categories/category-form/category-form.component';
 import { NewCategoryComponent } from './categories/new-category/new-category.component';
 import { CategoryListComponent } from './categories/category-list/category-list.component';
 import { LoginComponent } from './users/login/login.component';
@@ -67,7 +67,7 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     AddEditTransactionComponent,
     CategoriesComponent,
     CategoryDetailsComponent,
-    AddEditCategoryComponent,
+    CategoryFormComponent,
     NewCategoryComponent,
     CategoryListComponent,
     LoginComponent,

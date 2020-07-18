@@ -4,11 +4,11 @@ import { AppComponent } from 'src/app/app.component';
 import { TWIGS_SERVICE, TwigsService } from 'src/app/shared/twigs.service';
 
 @Component({
-  selector: 'app-add-edit-category',
-  templateUrl: './add-edit-category.component.html',
-  styleUrls: ['./add-edit-category.component.css']
+  selector: 'app-category-form',
+  templateUrl: './category-form.component.html',
+  styleUrls: ['./category-form.component.css']
 })
-export class AddEditCategoryComponent implements OnInit {
+export class CategoryFormComponent implements OnInit {
 
   @Input() budgetId: number;
   @Input() title: string;
