@@ -81,7 +81,7 @@ export class AddEditTransactionComponent implements OnInit, OnChanges {
           description: this.currentTransaction.description,
           amount: this.currentTransaction.amount * 100,
           date: this.currentTransaction.date,
-          category: this.currentTransaction.categoryId,
+          categoryId: this.currentTransaction.categoryId,
           expense: this.currentTransaction.expense
         }
       );
