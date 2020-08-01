@@ -22,6 +22,10 @@ export class BudgetsComponent implements OnInit {
   ngOnInit() {
     this.app.backEnabled = this.isLoggedIn();
     this.app.title = 'Budgets';
+    if (!this.isLoggedIn()) {
+      this.loading = false;
+      return;
+    }
     this.twigsService.getBudgets().subscribe(
       budgets => {
         this.budgets = budgets;

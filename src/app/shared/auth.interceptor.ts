@@ -16,7 +16,7 @@ export class AuthInterceptor implements HttpInterceptor {
         }
         let headers = req.headers;
         headers = headers.append('Authorization', `Basic ${this.cookieService.get('Authorization')}`);
-        this.cookieService.set('Authorization', this.cookieService.get('Authorization'), 14);
+        this.cookieService.set('Authorization', this.cookieService.get('Authorization'), 14, null, null, true);
         return next.handle(req.clone({headers: headers}));
     }
 }

@@ -34,7 +34,7 @@ export class TwigsHttpService implements TwigsService {
     // };
     // return this.http.post<User>(this.apiUrl + '/users/login', params, this.options);
     const credentials = btoa(`${email}:${password}`)
-    this.cookieService.set('Authorization', credentials, 14);
+    this.cookieService.set('Authorization', credentials, 14, null, null, true);
     return this.getProfile();
   }
 

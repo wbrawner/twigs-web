@@ -6,7 +6,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { SwUpdate } from '@angular/service-worker';
 import { first, filter, map } from 'rxjs/operators';
 import { interval, concat } from 'rxjs';
-import { Router, ActivationEnd } from '@angular/router';
+import { Router, ActivationEnd, ActivatedRoute } from '@angular/router';
 import { Actionable, isActionable } from './shared/actionable';
 
 @Component({
@@ -26,13 +26,20 @@ export class AppComponent {
     @Inject(TWIGS_SERVICE) private twigsService: TwigsService,
     private location: Location,
     private cookieService: CookieService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
     private appRef: ApplicationRef,
     private updates: SwUpdate,
   ) {
     if (this.cookieService.check('Authorization')) {
       this.twigsService.getProfile().subscribe(user => {
         this.user = user;
+        if (this.activatedRoute.pathFromRoot.length == 0) {
+          this.router.navigateByUrl("/budgets")
+        }
       });
+    } else {
+      this.router.navigateByUrl("/login")
     }
 
     updates.available.subscribe(event => {
