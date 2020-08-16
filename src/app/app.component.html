@@ -4,11 +4,11 @@
 <mat-sidenav-container *ngIf="online" class="sidenav-container">
   <mat-sidenav #sidenav mode="over" closed>
     <mat-nav-list (click)="sidenav.close()">
-      <a mat-list-item *ngIf="isLoggedIn()" routerLink="">{{ getUsername() }}</a>
-      <a mat-list-item *ngIf="isLoggedIn()" routerLink="/budgets">Budgets</a>
-      <a mat-list-item *ngIf="!isLoggedIn()" routerLink="/login">Login</a>
-      <a mat-list-item *ngIf="!isLoggedIn()" routerLink="/register">Register</a>
-      <a mat-list-item *ngIf="isLoggedIn()" (click)="logout()">Logout</a>
+      <a mat-list-item *ngIf="loggedIn" routerLink="">{{ getUsername() }}</a>
+      <a mat-list-item *ngIf="loggedIn" routerLink="/budgets">Budgets</a>
+      <a mat-list-item *ngIf="!loggedIn" routerLink="/login">Login</a>
+      <a mat-list-item *ngIf="!loggedIn" routerLink="/register">Register</a>
+      <a mat-list-item *ngIf="loggedIn" (click)="logout()">Logout</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>

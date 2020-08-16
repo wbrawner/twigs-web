@@ -10,9 +10,9 @@ import { TWIGS_SERVICE, TwigsService } from '../shared/twigs.service';
 })
 export class BudgetsComponent implements OnInit {
 
-  @Input() budgetId: string;
   public budgets: Budget[];
   public loading = true;
+  public loggedIn = false;
 
   constructor(
     private app: AppComponent,
@@ -20,24 +20,33 @@ export class BudgetsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.app.backEnabled = this.isLoggedIn();
+    this.app.backEnabled = false;
     this.app.title = 'Budgets';
-    if (!this.isLoggedIn()) {
-      this.loading = false;
-      return;
-    }
-    this.twigsService.getBudgets().subscribe(
-      budgets => {
-        this.budgets = budgets;
-        this.loading = false;
+    this.app.user.subscribe(
+      user => {
+        if (!user) {
+          this.loading = false;
+          this.loggedIn = false;
+          return;
+        }
+        this.loggedIn = true;
+        this.loading = true;
+        this.twigsService.getBudgets().subscribe(
+          budgets => {
+            console.log(budgets)
+            this.budgets = budgets;
+            this.loading = false;
+          },
+          error => {
+            this.loading = false;
+          }
+        );    
       },
       error => {
         this.loading = false;
       }
-    );
+    )
   }
 
-  isLoggedIn(): boolean {
-    return this.app.isLoggedIn();
-  }
+
 }

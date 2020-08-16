@@ -5,7 +5,7 @@ import { TWIGS_SERVICE, TwigsService } from './shared/twigs.service';
 import { CookieService } from 'ngx-cookie-service';
 import { SwUpdate } from '@angular/service-worker';
 import { first, filter, map } from 'rxjs/operators';
-import { interval, concat } from 'rxjs';
+import { interval, concat, BehaviorSubject } from 'rxjs';
 import { Router, ActivationEnd, ActivatedRoute } from '@angular/router';
 import { Actionable, isActionable } from './shared/actionable';
 
@@ -17,10 +17,11 @@ import { Actionable, isActionable } from './shared/actionable';
 export class AppComponent {
   public title = 'Twigs';
   public backEnabled = false;
-  public user: User;
+  public user = new BehaviorSubject<User>(null);
   public online = window.navigator.onLine;
   public currentVersion = '';
   public actionable: Actionable;
+  public loggedIn = false;
 
   constructor(
     @Inject(TWIGS_SERVICE) private twigsService: TwigsService,
@@ -33,7 +34,7 @@ export class AppComponent {
   ) {
     if (this.cookieService.check('Authorization')) {
       this.twigsService.getProfile().subscribe(user => {
-        this.user = user;
+        this.user.next(user);
         if (this.activatedRoute.pathFromRoot.length == 0) {
           this.router.navigateByUrl("/budgets")
         }
@@ -57,10 +58,19 @@ export class AppComponent {
     const everySixHours$ = interval(6 * 60 * 60 * 1000);
     const everySixHoursOnceAppIsStable$ = concat(appIsStable$, everySixHours$);
     everySixHoursOnceAppIsStable$.subscribe(() => updates.checkForUpdate());
+    this.user.subscribe(
+      user => {
+        if (user) {
+          this.loggedIn = true;
+        } else {
+          this.loggedIn = false;
+        }
+      }
+    )
   }
 
   getUsername(): String {
-    return this.user.username;
+    return this.user.value.username;
   }
 
   goBack(): void {
@@ -71,9 +81,5 @@ export class AppComponent {
     this.twigsService.logout().subscribe(_ => {
       this.location.go('/');
     });
-  }
-
-  isLoggedIn() {
-    return this.user != null;
   }
 }

@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
     this.isLoading = true;
     this.twigsService.login(this.email, this.password)
       .subscribe(user => {
-        this.app.user = user;
+        this.app.user.next(user);
         this.router.navigate(['/'])
       },
       error => {
