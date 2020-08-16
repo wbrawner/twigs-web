@@ -45,6 +45,8 @@ export class AppComponent {
     updates.available.subscribe(event => {
       console.log('current version is', event.current);
       console.log('available version is', event.available);
+      // TODO: Prompt user to click something to update
+      updates.activateUpdate();
     });
     updates.activated.subscribe(event => {
       console.log('old version was', event.previous);
