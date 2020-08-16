@@ -1,5 +1,5 @@
 <div class="dashboard">
-  <div class="dashboard-primary" [hidden]="!budget">
+  <mat-card class="dashboard-primary" [hidden]="!budget">
     <h2 class="balance">
       Current Balance: <br />
       <span
@@ -10,8 +10,8 @@
     <div class="transaction-navigation">
       <a mat-button routerLink="/budgets/{{ budget.id }}/transactions" *ngIf="budget">View Transactions</a>
     </div>
-  </div>
-  <div class="dashboard-categories" [hidden]="!budget">
+  </mat-card>
+  <mat-card class="dashboard-categories" [hidden]="!budget">
     <h3 class="categories">Income</h3>
     <a mat-button routerLink="/budgets/{{ budget.id }}/categories/new" class="view-all" *ngIf="budget">Add Category</a>
     <div class="no-categories" *ngIf="!income || income.length === 0">
@@ -24,8 +24,8 @@
       <app-category-list [budgetId]="budget.id" [categories]="income" [categoryBalances]="categoryBalances">
       </app-category-list>
     </div>
-  </div>
-  <div class="dashboard-categories" [hidden]="!budget">
+  </mat-card>
+  <mat-card class="dashboard-categories" [hidden]="!budget">
     <h3 class="categories">Expenses</h3>
     <a mat-button routerLink="/budgets/{{ budget.id }}/categories/new" class="view-all" *ngIf="budget">Add Category</a>
     <div class="no-categories" *ngIf="!expenses || expenses.length === 0">
@@ -38,7 +38,7 @@
       <app-category-list [budgetId]="budget.id" [categories]="expenses" [categoryBalances]="categoryBalances">
       </app-category-list>
     </div>
-  </div>
+  </mat-card>
 </div>
 <a mat-fab routerLink="/budgets/{{ budget.id }}/transactions/new" *ngIf="budget">
   <mat-icon aria-label="Add">add</mat-icon>

@@ -6,7 +6,7 @@
     padding: 1em;
   }
   
-  .dashboard > div {
+  .dashboard > mat-card {
     background: #212121;
     display: inline-block;
     margin: 1em;
