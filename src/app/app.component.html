@@ -14,10 +14,10 @@
   <mat-sidenav-content>
     <mat-toolbar>
       <span>
-        <a mat-button [hidden]="!backEnabled" (click)="goBack()">
+        <a mat-icon-button *ngIf="backEnabled" (click)="goBack()">
           <mat-icon>arrow_back</mat-icon>
         </a>
-        <a mat-button [hidden]="backEnabled" (click)="sidenav.open()">
+        <a mat-icon-button *ngIf="!backEnabled" (click)="sidenav.open()">
           <mat-icon>menu</mat-icon>
         </a>
       </span>

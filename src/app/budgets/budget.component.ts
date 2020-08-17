@@ -47,6 +47,4 @@ export class BudgetsComponent implements OnInit {
       }
     )
   }
-
-
 }

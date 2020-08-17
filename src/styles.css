@@ -13,10 +13,6 @@ p {
   margin: 0;
 }
 
-a.mat-button[hidden] {
-  display: none;
-}
-
 a.mat-fab {
   position: fixed;
   right: 2em;
@@ -28,37 +24,30 @@ a.mat-fab {
   color: #BDBDBD
 }
 
-mat-toolbar {
-  box-shadow: 0px 3px 3px 1px #212121;
-  position: sticky;
-  top: 0;
-  z-index: 999999;
-}
-
 mat-toolbar.mat-toolbar-row,
 mat-toolbar.mat-toolbar-single-row {
   padding: 0;
 }
 
-mat-toolbar span {
+mat-toolbar > span {
   display: flex;
   width: 33%;
   ;
 }
 
-mat-toolbar span:nth-child(1) {
+mat-toolbar > span:nth-child(1) {
   justify-content: flex-start;
 }
 
-mat-toolbar span:nth-child(2) {
+mat-toolbar > span:nth-child(2) {
   justify-content: center;
 }
 
-mat-toolbar span:nth-child(3) {
+mat-toolbar > span:nth-child(3) {
   justify-content: flex-end;
 }
 
-mat-toolbar a.mat-button {
+/* mat-toolbar a.mat-button {
   font-size: 1em;
 }
 
@@ -69,7 +58,7 @@ mat-toolbar a.mat-button .mat-icon {
 mat-toolbar mat-icon {
   vertical-align: middle;
   cursor: pointer;
-}
+} */
 
 mat-toolbar .action-item {
   font-weight: normal;

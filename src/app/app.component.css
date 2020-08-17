@@ -1,0 +1,11 @@
+mat-toolbar {
+    background-color: #303030;
+    box-shadow: none;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    position: sticky;
+    top: 0;
+    z-index: 999999;
+  }
+  
+  
