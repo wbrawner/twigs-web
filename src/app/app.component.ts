@@ -1,4 +1,4 @@
-import { Component, Inject, ApplicationRef } from '@angular/core';
+import { Component, Inject, ApplicationRef, ChangeDetectorRef } from '@angular/core';
 import { Location } from '@angular/common';
 import { User } from './users/user';
 import { TWIGS_SERVICE, TwigsService } from './shared/twigs.service';
@@ -31,6 +31,7 @@ export class AppComponent {
     private activatedRoute: ActivatedRoute,
     private appRef: ApplicationRef,
     private updates: SwUpdate,
+    private changeDetector: ChangeDetectorRef,
   ) {
     if (this.cookieService.check('Authorization')) {
       this.twigsService.getProfile().subscribe(user => {
@@ -43,16 +44,26 @@ export class AppComponent {
       this.router.navigateByUrl("/login")
     }
 
-    updates.available.subscribe(event => {
-      console.log('current version is', event.current);
-      console.log('available version is', event.available);
-      // TODO: Prompt user to click something to update
-      updates.activateUpdate();
-    });
-    updates.activated.subscribe(event => {
-      console.log('old version was', event.previous);
-      console.log('new version is', event.current);
-    });
+    updates.available.subscribe(
+      event => {
+        console.log('current version is', event.current);
+        console.log('available version is', event.available);
+        // TODO: Prompt user to click something to update
+        updates.activateUpdate();
+      },
+      err => {
+
+      }
+    );
+    updates.activated.subscribe(
+      event => {
+        console.log('old version was', event.previous);
+        console.log('new version is', event.current);
+      },
+      err => {
+
+      }
+    );
 
     const appIsStable$ = appRef.isStable.pipe(first(isStable => isStable === true));
     const everySixHours$ = interval(6 * 60 * 60 * 1000);
@@ -81,5 +92,20 @@ export class AppComponent {
     this.twigsService.logout().subscribe(_ => {
       this.location.go('/');
     });
+  }
+
+  setActionable(actionable: Actionable): void {
+    this.actionable = actionable;
+    this.changeDetector.detectChanges();
+  }
+
+  setBackEnabled(enabled: boolean): void {
+    this.backEnabled = enabled;
+    this.changeDetector.detectChanges();
+  }
+
+  setTitle(title: string) {
+    this.title = title;
+    this.changeDetector.detectChanges();
   }
 }

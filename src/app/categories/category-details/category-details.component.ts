@@ -33,13 +33,13 @@ export class CategoryDetailsComponent implements OnInit, OnDestroy, Actionable {
   }
 
   ngOnInit() {
-    this.app.backEnabled = true;
-    this.app.actionable = this;
+    this.app.setBackEnabled(true);
+    this.app.setActionable(this)
     this.getCategory();
   }
 
   ngOnDestroy() {
-    this.app.actionable = null;
+    this.app.setActionable(null)
   }
 
   getCategory(): void {
@@ -47,7 +47,7 @@ export class CategoryDetailsComponent implements OnInit, OnDestroy, Actionable {
     this.twigsService.getCategory(id)
       .subscribe(category => {
         category.amount /= 100;
-        this.app.title = category.title;
+        this.app.setTitle(category.title)
         this.category = category;
         this.budgetId = category.budgetId;
       });

@@ -26,8 +26,8 @@ export class CategoriesComponent implements OnInit {
 
   ngOnInit() {
     this.budgetId = Number.parseInt(this.route.snapshot.paramMap.get('budgetId'));
-    this.app.title = 'Categories';
-    this.app.backEnabled = true;
+    this.app.setTitle('Categories')
+    this.app.setBackEnabled(true);
     this.getCategories();
     this.categoryBalances = new Map();
   }

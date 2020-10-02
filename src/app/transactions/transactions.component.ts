@@ -20,7 +20,7 @@ export class TransactionsComponent implements OnInit {
   ngOnInit() {
     this.budgetId = Number.parseInt(this.route.snapshot.paramMap.get('budgetId'));
     this.categoryId = Number.parseInt(this.route.snapshot.queryParamMap.get('categoryId'));
-    this.app.backEnabled = true;
-    this.app.title = 'Transactions';
+    this.app.setBackEnabled(true);
+    this.app.setTitle('Transactions')
   }
 }

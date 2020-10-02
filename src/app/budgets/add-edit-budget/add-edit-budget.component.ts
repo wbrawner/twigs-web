@@ -20,8 +20,8 @@ export class AddEditBudgetComponent {
         private app: AppComponent,
         @Inject(TWIGS_SERVICE) private twigsService: TwigsService,
     ) {
-        this.app.title = this.title;
-        this.app.backEnabled = true;
+        this.app.setTitle(this.title)
+        this.app.setBackEnabled(true);
         this.users = [new UserPermission(this.app.user.value.id, Permission.OWNER)];
     }
 

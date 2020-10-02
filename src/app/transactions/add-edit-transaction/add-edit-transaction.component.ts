@@ -27,8 +27,8 @@ export class AddEditTransactionComponent implements OnInit, OnChanges {
   ) { }
 
   ngOnInit() {
-    this.app.title = this.title;
-    this.app.backEnabled = true;
+    this.app.setTitle(this.title)
+    this.app.setBackEnabled(true);
     let d: Date, expense: boolean;
     if (this.currentTransaction) {
       d = new Date(this.currentTransaction.date);

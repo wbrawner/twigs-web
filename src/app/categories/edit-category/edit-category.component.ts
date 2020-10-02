@@ -21,7 +21,7 @@ export class EditCategoryComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.app.backEnabled = true;
+    this.app.setBackEnabled(true);
     this.getCategory();
   }
 
@@ -30,7 +30,7 @@ export class EditCategoryComponent implements OnInit {
     this.twigsService.getCategory(id)
       .subscribe(category => {
         category.amount /= 100;
-        this.app.title = category.title;
+        this.app.setTitle(category.title)
         this.category = category;
         this.budgetId = category.budgetId;
       });

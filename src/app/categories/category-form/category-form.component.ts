@@ -20,8 +20,8 @@ export class CategoryFormComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.app.backEnabled = true;
-    this.app.title = this.title;
+    this.app.setBackEnabled(true);
+    this.app.setTitle(this.title)
   }
 
   save(): void {

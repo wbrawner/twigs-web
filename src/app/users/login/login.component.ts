@@ -22,8 +22,8 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.app.title = 'Login';
-    this.app.backEnabled = true;
+    this.app.setTitle('Login')
+    this.app.setBackEnabled(true);
   }
 
   login(): void {

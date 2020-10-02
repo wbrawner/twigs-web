@@ -39,7 +39,7 @@ export class BudgetDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.getBudget();
-    this.app.backEnabled = false;
+    this.app.setBackEnabled(false);
     this.categoryBalances = new Map();
   }
 
@@ -47,7 +47,7 @@ export class BudgetDetailsComponent implements OnInit {
     const id = Number.parseInt(this.route.snapshot.paramMap.get('id'));
     this.twigsService.getBudget(id)
       .subscribe(budget => {
-        this.app.title = budget.name;
+        this.app.setTitle(budget.name)
         this.budget = budget;
         this.getBalance();
         this.getTransactions();

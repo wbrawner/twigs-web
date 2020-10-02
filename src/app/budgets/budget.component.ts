@@ -20,8 +20,8 @@ export class BudgetsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.app.backEnabled = false;
-    this.app.title = 'Budgets';
+    this.app.setBackEnabled(false);
+    this.app.setTitle('Budgets')
     this.app.user.subscribe(
       user => {
         if (!user) {

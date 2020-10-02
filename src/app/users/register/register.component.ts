@@ -23,8 +23,8 @@ export class RegisterComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.app.title = 'Register';
-    this.app.backEnabled = true;
+    this.app.setTitle('Register')
+    this.app.setBackEnabled(true);
   }
 
   register(): void {
