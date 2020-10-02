@@ -1,4 +1,4 @@
-import { Component, Inject, ApplicationRef } from '@angular/core';
+import { Component, Inject, ApplicationRef, ChangeDetectorRef } from '@angular/core';
 import { Location } from '@angular/common';
 import { User } from './users/user';
 import { TWIGS_SERVICE, TwigsService } from './shared/twigs.service';
@@ -31,6 +31,7 @@ export class AppComponent {
     private activatedRoute: ActivatedRoute,
     private appRef: ApplicationRef,
     private updates: SwUpdate,
+    private changeDetector: ChangeDetectorRef,
   ) {
     if (this.cookieService.check('Authorization')) {
       this.twigsService.getProfile().subscribe(user => {
@@ -81,5 +82,10 @@ export class AppComponent {
     this.twigsService.logout().subscribe(_ => {
       this.location.go('/');
     });
+  }
+
+  enableBackButton(enable: boolean): void {
+    this.backEnabled = enable;
+    this.changeDetector.detectChanges();
   }
 }

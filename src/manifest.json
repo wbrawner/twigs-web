@@ -95,5 +95,14 @@
       "type": "image/png",
       "purpose": "maskable"
     }
+  ],
+  "shortcuts": [
+    {
+      "name": "Add Transaction",
+      "short_name": "Add Transaction",
+      "description": "Add a new transaction",
+      "url": "/play",
+      "icons": [{ "src": "/icons/play-later.png", "sizes": "192x192" }]
+    }
   ]
 }
