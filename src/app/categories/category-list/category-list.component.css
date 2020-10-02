@@ -1,10 +1,5 @@
 .categories mat-progress-bar.mat-progress-bar {
-  background-color: #BDBDBD;
   margin-top: 0.5em;
-}
-
-::ng-deep .mat-progress-bar-buffer {
-  background-color: #BDBDBD;
 }
 
 p.mat-line.category-list-title {
@@ -26,5 +21,11 @@ p.mat-line.category-list-title .remaining {
 }
 
 ::ng-deep .mat-progress-bar-buffer {
-  background-color: #333333 !important;
+  background-color: #F1F1F1 !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  ::ng-deep .mat-progress-bar-buffer {
+    background-color: #333333 !important;
+  }
 }

@@ -2,14 +2,14 @@
 
 html,
 body {
-  background: #333333;
+  background: #F1F1F1;
   font-family: Roboto, "Helvetica Neue", sans-serif;
   margin: 0;
   padding: 0;
 }
 
 p {
-  color: #F1F1F1;
+  color: #333333;
   margin: 0;
 }
 
@@ -21,7 +21,7 @@ a.mat-fab {
 
 .text-small {
   font-size: 1em;
-  color: #BDBDBD
+  color: #333333;
 }
 
 mat-toolbar.mat-toolbar-row,
@@ -29,21 +29,21 @@ mat-toolbar.mat-toolbar-single-row {
   padding: 0;
 }
 
-mat-toolbar > span {
+mat-toolbar>span {
   display: flex;
   width: 33%;
   ;
 }
 
-mat-toolbar > span:nth-child(1) {
+mat-toolbar>span:nth-child(1) {
   justify-content: flex-start;
 }
 
-mat-toolbar > span:nth-child(2) {
+mat-toolbar>span:nth-child(2) {
   justify-content: center;
 }
 
-mat-toolbar > span:nth-child(3) {
+mat-toolbar>span:nth-child(3) {
   justify-content: flex-end;
 }
 
@@ -105,7 +105,7 @@ mat-sidenav {
 
 .form {
   padding: 1em;
-  color: #F1F1F1;
+  color: #333333;
 }
 
 .form .mat-form-field,
@@ -115,4 +115,29 @@ mat-sidenav {
 
 .form mat-radio-button {
   padding-bottom: 15px;
+}
+
+.form button {
+  width: 100%;
+  margin: 1em 0;
+}
+
+@media (prefers-color-scheme: dark) {
+
+  html,
+  body {
+    background: #333333;
+  }
+
+  p {
+    color: #F1F1F1;
+  }
+
+  .text-small {
+    color: #BDBDBD;
+  }
+
+  .form {
+    color: #F1F1F1;
+  }
 }

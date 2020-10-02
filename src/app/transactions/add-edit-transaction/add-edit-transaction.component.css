@@ -1,6 +1,5 @@
 .transaction-form {
   padding: 1em;
-  color: #F1F1F1;
 }
 
 .transaction-form * {
@@ -9,9 +8,4 @@
 
 mat-radio-button {
   padding-bottom: 15px;
-}
-
-button {
-  width: 100%;
-  margin: 1em 0;
 }
