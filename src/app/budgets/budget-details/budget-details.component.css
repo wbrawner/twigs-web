@@ -70,6 +70,17 @@ a.view-all {
   top: 0.5em;
 }
 
+@media (min-width: 1160px) {
+  mat-card {
+    box-sizing: border-box;
+    height: 386px;
+  }
+
+  app-category-list {
+    overflow: auto;
+  }
+}
+
 @media (prefers-color-scheme: dark) {
   .dashboard {
     color: #F1F1F1;

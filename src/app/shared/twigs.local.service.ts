@@ -88,9 +88,7 @@ export class TwigsLocalService implements TwigsService {
       const budget = new Budget();
       budget.name = name;
       budget.description = description;
-      budget.users = this.users.filter(user => {
-        return users.map(userPerm => userPerm.user).indexOf(user.id) > -1;
-      });
+      budget.users = users;
       budget.id = this.budgets.length + 1;
       this.budgets.push(budget);
       subscriber.next(budget);
@@ -111,13 +109,9 @@ export class TwigsLocalService implements TwigsService {
           [
             'name',
             'description',
+            'users',
           ]
         );
-        if (changes['userIds']) {
-          budget.users = this.users.filter(user => {
-            return changes['userIds'].indexOf(user.id) > -1;
-          });
-        }
         this.budgets[index] = budget;
         subscriber.next(budget);
       } else {

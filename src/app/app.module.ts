@@ -49,6 +49,7 @@ import { TwigsLocalService } from './shared/twigs.local.service';
 import { CookieService } from 'ngx-cookie-service';
 import { TransactionListComponent } from './transactions/transaction-list/transaction-list.component';
 import { EditCategoryComponent } from './categories/edit-category/edit-category.component';
+import { EditBudgetComponent } from './budgets/edit-budget/edit-budget.component';
 
 export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
   align: 'left',
@@ -83,6 +84,7 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     CategoryBreakdownComponent,
     TransactionListComponent,
     EditCategoryComponent,
+    EditBudgetComponent,
   ],
   imports: [
     BrowserModule,

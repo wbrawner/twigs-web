@@ -1,8 +1,8 @@
-import { User } from '../users/user';
+import { UserPermission } from '../users/user';
 
 export class Budget {
     id: number;
     name: string;
     description: string;
-    users: User[];
+    users: UserPermission[];
 }

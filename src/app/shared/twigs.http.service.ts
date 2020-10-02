@@ -68,10 +68,10 @@ export class TwigsHttpService implements TwigsService {
     const params = {
       'name': name,
       'description': description,
-      'users': users.map(user => {
+      'users': users.map(userPermission => {
         return {
-          user: user.user,
-          permission: Permission[user.permission]
+          user: userPermission.user.id,
+          permission: Permission[userPermission.permission]
         };
       })
     };
@@ -79,7 +79,18 @@ export class TwigsHttpService implements TwigsService {
   }
 
   updateBudget(id: number, changes: object): Observable<Budget> {
-    return this.http.put<Budget>(`${this.apiUrl}/budgets/${id}`, changes, this.options);
+    let budget = changes as Budget;
+    const params = {
+      'name': budget.name,
+      'description': budget.description,
+      'users': budget.users.map(userPermission => {
+        return {
+          user: userPermission.user.id,
+          permission: Permission[userPermission.permission]
+        };
+      })
+    };
+    return this.http.put<Budget>(`${this.apiUrl}/budgets/${id}`, params, this.options);
   }
 
   deleteBudget(id: number): Observable<void> {

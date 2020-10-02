@@ -1,6 +1,6 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { Budget } from '../budget';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AppComponent } from 'src/app/app.component';
 import { Transaction } from 'src/app/transactions/transaction';
 import { Category } from 'src/app/categories/category';
@@ -8,13 +8,14 @@ import { Observable } from 'rxjs';
 import { Label } from 'ng2-charts';
 import { ChartDataSets } from 'chart.js';
 import { TWIGS_SERVICE, TwigsService } from 'src/app/shared/twigs.service';
+import { Actionable } from '../../shared/actionable';
 
 @Component({
   selector: 'app-budget-details',
   templateUrl: './budget-details.component.html',
   styleUrls: ['./budget-details.component.css']
 })
-export class BudgetDetailsComponent implements OnInit {
+export class BudgetDetailsComponent implements OnInit, OnDestroy, Actionable {
 
   budget: Budget;
   public transactions: Transaction[];
@@ -35,12 +36,18 @@ export class BudgetDetailsComponent implements OnInit {
     private app: AppComponent,
     private route: ActivatedRoute,
     @Inject(TWIGS_SERVICE) private twigsService: TwigsService,
+    private router: Router,
   ) { }
 
   ngOnInit() {
     this.getBudget();
     this.app.setBackEnabled(false);
+    this.app.setActionable(this)
     this.categoryBalances = new Map();
+  }
+
+  ngOnDestroy() {
+    this.app.setActionable(null)
   }
 
   getBudget() {
@@ -158,5 +165,13 @@ export class BudgetDetailsComponent implements OnInit {
         subscriber.complete();
       });
     });
+  }
+
+  doAction(): void {
+    this.router.navigateByUrl(this.router.routerState.snapshot.url + "/edit")
+  }
+
+  getActionLabel(): string { 
+    return "Edit";
   }
 }

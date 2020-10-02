@@ -10,6 +10,7 @@ import { LoginComponent } from './users/login/login.component';
 import { RegisterComponent } from './users/register/register.component';
 import { BudgetsComponent } from './budgets/budget.component';
 import { NewBudgetComponent } from './budgets/new-budget/new-budget.component';
+import { EditBudgetComponent } from './budgets/edit-budget/edit-budget.component';
 import { BudgetDetailsComponent } from './budgets/budget-details/budget-details.component';
 import { EditCategoryComponent } from './categories/edit-category/edit-category.component';
 
@@ -20,6 +21,7 @@ const routes: Routes = [
   { path: 'budgets', component: BudgetsComponent },
   { path: 'budgets/new', component: NewBudgetComponent },
   { path: 'budgets/:id', component: BudgetDetailsComponent },
+  { path: 'budgets/:id/edit', component: EditBudgetComponent },
   { path: 'budgets/:budgetId/transactions', component: TransactionsComponent },
   { path: 'budgets/:budgetId/transactions/new', component: NewTransactionComponent },
   { path: 'budgets/:budgetId/transactions/:id', component: TransactionDetailsComponent },

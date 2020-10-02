@@ -11,10 +11,10 @@ export class User {
 }
 
 export class UserPermission {
-  user: number;
+  user: User;
   permission: Permission;
 
-  constructor(user: number, permission: Permission) {
+  constructor(user: User, permission: Permission) {
     this.user = user;
     this.permission = permission;
   }

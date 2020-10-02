@@ -22,17 +22,17 @@ export class AddEditBudgetComponent {
     ) {
         this.app.setTitle(this.title)
         this.app.setBackEnabled(true);
-        this.users = [new UserPermission(this.app.user.value.id, Permission.OWNER)];
+        this.users = [new UserPermission(this.app.user.value, Permission.OWNER)];
     }
 
     save(): void {
         let observable;
         this.isLoading = true;
         if (this.budget.id) {
-            // This is an existing transaction, update it
+            // This is an existing budget, update it
             observable = this.twigsService.updateBudget(this.budget.id, this.budget);
         } else {
-            // This is a new transaction, save it
+            // This is a new budget, save it
             observable = this.twigsService.createBudget(
                 this.budget.name,
                 this.budget.description,
