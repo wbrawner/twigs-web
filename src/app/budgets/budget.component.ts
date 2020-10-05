@@ -16,19 +16,20 @@ export class BudgetsComponent implements OnInit {
 
   constructor(
     private app: AppComponent,
-    @Inject(TWIGS_SERVICE) private twigsService: TwigsService,
+    @Inject(TWIGS_SERVICE) private twigsService: TwigsService,  
   ) { }
 
   ngOnInit() {
     this.app.setBackEnabled(false);
-    this.app.setTitle('Budgets')
     this.app.user.subscribe(
       user => {
         if (!user) {
           this.loading = false;
           this.loggedIn = false;
+          this.app.setTitle('Welcome')
           return;
         }
+        this.app.setTitle('Budgets')
         this.loggedIn = true;
         this.loading = true;
         this.twigsService.getBudgets().subscribe(

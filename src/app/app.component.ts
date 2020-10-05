@@ -36,12 +36,13 @@ export class AppComponent {
     if (this.cookieService.check('Authorization')) {
       this.twigsService.getProfile().subscribe(user => {
         this.user.next(user);
-        if (this.activatedRoute.pathFromRoot.length == 0) {
-          this.router.navigateByUrl("/budgets")
+        if (this.activatedRoute.snapshot.url.length == 0) {
+          this.router.navigateByUrl("/budgets");
         }
       });
-    } else {
-      this.router.navigateByUrl("/login")
+    } else if (this.activatedRoute.snapshot.url.length > 0) {
+        console.log(this.activatedRoute.snapshot.url)
+        this.router.navigateByUrl("/login");
     }
 
     updates.available.subscribe(
@@ -91,6 +92,7 @@ export class AppComponent {
   logout(): void {
     this.twigsService.logout().subscribe(_ => {
       this.location.go('/');
+      window.location.reload();
     });
   }
 

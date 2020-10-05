@@ -48,7 +48,13 @@ export class TwigsHttpService implements TwigsService {
   }
 
   logout(): Observable<void> {
-    return this.http.post<void>(this.apiUrl + '/login?logout', this.options);
+    return Observable.create(emitter => {
+      this.cookieService.delete('Authorization');
+      emitter.next();
+      emitter.complete();
+    })
+    // TODO: Implement this when JWT auth is implemented
+    // return this.http.post<void>(this.apiUrl + '/login?logout', this.options);
   }
 
   // Budgets
