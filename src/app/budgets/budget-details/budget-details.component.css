@@ -3,7 +3,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  padding: 1em;
+  padding: 0 1em;
 }
 
 .dashboard>mat-card {
@@ -73,11 +73,21 @@ a.view-all {
 @media (min-width: 1160px) {
   mat-card {
     box-sizing: border-box;
-    height: 386px;
   }
 
-  app-category-list {
+  .category-info {
+    height: 313px;
     overflow: auto;
+  }
+}
+
+@media (max-width: 610px) {
+  .dashboard {
+    padding: 0;
+  }
+
+  .dashboard>mat-card {
+    margin: 1em auto;
   }
 }
 

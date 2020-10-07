@@ -33,15 +33,19 @@ export class AppComponent {
     private updates: SwUpdate,
     private changeDetector: ChangeDetectorRef,
   ) {
+    const unauthenticatedRoutes = [
+      '/',
+      '/login',
+      '/register'
+    ]
     if (this.cookieService.check('Authorization')) {
       this.twigsService.getProfile().subscribe(user => {
         this.user.next(user);
-        if (this.activatedRoute.snapshot.url.length == 0) {
+        if (this.router.url == '/') {
           this.router.navigateByUrl("/budgets");
         }
       });
-    } else if (this.activatedRoute.snapshot.url.length > 0) {
-        console.log(this.activatedRoute.snapshot.url)
+    } else if (unauthenticatedRoutes.indexOf(this.router.url) == -1) {
         this.router.navigateByUrl("/login");
     }
 
