@@ -33,6 +33,7 @@ export class CategoryFormComponent implements OnInit {
         this.currentCategory.id,
         {
           name: this.currentCategory.title,
+          description: this.currentCategory.description,
           amount: this.currentCategory.amount * 100,
           expense: this.currentCategory.expense,
           archived: this.currentCategory.archived
@@ -43,6 +44,7 @@ export class CategoryFormComponent implements OnInit {
       observable = this.twigsService.createCategory(
         this.budgetId,
         this.currentCategory.title,
+        this.currentCategory.description,
         this.currentCategory.amount * 100,
         this.currentCategory.expense
       );

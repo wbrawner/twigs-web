@@ -25,7 +25,7 @@ export interface TwigsService {
   // Categories
   getCategories(budgetId?: number, count?: number): Observable<Category[]>;
   getCategory(id: number): Observable<Category>;
-  createCategory(budgetId: number, name: string, amount: number, isExpense: boolean): Observable<Category>;
+  createCategory(budgetId: number, name: string, description: string, amount: number, isExpense: boolean): Observable<Category>;
   updateCategory(budgetId: number, id: number, changes: object): Observable<Category>;
   deleteCategory(budgetId: number, id: number): Observable<void>;
 

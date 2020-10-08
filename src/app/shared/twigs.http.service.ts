@@ -116,9 +116,10 @@ export class TwigsHttpService implements TwigsService {
     return this.http.get<Category>(`${this.apiUrl}/categories/${id}`, this.options);
   }
 
-  createCategory(budgetId: number, name: string, amount: number, isExpense: boolean): Observable<Category> {
+  createCategory(budgetId: number, name: string, description: string, amount: number, isExpense: boolean): Observable<Category> {
     const params = {
       'title': name,
+      'description': description,
       'amount': amount,
       'expense': isExpense,
       'budgetId': budgetId

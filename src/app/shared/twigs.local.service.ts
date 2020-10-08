@@ -153,10 +153,11 @@ export class TwigsLocalService implements TwigsService {
     });
   }
 
-  createCategory(budgetId: number, name: string, amount: number, isExpense: boolean): Observable<Category> {
+  createCategory(budgetId: number, name: string, description: string, amount: number, isExpense: boolean): Observable<Category> {
     return Observable.create(subscriber => {
       const category = new Category();
       category.title = name;
+      category.description = description;
       category.amount = amount;
       category.expense = isExpense;
       category.budgetId = budgetId;
