@@ -1,5 +1,0 @@
-<p class="category-description" *ngIf="category && category.description" [innerHtml]="category.description"></p>
-<app-transaction-list *ngIf="budgetId && category" [budgetId]="budgetId" [categoryId]="category.id"></app-transaction-list>
-<a mat-fab routerLink="/budgets/{{ budgetId }}/transactions/new">
-    <mat-icon aria-label="Add">add</mat-icon>
-</a>
