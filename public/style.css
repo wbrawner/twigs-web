@@ -1,0 +1,37 @@
+:root {
+    --good-color: green;
+    --warn-color: yellow;
+    --danger-color: red;
+}
+
+html,
+body {
+    font-family: sans-serif;
+}
+
+h2,
+h3 {
+    margin: 0;
+    padding: 0.25em 0.5em;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+p {
+    margin: 0;
+}
+
+.good {
+    color: var(--good-color);
+}
+
+.warn {
+    color: var(--warn-color);
+}
+
+.danger {
+    color: var(--danger-color);
+}
