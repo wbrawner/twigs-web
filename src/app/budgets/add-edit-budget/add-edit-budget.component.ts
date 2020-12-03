@@ -47,8 +47,10 @@ export class AddEditBudgetComponent {
 
     delete(): void {
         this.isLoading = true;
-        this.twigsService.deleteBudget(this.budget.id);
-        this.app.goBack();
+        this.twigsService.deleteBudget(this.budget.id)
+            .subscribe(() => {
+                this.app.goBack();
+            });
     }
 
     // TODO: Implement a search box with suggestions to add users
