@@ -119,7 +119,7 @@ export class BudgetDetailsComponent implements OnInit, OnDestroy, Actionable {
           this.income.push(category);
           this.expectedIncome += category.amount;
         }
-        this.getCategoryBalance(category.id).subscribe(
+        this.twigsService.getCategoryBalance(category.id).subscribe(
           balance => {
             console.log(balance);
             if (category.expense) {
@@ -142,28 +142,6 @@ export class BudgetDetailsComponent implements OnInit, OnDestroy, Actionable {
           }
         );
       }
-    });
-  }
-
-  getCategoryBalance(category: number): Observable<number> {
-    return Observable.create(subscriber => {
-      let date = new Date();
-      date.setHours(0);
-      date.setMinutes(0);
-      date.setSeconds(0);
-      date.setDate(1);  
-      this.twigsService.getTransactions(this.budget.id, category, null, date).subscribe(transactions => {
-        let balance = 0;
-        for (const transaction of transactions) {
-          if (transaction.expense) {
-            balance -= transaction.amount;
-          } else {
-            balance += transaction.amount;
-          }
-        }
-        subscriber.next(balance);
-        subscriber.complete();
-      });
     });
   }
 
