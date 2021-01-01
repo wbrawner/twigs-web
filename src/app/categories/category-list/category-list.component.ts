@@ -10,7 +10,7 @@ export class CategoryListComponent implements OnInit {
 
   @Input() budgetId: string;
   @Input() categories: Category[];
-  @Input() categoryBalances: Map<number, number>;
+  @Input() categoryBalances: Map<string, number>;
 
   constructor() { }
 

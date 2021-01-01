@@ -13,7 +13,7 @@ import { Actionable } from '../../shared/actionable';
 })
 export class CategoryDetailsComponent implements OnInit, OnDestroy, Actionable {
 
-  budgetId: number;
+  budgetId: string;
   category: Category;
   public transactions: Transaction[];
 
@@ -43,7 +43,7 @@ export class CategoryDetailsComponent implements OnInit, OnDestroy, Actionable {
   }
 
   getCategory(): void {
-    const id = Number.parseInt(this.route.snapshot.paramMap.get('id'));
+    const id = this.route.snapshot.paramMap.get('id');
     this.twigsService.getCategory(id)
       .subscribe(category => {
         category.amount /= 100;

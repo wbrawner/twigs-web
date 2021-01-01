@@ -10,7 +10,7 @@ import { TWIGS_SERVICE, TwigsService } from 'src/app/shared/twigs.service';
 })
 export class TransactionDetailsComponent implements OnInit {
 
-  budgetId: number;
+  budgetId: string;
   transaction: Transaction;
 
   constructor(
@@ -23,7 +23,7 @@ export class TransactionDetailsComponent implements OnInit {
   }
 
   getTransaction(): void {
-    const id = Number.parseInt(this.route.snapshot.paramMap.get('id'));
+    const id = this.route.snapshot.paramMap.get('id');
     this.twigsService.getTransaction(id)
       .subscribe(transaction => {
         transaction.amount /= 100;

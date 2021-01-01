@@ -21,7 +21,7 @@ export class BudgetDetailsComponent implements OnInit, OnDestroy, Actionable {
   public transactions: Transaction[];
   public expenses: Category[] = [];
   public income: Category[] = [];
-  categoryBalances: Map<number, number>;
+  categoryBalances: Map<string, number>;
   expectedIncome = 0;
   actualIncome = 0;
   expectedExpenses = 0;
@@ -51,7 +51,7 @@ export class BudgetDetailsComponent implements OnInit, OnDestroy, Actionable {
   }
 
   getBudget() {
-    const id = Number.parseInt(this.route.snapshot.paramMap.get('id'));
+    const id = this.route.snapshot.paramMap.get('id');
     this.twigsService.getBudget(id)
       .subscribe(budget => {
         this.app.setTitle(budget.name)
@@ -108,7 +108,7 @@ export class BudgetDetailsComponent implements OnInit, OnDestroy, Actionable {
 
   getCategories(): void {
     this.twigsService.getCategories(this.budget.id).subscribe(categories => {
-      const categoryBalances = new Map<number, number>();
+      const categoryBalances = new Map<string, number>();
       let categoryBalancesCount = 0;
       console.log(categories);
       for (const category of categories) {

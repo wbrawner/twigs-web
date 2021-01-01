@@ -1,9 +1,11 @@
+import { uuidv4 } from '../shared/utils';
+
 export class Category {
-  id: number;
+  id: string = uuidv4();
   title: string;
   description: string;
   amount: number;
   expense: boolean;
   archived: boolean;
-  budgetId: number;
+  budgetId: string;
 }

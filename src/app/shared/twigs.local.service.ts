@@ -6,6 +6,7 @@ import { TwigsService } from './twigs.service';
 import { Budget } from '../budgets/budget';
 import { Category } from '../categories/category';
 import { Transaction } from '../transactions/transaction';
+import { uuidv4 } from '../shared/utils';
 
 /**
  * This is intended to be a very simple implementation of the TwigsService used for testing out the UI and quickly iterating on it.
@@ -20,14 +21,14 @@ export class TwigsLocalService implements TwigsService {
     private http: HttpClient
   ) { }
 
-  private users: User[] = [new User(1, 'test', 'test@example.com')];
+  private users: User[] = [new User(uuidv4(), 'test', 'test@example.com')];
   private budgets: Budget[] = [];
   private transactions: Transaction[] = [];
   private categories: Category[] = [];
 
   // Auth
   login(email: string, password: string): Observable<User> {
-    return Observable.create(subscriber => {
+    return new Observable(subscriber => {
       const filteredUsers = this.users.filter(user => {
         return (user.email === email || user.username === email);
       });
@@ -40,11 +41,11 @@ export class TwigsLocalService implements TwigsService {
   }
 
   register(username: string, email: string, password: string): Observable<User> {
-    return Observable.create(subscriber => {
+    return new Observable(subscriber => {
       const user = new User();
       user.username = username;
       user.email = email;
-      user.id = this.users.length + 1;
+      user.id = uuidv4();
       this.users.push(user);
       subscriber.next(user);
       subscriber.complete();
@@ -52,21 +53,21 @@ export class TwigsLocalService implements TwigsService {
   }
 
   logout(): Observable<void> {
-    return Observable.create(subscriber => {
+    return new Observable(subscriber => {
       subscriber.complete();
     });
   }
 
   // Budgets
   getBudgets(): Observable<Budget[]> {
-    return Observable.create(subscriber => {
+    return new Observable(subscriber => {
       subscriber.next(this.budgets);
       subscriber.complete();
     });
   }
 
-  getBudget(id: number): Observable<Budget> {
-    return Observable.create(subscriber => {
+  getBudget(id: string): Observable<Budget> {
+    return new Observable(subscriber => {
       const budget = this.budgets.filter(it => {
         return it.id === id;
       })[0];
@@ -80,24 +81,25 @@ export class TwigsLocalService implements TwigsService {
   }
 
   createBudget(
+    id: string,
     name: string,
     description: string,
     users: UserPermission[],
   ): Observable<Budget> {
-    return Observable.create(subscriber => {
+    return new Observable(subscriber => {
       const budget = new Budget();
       budget.name = name;
       budget.description = description;
       budget.users = users;
-      budget.id = this.budgets.length + 1;
+      budget.id = id;
       this.budgets.push(budget);
       subscriber.next(budget);
       subscriber.complete();
     });
   }
 
-  updateBudget(id: number, changes: object): Observable<Budget> {
-    return Observable.create(subscriber => {
+  updateBudget(id: string, changes: object): Observable<Budget> {
+    return new Observable(subscriber => {
       const budget = this.budgets.filter(it => {
         return it.id === id;
       })[0];
@@ -121,8 +123,8 @@ export class TwigsLocalService implements TwigsService {
     });
   }
 
-  deleteBudget(id: number): Observable<void> {
-    return Observable.create(subscriber => {
+  deleteBudget(id: string): Observable<void> {
+    return new Observable(subscriber => {
       const budget = this.budgets.filter(it => {
         return budget.id === id;
       })[0];
@@ -137,8 +139,8 @@ export class TwigsLocalService implements TwigsService {
   }
 
   // Categories
-  getCategories(budgetId: number, count?: number): Observable<Category[]> {
-    return Observable.create(subscriber => {
+  getCategories(budgetId: string, count?: number): Observable<Category[]> {
+    return new Observable(subscriber => {
       subscriber.next(this.categories.filter(category => {
         return category.budgetId === budgetId;
       }));
@@ -146,21 +148,21 @@ export class TwigsLocalService implements TwigsService {
     });
   }
 
-  getCategory(id: number): Observable<Category> {
-    return Observable.create(subscriber => {
+  getCategory(id: string): Observable<Category> {
+    return new Observable(subscriber => {
       subscriber.next(this.findById(this.categories, id));
       subscriber.complete();
     });
   }
 
-  getCategoryBalance(id: number): Observable<number> {
+  getCategoryBalance(id: string): Observable<number> {
     return new Observable(emitter => {
       emitter.next(20);
       emitter.complete()
     })
   }
 
-  createCategory(budgetId: number, name: string, description: string, amount: number, isExpense: boolean): Observable<Category> {
+  createCategory(id: string, budgetId: string, name: string, description: string, amount: number, isExpense: boolean): Observable<Category> {
     return Observable.create(subscriber => {
       const category = new Category();
       category.title = name;
@@ -168,15 +170,15 @@ export class TwigsLocalService implements TwigsService {
       category.amount = amount;
       category.expense = isExpense;
       category.budgetId = budgetId;
-      category.id = this.categories.length + 1;
+      category.id = id;
       this.categories.push(category);
       subscriber.next(category);
       subscriber.complete();
     });
   }
 
-  updateCategory(budgetId: number, id: number, changes: object): Observable<Category> {
-    return Observable.create(subscriber => {
+  updateCategory(id: string, changes: object): Observable<Category> {
+    return new Observable(subscriber => {
       const category = this.findById(this.categories, id);
       if (category) {
         const index = this.categories.indexOf(category);
@@ -199,8 +201,8 @@ export class TwigsLocalService implements TwigsService {
     });
   }
 
-  deleteCategory(budgetId: number, id: number): Observable<void> {
-    return Observable.create(subscriber => {
+  deleteCategory(id: string): Observable<void> {
+    return new Observable(subscriber => {
       const category = this.findById(this.categories, id);
       if (category) {
         const index = this.categories.indexOf(category);
@@ -213,8 +215,8 @@ export class TwigsLocalService implements TwigsService {
   }
 
   // Transactions
-  getTransactions(budgetId?: number, categoryId?: number, count?: number): Observable<Transaction[]> {
-    return Observable.create(subscriber => {
+  getTransactions(budgetId?: string, categoryId?: string, count?: number): Observable<Transaction[]> {
+    return new Observable(subscriber => {
       subscriber.next(this.transactions.filter(transaction => {
         let include = true;
         if (budgetId) {
@@ -229,23 +231,24 @@ export class TwigsLocalService implements TwigsService {
     });
   }
 
-  getTransaction(id: number): Observable<Transaction> {
-    return Observable.create(subscriber => {
+  getTransaction(id: string): Observable<Transaction> {
+    return new Observable(subscriber => {
       subscriber.next(this.findById(this.transactions, id));
       subscriber.complete();
     });
   }
 
   createTransaction(
-    budgetId: number,
+    id: string,
+    budgetId: string,
     name: string,
     description: string,
     amount: number,
     date: Date,
     isExpense: boolean,
-    category: number
+    category: string
   ): Observable<Transaction> {
-    return Observable.create(subscriber => {
+    return new Observable(subscriber => {
       const transaction = new Transaction();
       transaction.title = name;
       transaction.description = description;
@@ -254,15 +257,15 @@ export class TwigsLocalService implements TwigsService {
       transaction.expense = isExpense;
       transaction.categoryId = category;
       transaction.budgetId = budgetId;
-      transaction.id = this.transactions.length + 1;
+      transaction.id = uuidv4();
       this.transactions.push(transaction);
       subscriber.next(transaction);
       subscriber.complete();
     });
   }
 
-  updateTransaction(budgetId: number, id: number, changes: object): Observable<Transaction> {
-    return Observable.create(subscriber => {
+  updateTransaction(id: string, changes: object): Observable<Transaction> {
+    return new Observable(subscriber => {
       const transaction = this.findById(this.transactions, id);
       if (transaction) {
         const index = this.transactions.indexOf(transaction);
@@ -289,8 +292,8 @@ export class TwigsLocalService implements TwigsService {
     });
   }
 
-  deleteTransaction(budgetId: number, id: number): Observable<void> {
-    return Observable.create(subscriber => {
+  deleteTransaction(id: string): Observable<void> {
+    return new Observable(subscriber => {
       const transaction = this.findById(this.transactions, id);
       if (transaction) {
         const index = this.transactions.indexOf(transaction);
@@ -304,13 +307,13 @@ export class TwigsLocalService implements TwigsService {
 
   // Users
   getProfile(): Observable<User> {
-    return Observable.create(subscriber => {
+    return new Observable(subscriber => {
       subscriber.error("Not yet implemented")
     });
   }
 
   getUsersByUsername(username: string): Observable<User[]> {
-    return Observable.create(subscriber => {
+    return new Observable(subscriber => {
       subscriber.next(this.users.filter(user => user.username.indexOf(username) > -1 ));
     });
   }
@@ -323,7 +326,7 @@ export class TwigsLocalService implements TwigsService {
     });
   }
 
-  private findById<T>(items: T[], id: number): T {
+  private findById<T>(items: T[], id: string): T {
     return items.filter(item => {
       return item['id'] === id;
     })[0];

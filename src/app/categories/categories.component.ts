@@ -14,9 +14,9 @@ import { TWIGS_SERVICE, TwigsService } from '../shared/twigs.service';
 })
 export class CategoriesComponent implements OnInit {
 
-  budgetId: number;
+  budgetId: string;
   public categories: Category[];
-  public categoryBalances: Map<number, number>;
+  public categoryBalances: Map<string, number>;
 
   constructor(
     private route: ActivatedRoute,
@@ -25,7 +25,7 @@ export class CategoriesComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.budgetId = Number.parseInt(this.route.snapshot.paramMap.get('budgetId'));
+    this.budgetId = this.route.snapshot.paramMap.get('budgetId');
     this.app.setTitle('Categories')
     this.app.setBackEnabled(true);
     this.getCategories();

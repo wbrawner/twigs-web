@@ -1,11 +1,13 @@
+import { uuidv4 } from '../shared/utils';
+
 export class Transaction {
-  id: number;
+  id: string = uuidv4();
   title: string;
   description: string = null;
   date: Date = new Date();
   amount: number;
   expense = true;
-  categoryId: number;
-  budgetId: number;
-  createdBy: number;
+  categoryId: string;
+  budgetId: string;
+  createdBy: string;
 }

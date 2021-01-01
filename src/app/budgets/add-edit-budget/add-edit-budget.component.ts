@@ -12,6 +12,7 @@ import { TWIGS_SERVICE, TwigsService } from 'src/app/shared/twigs.service';
 export class AddEditBudgetComponent {
     @Input() title: string;
     @Input() budget: Budget;
+    @Input() create: boolean;
     public users: UserPermission[];
     public searchedUsers: User[] = [];
     public isLoading = false;
@@ -28,16 +29,17 @@ export class AddEditBudgetComponent {
     save(): void {
         let observable;
         this.isLoading = true;
-        if (this.budget.id) {
-            // This is an existing budget, update it
-            observable = this.twigsService.updateBudget(this.budget.id, this.budget);
-        } else {
+        if (this.create) {
             // This is a new budget, save it
             observable = this.twigsService.createBudget(
+                this.budget.id,
                 this.budget.name,
                 this.budget.description,
                 this.users
             );
+        } else {
+            // This is an existing budget, update it
+            observable = this.twigsService.updateBudget(this.budget.id, this.budget);
         }
         // TODO: Check if it was actually successful or not
         observable.subscribe(val => {

@@ -14,7 +14,8 @@ import { MatRadioChange } from '@angular/material/radio';
 export class AddEditTransactionComponent implements OnInit, OnChanges {
   @Input() title: string;
   @Input() currentTransaction: Transaction;
-  @Input() budgetId: number;
+  @Input() budgetId: string;
+  @Input() create: boolean
   public transactionType = TransactionType;
   public categories: Category[];
   public rawAmount: string;
@@ -48,15 +49,15 @@ export class AddEditTransactionComponent implements OnInit, OnChanges {
     }
 
     const d = new Date(changes.currentTransaction.currentValue.date * 1000);
-    this.transactionDate = d.toLocaleDateString(undefined, {year: 'numeric', month: '2-digit', day: '2-digit'});
-    this.currentTime = d.toLocaleTimeString(undefined, {hour: '2-digit', hour12: false, minute: '2-digit'});
+    this.transactionDate = d.toLocaleDateString(undefined, { year: 'numeric', month: '2-digit', day: '2-digit' });
+    this.currentTime = d.toLocaleTimeString(undefined, { hour: '2-digit', hour12: false, minute: '2-digit' });
   }
 
   updateCategories(change: MatRadioChange) {
     this.twigsService.getCategories(this.budgetId)
-    .subscribe(newCategories => {
-      this.categories = newCategories.filter(category => category.expense === change.value)
-    })
+      .subscribe(newCategories => {
+        this.categories = newCategories.filter(category => category.expense === change.value)
+      })
   }
 
   save(): void {
@@ -71,10 +72,21 @@ export class AddEditTransactionComponent implements OnInit, OnChanges {
     const timeParts = this.currentTime.split(':');
     this.currentTransaction.date.setHours(parseInt(timeParts[0], 10));
     this.currentTransaction.date.setMinutes(parseInt(timeParts[1], 10));
-    if (this.currentTransaction.id) {
+    if (this.create) {
+      // This is a new transaction, save it
+      observable = this.twigsService.createTransaction(
+        this.currentTransaction.id,
+        this.budgetId,
+        this.currentTransaction.title,
+        this.currentTransaction.description,
+        this.currentTransaction.amount * 100,
+        this.currentTransaction.date,
+        this.currentTransaction.expense,
+        this.currentTransaction.categoryId,
+      );
+    } else {
       // This is an existing transaction, update it
       observable = this.twigsService.updateTransaction(
-        this.budgetId,
         this.currentTransaction.id,
         {
           name: this.currentTransaction.title,
@@ -85,17 +97,6 @@ export class AddEditTransactionComponent implements OnInit, OnChanges {
           expense: this.currentTransaction.expense
         }
       );
-    } else {
-      // This is a new transaction, save it
-      observable = this.twigsService.createTransaction(
-        this.budgetId,
-        this.currentTransaction.title,
-        this.currentTransaction.description,
-        this.currentTransaction.amount * 100,
-        this.currentTransaction.date,
-        this.currentTransaction.expense,
-        this.currentTransaction.categoryId,
-      );
     }
 
     observable.subscribe(val => {
@@ -104,7 +105,7 @@ export class AddEditTransactionComponent implements OnInit, OnChanges {
   }
 
   delete(): void {
-    this.twigsService.deleteTransaction(this.budgetId, this.currentTransaction.id).subscribe(() => {
+    this.twigsService.deleteTransaction(this.currentTransaction.id).subscribe(() => {
       this.app.goBack();
     });
   }

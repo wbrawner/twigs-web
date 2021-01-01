@@ -67,7 +67,7 @@ export class TwigsHttpService implements TwigsService {
     return this.budgets;
   }
 
-  getBudget(id: number): Observable<Budget> {
+  getBudget(id: string): Observable<Budget> {
     return new Observable(emitter => {
       var cachedBudget: Budget
       if (this.budgets.value) {
@@ -96,11 +96,13 @@ export class TwigsHttpService implements TwigsService {
   }
 
   createBudget(
+    id: string,
     name: string,
     description: string,
     users: UserPermission[],
   ): Observable<Budget> {
     const params = {
+      'id': id,
       'name': name,
       'description': description,
       'users': users.map(userPermission => {
@@ -120,7 +122,7 @@ export class TwigsHttpService implements TwigsService {
       }))
   }
 
-  updateBudget(id: number, changes: object): Observable<Budget> {
+  updateBudget(id: string, changes: object): Observable<Budget> {
     let budget = changes as Budget;
     const params = {
       'name': budget.name,
@@ -146,7 +148,7 @@ export class TwigsHttpService implements TwigsService {
       }));
   }
 
-  deleteBudget(id: number): Observable<void> {
+  deleteBudget(id: String): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/budgets/${id}`, this.options)
       .pipe(map(() => {
         var updatedBudgets: Budget[] = JSON.parse(JSON.stringify(this.budgets.value));
@@ -161,7 +163,7 @@ export class TwigsHttpService implements TwigsService {
   }
 
   // Categories
-  getCategories(budgetId: number, count?: number): Observable<Category[]> {
+  getCategories(budgetId: string, count?: number): Observable<Category[]> {
     const params = {
       params: new HttpParams()
         .set('budgetIds', `${budgetId}`)
@@ -169,17 +171,18 @@ export class TwigsHttpService implements TwigsService {
     return this.http.get<Category[]>(`${this.apiUrl}/categories`, Object.assign(params, this.options));
   }
 
-  getCategory(id: number): Observable<Category> {
+  getCategory(id: string): Observable<Category> {
     return this.http.get<Category>(`${this.apiUrl}/categories/${id}`, this.options);
   }
 
-  getCategoryBalance(id: number): Observable<number> {
+  getCategoryBalance(id: string): Observable<number> {
     return this.http.get<any>(`${this.apiUrl}/categories/${id}/balance`, this.options)
       .pipe(map(obj => obj.balance));
   }
 
-  createCategory(budgetId: number, name: string, description: string, amount: number, isExpense: boolean): Observable<Category> {
+  createCategory(id: string, budgetId: string, name: string, description: string, amount: number, isExpense: boolean): Observable<Category> {
     const params = {
+      'id': id,
       'title': name,
       'description': description,
       'amount': amount,
@@ -189,18 +192,18 @@ export class TwigsHttpService implements TwigsService {
     return this.http.post<Category>(this.apiUrl + '/categories', params, this.options);
   }
 
-  updateCategory(budgetId: number, id: number, changes: object): Observable<Category> {
+  updateCategory(id: string, changes: object): Observable<Category> {
     return this.http.put<Category>(`${this.apiUrl}/categories/${id}`, changes, this.options);
   }
 
-  deleteCategory(budgetId: number, id: number): Observable<void> {
+  deleteCategory(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/categories/${id}`, this.options);
   }
 
   // Transactions
   getTransactions(
-    budgetId?: number,
-    categoryId?: number,
+    budgetId?: string,
+    categoryId?: string,
     count?: number,
     from?: Date
   ): Observable<Transaction[]> {
@@ -224,7 +227,7 @@ export class TwigsHttpService implements TwigsService {
       }));
   }
 
-  getTransaction(id: number): Observable<Transaction> {
+  getTransaction(id: string): Observable<Transaction> {
     return this.http.get<Transaction>(`${this.apiUrl}/transactions/${id}`, this.options)
       .pipe(map(transaction => {
         transaction.date = new Date(transaction.date);
@@ -233,15 +236,17 @@ export class TwigsHttpService implements TwigsService {
   }
 
   createTransaction(
-    budgetId: number,
+    id: string,
+    budgetId: string,
     name: string,
     description: string,
     amount: number,
     date: Date,
     expense: boolean,
-    category: number
+    category: string
   ): Observable<Transaction> {
     const params = {
+      'id': id,
       'title': name,
       'description': description,
       'date': date.toISOString(),
@@ -253,11 +258,11 @@ export class TwigsHttpService implements TwigsService {
     return this.http.post<Transaction>(this.apiUrl + '/transactions', params, this.options);
   }
 
-  updateTransaction(budgetId: number, id: number, changes: object): Observable<Transaction> {
+  updateTransaction(id: string, changes: object): Observable<Transaction> {
     return this.http.put<Transaction>(`${this.apiUrl}/transactions/${id}`, changes, this.options);
   }
 
-  deleteTransaction(budgetId: number, id: number): Observable<void> {
+  deleteTransaction(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/transactions/${id}`, this.options);
   }
 
@@ -267,7 +272,7 @@ export class TwigsHttpService implements TwigsService {
   }
 
   getUsersByUsername(username: string): Observable<User[]> {
-    return Observable.create(subscriber => {
+    return new Observable(subscriber => {
       subscriber.error("Not yet implemented")
     });
   }

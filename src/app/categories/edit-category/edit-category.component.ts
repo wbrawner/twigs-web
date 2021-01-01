@@ -11,7 +11,7 @@ import { TWIGS_SERVICE, TwigsService } from '../../shared/twigs.service';
 })
 export class EditCategoryComponent implements OnInit {
 
-  budgetId: number;
+  budgetId: string;
   category: Category;
 
   constructor(
@@ -26,7 +26,7 @@ export class EditCategoryComponent implements OnInit {
   }
 
   getCategory(): void {
-    const id = Number.parseInt(this.route.snapshot.paramMap.get('id'));
+    const id = this.route.snapshot.paramMap.get('id');
     this.twigsService.getCategory(id)
       .subscribe(category => {
         category.amount /= 100;

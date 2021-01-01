@@ -18,7 +18,7 @@ export class EditBudgetComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    const id = Number.parseInt(this.route.snapshot.paramMap.get('id'));
+    const id = this.route.snapshot.paramMap.get('id');
     this.twigsService.getBudget(id)
       .subscribe(budget => {
         this.budget = budget;

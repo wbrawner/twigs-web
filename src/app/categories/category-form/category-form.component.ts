@@ -10,9 +10,10 @@ import { TWIGS_SERVICE, TwigsService } from 'src/app/shared/twigs.service';
 })
 export class CategoryFormComponent implements OnInit {
 
-  @Input() budgetId: number;
+  @Input() budgetId: string;
   @Input() title: string;
   @Input() currentCategory: Category;
+  @Input() create: boolean;
 
   constructor(
     private app: AppComponent,
@@ -26,10 +27,19 @@ export class CategoryFormComponent implements OnInit {
 
   save(): void {
     let observable;
-    if (this.currentCategory.id) {
+    if (this.create) {
+      // This is a new category, save it
+      observable = this.twigsService.createCategory(
+        this.currentCategory.id,
+        this.budgetId,
+        this.currentCategory.title,
+        this.currentCategory.description,
+        this.currentCategory.amount * 100,
+        this.currentCategory.expense
+      );
+    } else {
       // This is an existing category, update it
       observable = this.twigsService.updateCategory(
-        this.budgetId,
         this.currentCategory.id,
         {
           name: this.currentCategory.title,
@@ -39,15 +49,6 @@ export class CategoryFormComponent implements OnInit {
           archived: this.currentCategory.archived
         }
       );
-    } else {
-      // This is a new category, save it
-      observable = this.twigsService.createCategory(
-        this.budgetId,
-        this.currentCategory.title,
-        this.currentCategory.description,
-        this.currentCategory.amount * 100,
-        this.currentCategory.expense
-      );
     }
     observable.subscribe(val => {
       this.app.goBack();
@@ -55,7 +56,7 @@ export class CategoryFormComponent implements OnInit {
   }
 
   delete(): void {
-    this.twigsService.deleteCategory(this.budgetId, this.currentCategory.id).subscribe(() => {
+    this.twigsService.deleteCategory(this.currentCategory.id).subscribe(() => {
       this.app.goBack();
     });
   }

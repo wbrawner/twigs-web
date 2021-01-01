@@ -9,8 +9,8 @@ import { TWIGS_SERVICE, TwigsService } from '../../shared/twigs.service';
 })
 export class TransactionListComponent implements OnInit {
 
-  @Input() budgetId: number;
-  @Input() categoryId?: number;
+  @Input() budgetId: string;
+  @Input() categoryId?: string;
   public transactions: Transaction[];
 
   constructor(

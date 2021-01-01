@@ -29,5 +29,5 @@
     </mat-select>
   </mat-form-field>
   <button mat-raised-button color="accent" (click)="save()">Save</button>
-  <button class="button-delete" mat-raised-button color="warn" *ngIf="currentTransaction.id" (click)="delete()">Delete</button>
+  <button class="button-delete" mat-raised-button color="warn" *ngIf="!create" (click)="delete()">Delete</button>
 </div>
