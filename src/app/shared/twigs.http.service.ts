@@ -205,7 +205,8 @@ export class TwigsHttpService implements TwigsService {
     budgetId?: string,
     categoryId?: string,
     count?: number,
-    from?: Date
+    from?: Date,
+    to?: Date
   ): Observable<Transaction[]> {
     let httpParams = new HttpParams();
     if (budgetId) {
@@ -216,6 +217,9 @@ export class TwigsHttpService implements TwigsService {
     }
     if (from) {
       httpParams = httpParams.set('from', from.toISOString());
+    }
+    if (to) {
+      httpParams = httpParams.set('to', to.toISOString());
     }
     const params = { params: httpParams };
     return this.http.get<Transaction[]>(`${this.apiUrl}/transactions`, Object.assign(params, this.options))

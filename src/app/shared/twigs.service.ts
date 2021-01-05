@@ -36,7 +36,8 @@ export interface TwigsService {
     budgetId?: string,
     categoryId?: string,
     count?: number,
-    from?: Date
+    from?: Date,
+    to?: Date
   ): Observable<Transaction[]>;
   getTransaction(id: string): Observable<Transaction>;
   createTransaction(
