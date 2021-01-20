@@ -1,6 +1,7 @@
-export function uuidv4(): string {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-        return v.toString(16);
-    });
+const CHARACTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+
+export function randomId(): string {
+    var bytes = new Uint8Array(32)
+    window.crypto.getRandomValues(bytes)
+    return Array.from(bytes, (byte) => CHARACTERS[byte % CHARACTERS.length]).join('')
 }

@@ -1,7 +1,7 @@
-import { uuidv4 } from '../shared/utils';
+import { randomId } from '../shared/utils';
 
 export class Transaction {
-  id: string = uuidv4();
+  id: string = randomId();
   title: string;
   description: string = null;
   date: Date = new Date();

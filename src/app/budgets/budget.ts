@@ -1,8 +1,8 @@
 import { UserPermission } from '../users/user';
-import { uuidv4 } from '../shared/utils';
+import { randomId } from '../shared/utils';
 
 export class Budget {
-    id: string = uuidv4();
+    id: string = randomId();
     name: string;
     description: string;
     users: UserPermission[];

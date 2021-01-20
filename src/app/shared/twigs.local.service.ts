@@ -6,7 +6,7 @@ import { TwigsService } from './twigs.service';
 import { Budget } from '../budgets/budget';
 import { Category } from '../categories/category';
 import { Transaction } from '../transactions/transaction';
-import { uuidv4 } from '../shared/utils';
+import { randomId } from '../shared/utils';
 
 /**
  * This is intended to be a very simple implementation of the TwigsService used for testing out the UI and quickly iterating on it.
@@ -21,7 +21,7 @@ export class TwigsLocalService implements TwigsService {
     private http: HttpClient
   ) { }
 
-  private users: User[] = [new User(uuidv4(), 'test', 'test@example.com')];
+  private users: User[] = [new User(randomId(), 'test', 'test@example.com')];
   private budgets: Budget[] = [];
   private transactions: Transaction[] = [];
   private categories: Category[] = [];
@@ -45,7 +45,7 @@ export class TwigsLocalService implements TwigsService {
       const user = new User();
       user.username = username;
       user.email = email;
-      user.id = uuidv4();
+      user.id = randomId();
       this.users.push(user);
       subscriber.next(user);
       subscriber.complete();
@@ -257,7 +257,7 @@ export class TwigsLocalService implements TwigsService {
       transaction.expense = isExpense;
       transaction.categoryId = category;
       transaction.budgetId = budgetId;
-      transaction.id = uuidv4();
+      transaction.id = randomId();
       this.transactions.push(transaction);
       subscriber.next(transaction);
       subscriber.complete();
