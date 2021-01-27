@@ -1,8 +1,7 @@
-import { Component, Inject, ApplicationRef, ChangeDetectorRef } from '@angular/core';
+import { Component, Inject, ApplicationRef, ChangeDetectorRef, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { User } from './users/user';
 import { TWIGS_SERVICE, TwigsService } from './shared/twigs.service';
-import { CookieService } from 'ngx-cookie-service';
 import { SwUpdate } from '@angular/service-worker';
 import { first, filter, map } from 'rxjs/operators';
 import { interval, concat, BehaviorSubject } from 'rxjs';
@@ -14,7 +13,7 @@ import { Actionable, isActionable } from './shared/actionable';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   public title = 'Twigs';
   public backEnabled = false;
   public user = new BehaviorSubject<User>(null);
@@ -26,41 +25,50 @@ export class AppComponent {
   constructor(
     @Inject(TWIGS_SERVICE) private twigsService: TwigsService,
     private location: Location,
-    private cookieService: CookieService,
     private router: Router,
-    private activatedRoute: ActivatedRoute,
     private appRef: ApplicationRef,
     private updates: SwUpdate,
     private changeDetector: ChangeDetectorRef,
-  ) {
+    private storage: Storage
+  ){}
+
+  ngOnInit(): void {
     const unauthenticatedRoutes = [
+      '',
       '/',
       '/login',
       '/register'
     ]
-    if (this.cookieService.check('Authorization')) {
-      this.twigsService.getProfile().subscribe(user => {
-        this.user.next(user);
-        if (this.router.url == '/') {
+    let auth = this.storage.getItem('Authorization');
+    let savedUser = JSON.parse(this.storage.getItem('user')) as User;
+    if (auth && auth.length == 255) {
+      if (savedUser) {
+        this.user.next(savedUser);
+      }
+      this.twigsService.getProfile().subscribe(fetchedUser => {
+        this.storage.setItem('user', JSON.stringify(fetchedUser));
+        this.user.next(fetchedUser);
+        if (unauthenticatedRoutes.indexOf(this.location.path()) != -1) {
+          //TODO: Save last opened budget and redirect to there instead of the main list
           this.router.navigateByUrl("/budgets");
         }
       });
-    } else if (unauthenticatedRoutes.indexOf(this.router.url) == -1) {
-        this.router.navigateByUrl("/login");
+    } else if (unauthenticatedRoutes.indexOf(this.location.path()) == -1) {
+        this.router.navigateByUrl(`/login?redirect=${this.location.path()}`);
     }
 
-    updates.available.subscribe(
+    this.updates.available.subscribe(
       event => {
         console.log('current version is', event.current);
         console.log('available version is', event.available);
         // TODO: Prompt user to click something to update
-        updates.activateUpdate();
+        this.updates.activateUpdate();
       },
       err => {
 
       }
     );
-    updates.activated.subscribe(
+    this.updates.activated.subscribe(
       event => {
         console.log('old version was', event.previous);
         console.log('new version is', event.current);
@@ -70,10 +78,10 @@ export class AppComponent {
       }
     );
 
-    const appIsStable$ = appRef.isStable.pipe(first(isStable => isStable === true));
+    const appIsStable$ = this.appRef.isStable.pipe(first(isStable => isStable === true));
     const everySixHours$ = interval(6 * 60 * 60 * 1000);
     const everySixHoursOnceAppIsStable$ = concat(appIsStable$, everySixHours$);
-    everySixHoursOnceAppIsStable$.subscribe(() => updates.checkForUpdate());
+    everySixHoursOnceAppIsStable$.subscribe(() => this.updates.checkForUpdate());
     this.user.subscribe(
       user => {
         if (user) {

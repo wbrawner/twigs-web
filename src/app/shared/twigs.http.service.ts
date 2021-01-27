@@ -1,42 +1,46 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable, pipe, Subscriber } from 'rxjs';
-import { User, UserPermission, Permission } from '../users/user';
+import { User, UserPermission, Permission, AuthToken } from '../users/user';
 import { TwigsService } from './twigs.service';
 import { Budget } from '../budgets/budget';
 import { Category } from '../categories/category';
 import { Transaction } from '../transactions/transaction';
 import { environment } from '../../environments/environment';
 import { map } from 'rxjs/operators';
-import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TwigsHttpService implements TwigsService {
 
-  constructor(
-    private http: HttpClient,
-    private cookieService: CookieService
-  ) { }
-
   private options = {
     withCredentials: true
   };
-
   private apiUrl = environment.apiUrl;
-
   private budgets: BehaviorSubject<Budget[]> = new BehaviorSubject(null);
-  // Auth
+
+  constructor(
+    private http: HttpClient,
+    private storage: Storage
+  ) { }
+
   login(email: string, password: string): Observable<User> {
-    // const params = {
-    //   'username': email,
-    //   'password': password
-    // };
-    // return this.http.post<User>(this.apiUrl + '/users/login', params, this.options);
-    const credentials = btoa(`${email}:${password}`)
-    this.cookieService.set('Authorization', credentials, 14, null, null, true);
-    return this.getProfile();
+    return new Observable(emitter => {
+      const params = {
+        'username': email,
+        'password': password
+      };
+      this.http.post<AuthToken>(this.apiUrl + '/users/login', params, this.options)
+        .subscribe(
+          auth => {
+            // TODO: Use token expiration to determine cookie expiration
+            this.storage.setItem('Authorization', auth.token);
+            this.getProfile().subscribe(user => emitter.next(user), error => emitter.error(error));
+          },
+          error => emitter.error(error)
+        );
+    });
   }
 
   register(username: string, email: string, password: string): Observable<User> {
@@ -49,8 +53,8 @@ export class TwigsHttpService implements TwigsService {
   }
 
   logout(): Observable<void> {
-    return Observable.create(emitter => {
-      this.cookieService.delete('Authorization');
+    return new Observable(emitter => {
+      this.storage.removeItem('Authorization');
       emitter.next();
       emitter.complete();
     })
@@ -74,7 +78,7 @@ export class TwigsHttpService implements TwigsService {
         cachedBudget = this.budgets.value.find(budget => {
           return budget.id === id;
         });
-  }
+      }
       if (cachedBudget) {
         emitter.next(cachedBudget);
         emitter.complete();
@@ -140,7 +144,7 @@ export class TwigsHttpService implements TwigsService {
         var index = updatedBudgets.findIndex(oldBudget => oldBudget.id === id);
         if (index > -1) {
           updatedBudgets.splice(index, 1);
-  }
+        }
         updatedBudgets.push(budget);
         updatedBudgets.sort();
         this.budgets.next(updatedBudgets);

@@ -46,7 +46,6 @@ import { TWIGS_SERVICE } from './shared/twigs.service';
 import { AuthInterceptor } from './shared/auth.interceptor';
 import { TwigsHttpService } from './shared/twigs.http.service';
 import { TwigsLocalService } from './shared/twigs.local.service';
-import { CookieService } from 'ngx-cookie-service';
 import { TransactionListComponent } from './transactions/transaction-list/transaction-list.component';
 import { EditCategoryComponent } from './categories/edit-category/edit-category.component';
 import { EditBudgetComponent } from './budgets/edit-budget/edit-budget.component';
@@ -114,8 +113,8 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     { provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: TWIGS_SERVICE, useClass: TwigsHttpService },
+    { provide: Storage, useValue: window.localStorage },
     // { provide: TWIGS_SERVICE, useClass: TwigsLocalService },
-    CookieService
   ],
   bootstrap: [AppComponent]
 })

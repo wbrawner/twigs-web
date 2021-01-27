@@ -12,6 +12,11 @@ export class User {
   }
 }
 
+export class AuthToken {
+  token: string;
+  expiration: Date;
+}
+
 export class UserPermission {
   user: User;
   permission: Permission;

@@ -30,7 +30,6 @@
     "dexie": "^2.0.4",
     "ng2-charts": "^2.4.2",
     "ng2-currency-mask": "^9.0.2",
-    "ngx-cookie-service": "^2.4.0",
     "rxjs": "^6.6.3",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.3"
