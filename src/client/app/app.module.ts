@@ -36,7 +36,7 @@ import { EditProfileComponent } from './users/edit-profile/edit-profile.componen
 import { UserComponent } from './users/user.component';
 import { NewBudgetComponent } from './budgets/new-budget/new-budget.component';
 import { BudgetDetailsComponent } from './budgets/budget-details/budget-details.component';
-import { environment } from 'src/environments/environment';
+import { environment } from 'src/client/environments/environment';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { CategoryBreakdownComponent } from './categories/category-breakdown/category-breakdown.component';
