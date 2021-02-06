@@ -14,6 +14,7 @@ export interface TwigsService {
   // Budgets
   getBudgets(): Observable<Budget[]>;
   getBudget(id: string): Observable<Budget>;
+  getBudgetBalance(id: string): Observable<number>;
   createBudget(
     id: string,
     name: string,

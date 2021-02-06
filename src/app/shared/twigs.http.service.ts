@@ -71,6 +71,11 @@ export class TwigsHttpService implements TwigsService {
     return this.budgets;
   }
 
+  getBudgetBalance(id: string): Observable<number> {
+    return this.http.get<any>(`${this.apiUrl}/budgets/${id}/balance`, this.options)
+      .pipe(map(obj => obj.balance));
+  }
+
   getBudget(id: string): Observable<Budget> {
     return new Observable(emitter => {
       var cachedBudget: Budget

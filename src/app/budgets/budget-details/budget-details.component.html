@@ -3,7 +3,7 @@
     <h2 class="balance">
       Current Balance: <br />
       <span
-        [ngClass]="{'income': getBalance() > 0, 'expense': getBalance() < 0}">{{ getBalance() / 100 | currency }}</span>
+        [ngClass]="{'income': budgetBalance > 0, 'expense': budgetBalance < 0}">{{ budgetBalance / 100 | currency }}</span>
     </h2>
     <app-category-breakdown [barChartLabels]="barChartLabels" [barChartData]="barChartData">
       </app-category-breakdown>

@@ -66,6 +66,13 @@ export class TwigsLocalService implements TwigsService {
     });
   }
 
+  getBudgetBalance(id: string): Observable<number> {
+    return new Observable(emitter => {
+      emitter.next(200);
+      emitter.complete()
+    })
+  }
+
   getBudget(id: string): Observable<Budget> {
     return new Observable(subscriber => {
       const budget = this.budgets.filter(it => {

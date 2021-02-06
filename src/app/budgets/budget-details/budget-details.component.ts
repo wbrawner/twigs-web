@@ -18,6 +18,7 @@ import { Actionable } from '../../shared/actionable';
 export class BudgetDetailsComponent implements OnInit, OnDestroy, Actionable {
 
   budget: Budget;
+  public budgetBalance: number;
   public transactions: Transaction[];
   public expenses: Category[] = [];
   public income: Category[] = [];
@@ -84,15 +85,11 @@ export class BudgetDetailsComponent implements OnInit, OnDestroy, Actionable {
     ];
   }
 
-  getBalance(): number {
-    let totalBalance = 0;
-    if (!this.categoryBalances) {
-      return 0;
-    }
-    this.categoryBalances.forEach(balance => {
-      totalBalance += balance;
+  getBalance(): void {
+    const id = this.route.snapshot.paramMap.get('id');
+    this.twigsService.getBudgetBalance(id).subscribe(balance => {
+      this.budgetBalance = balance;
     });
-    return totalBalance;
   }
 
   getTransactions(): void {
