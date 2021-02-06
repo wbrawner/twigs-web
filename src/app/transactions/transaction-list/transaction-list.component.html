@@ -1,6 +1,6 @@
 <mat-nav-list *ngIf="transactions" class="transactions">
     <a mat-list-item *ngFor="let transaction of transactions"
-        routerLink="/budgets/{{ budgetId }}/transactions/{{ transaction.id }}">
+        routerLink="/transactions/{{ transaction.id }}">
         <div matLine class="list-row-one">
             <p>{{transaction.title}}</p>
             <p class="amount" [class.expense]="transaction.expense" [class.income]="!transaction.expense">

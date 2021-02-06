@@ -17,7 +17,7 @@ export class NewTransactionComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.budgetId = this.route.snapshot.paramMap.get('budgetId');
+    this.budgetId = this.route.snapshot.queryParamMap.get('budgetId');
     this.transaction = new Transaction();
   }
 

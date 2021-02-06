@@ -10,8 +10,8 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class TransactionListComponent implements OnInit {
 
-  @Input() budgetId: string;
-  @Input() categoryId?: string;
+  @Input() budgetIds: string[];
+  @Input() categoryIds?: string[];
   public transactions: Transaction[];
 
   constructor(
@@ -52,7 +52,7 @@ export class TransactionListComponent implements OnInit {
       }
     }
 
-    this.twigsService.getTransactions(this.budgetId, this.categoryId, null, from, to).subscribe(transactions => {
+    this.twigsService.getTransactions(this.budgetIds.join(','), this.categoryIds.join(','), null, from, to).subscribe(transactions => {
       this.transactions = transactions;
     });
   }

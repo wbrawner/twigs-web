@@ -22,13 +22,13 @@ const routes: Routes = [
   { path: 'budgets/new', component: NewBudgetComponent },
   { path: 'budgets/:id', component: BudgetDetailsComponent },
   { path: 'budgets/:id/edit', component: EditBudgetComponent },
-  { path: 'budgets/:budgetId/transactions', component: TransactionsComponent },
-  { path: 'budgets/:budgetId/transactions/new', component: NewTransactionComponent },
-  { path: 'budgets/:budgetId/transactions/:id', component: TransactionDetailsComponent },
-  { path: 'budgets/:budgetId/categories', component: CategoriesComponent },
-  { path: 'budgets/:budgetId/categories/new', component: NewCategoryComponent },
-  { path: 'budgets/:budgetId/categories/:id', component: CategoryDetailsComponent },
-  { path: 'budgets/:budgetId/categories/:id/edit', component: EditCategoryComponent },
+  { path: 'transactions', component: TransactionsComponent },
+  { path: 'transactions/new', component: NewTransactionComponent },
+  { path: 'transactions/:id', component: TransactionDetailsComponent },
+  { path: 'categories', component: CategoriesComponent },
+  { path: 'categories/new', component: NewCategoryComponent },
+  { path: 'categories/:id', component: CategoryDetailsComponent },
+  { path: 'categories/:id/edit', component: EditCategoryComponent },
 ];
 
 @NgModule({

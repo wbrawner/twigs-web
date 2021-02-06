@@ -9,8 +9,8 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class TransactionsComponent implements OnInit {
 
-  budgetId: number;
-  categoryId?: number;
+  budgetId?: string;
+  categoryId?: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -18,8 +18,8 @@ export class TransactionsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.budgetId = Number.parseInt(this.route.snapshot.paramMap.get('budgetId'));
-    this.categoryId = Number.parseInt(this.route.snapshot.queryParamMap.get('categoryId'));
+    this.budgetId = this.route.snapshot.queryParamMap.get('budgetIds');
+    this.categoryId = this.route.snapshot.queryParamMap.get('categoryIds');
     this.app.setBackEnabled(true);
     this.app.setTitle('Transactions')
   }
