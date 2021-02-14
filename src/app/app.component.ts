@@ -1,5 +1,5 @@
 import { Component, Inject, ApplicationRef, ChangeDetectorRef, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
+import { DOCUMENT, Location } from '@angular/common';
 import { User } from './users/user';
 import { TWIGS_SERVICE, TwigsService } from './shared/twigs.service';
 import { SwUpdate } from '@angular/service-worker';
@@ -29,8 +29,9 @@ export class AppComponent implements OnInit {
     private appRef: ApplicationRef,
     private updates: SwUpdate,
     private changeDetector: ChangeDetectorRef,
-    private storage: Storage
-  ){}
+    private storage: Storage,
+    @Inject(DOCUMENT) private document: Document
+  ) { }
 
   ngOnInit(): void {
     const unauthenticatedRoutes = [
@@ -54,7 +55,7 @@ export class AppComponent implements OnInit {
         }
       });
     } else if (unauthenticatedRoutes.indexOf(this.location.path()) == -1) {
-        this.router.navigateByUrl(`/login?redirect=${this.location.path()}`);
+      this.router.navigateByUrl(`/login?redirect=${this.location.path()}`);
     }
 
     this.updates.available.subscribe(
@@ -91,6 +92,9 @@ export class AppComponent implements OnInit {
         }
       }
     )
+    const darkMode = window.matchMedia('(prefers-color-scheme: dark)');
+    this.handleDarkModeChanges(darkMode);
+    darkMode.addEventListener('change', (e => this.handleDarkModeChanges(e)))
   }
 
   getUsername(): String {
@@ -121,5 +125,16 @@ export class AppComponent implements OnInit {
   setTitle(title: string) {
     this.title = title;
     this.changeDetector.detectChanges();
+  }
+
+  handleDarkModeChanges(darkMode: any) {
+    const themeColor = this.document.getElementsByName('theme-color')[0] as HTMLMetaElement;
+    let themeColorValue: string;
+    if (darkMode.matches) {
+      themeColorValue = '#333333';
+    } else {
+      themeColorValue = '#F1F1F1';
+    }
+    themeColor.content = themeColorValue;
   }
 }
