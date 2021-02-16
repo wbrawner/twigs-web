@@ -1,4 +1,4 @@
-<app-transaction-list [budgetIds]="budgetId" [categoryIds]="categoryId"></app-transaction-list>
+<app-transaction-list [budgetIds]="[budgetId]" [categoryIds]="categoryId"></app-transaction-list>
 <a mat-fab routerLink="/transactions/new" [queryParams]="{budgetId: budgetId}">
   <mat-icon aria-label="Add">add</mat-icon>
 </a>
