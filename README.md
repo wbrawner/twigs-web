@@ -1,27 +1,47 @@
-# Budget
+# Twigs Web Client
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.1.5.
+Twigs is an open source budgeting app aimed at people who need to share a budget. This project serves as the web front end, and is powered by Angular. The main back end project can be found at [wbrawner/twigs-server](https://github.com/wbrawner/twigs-server)
 
-## Development server
+## Building
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+You'll need NodeJS and NPM, then run
 
-## Code scaffolding
+    npm run build
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+If you would like to tinker with the site and have it hot reload, then run
 
-## Build
+    npm run start
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+The app will be available at http://localhost:4200
 
-## Running unit tests
+## Self-hosting
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Eventually the plan is to ship this web app within the JAR for the server, but for now you'll need to run them separately. Before you build the app, be sure to change the `apiUrl` value in [src/environments/environment.prod.ts](src/environments/environment.prod.ts). Then you can run the following command to get an optimized version of the build for production deployments
 
-## Running end-to-end tests
+    npm run package
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+This will output the app in a folder called `dist/twigs`, which you can then serve directly with Apache or Nginx or any static file server.
 
-## Further help
+## License
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+```
+Copyright (c) 2021 William Brawner
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+```
