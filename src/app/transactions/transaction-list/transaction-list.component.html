@@ -1,12 +1,13 @@
 <mat-nav-list *ngIf="transactions" class="transactions">
-    <a mat-list-item *ngFor="let transaction of transactions"
+    <a mat-list-item class="transaction-list-item" *ngFor="let transaction of transactions"
         routerLink="/transactions/{{ transaction.id }}">
-        <div matLine class="list-row-one">
-            <p>{{transaction.title}}</p>
-            <p class="amount" [class.expense]="transaction.expense" [class.income]="!transaction.expense">
-                {{ transaction.amount / 100 | currency }}
-            </p>
+        <div matLine class="transaction-list-details">
+            <p class="transaction-title">{{transaction.title}}</p>
+            <p class="transaction-description text-small" *ngIf="transaction.description">{{transaction.description }}</p>
+            <p matLine class="transaction-date text-small">{{ transaction.date | date }}</p>
         </div>
-        <p matLine class="text-small">{{ transaction.date | date }}</p>
+        <p class="amount" [class.expense]="transaction.expense" [class.income]="!transaction.expense">
+            {{ transaction.amount / 100 | currency }}
+        </p>
     </a>
 </mat-nav-list>

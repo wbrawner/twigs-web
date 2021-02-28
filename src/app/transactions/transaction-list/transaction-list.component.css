@@ -1,5 +1,9 @@
-.transactions .list-row-one {
-    display: flex;
-    justify-content: space-between;
-    padding-bottom: 0.2em;
+.transaction-details p {
+    padding: 2px 0;
+}
+
+.transaction-description {
+    font-style: italic;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
