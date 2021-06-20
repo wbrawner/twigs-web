@@ -89,7 +89,7 @@ export class AddEditTransactionComponent implements OnInit, OnChanges {
       observable = this.twigsService.updateTransaction(
         this.currentTransaction.id,
         {
-          name: this.currentTransaction.title,
+          title: this.currentTransaction.title,
           description: this.currentTransaction.description,
           amount: this.currentTransaction.amount * 100,
           date: this.currentTransaction.date,
