@@ -128,12 +128,16 @@ export class TwigsHttpService implements TwigsService {
       'id': id,
       'name': name,
       'description': description,
+<<<<<<< HEAD
       'users': users.map(userPermission => {
         return {
           user: userPermission.user,
           permission: Permission[userPermission.permission]
         };
       })
+=======
+      'users': users
+>>>>>>> 4488aff (Finish implementing /api/budget routes)
     };
     return this.http.post<Budget>(this.apiUrl + '/budgets', params, this.options)
       .pipe(map(budget => {
