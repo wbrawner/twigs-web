@@ -2,15 +2,15 @@
   "name": "budget",
   "version": "0.0.0",
   "scripts": {
-    "ng": "node_modules/@angular/cli/bin/ng",
-    "start": "node_modules/@angular/cli/bin/ng serve --host '0.0.0.0'",
-    "code-server": "node_modules/@angular/cli/bin/ng serve --configuration=codeserver --host \"0.0.0.0\" --disable-host-check --poll=2000",
-    "build": "node_modules/@angular/cli/bin/ng build",
-    "package": "node_modules/@angular/cli/bin/ng build --prod --service-worker",
-    "publish": "node_modules/@angular/cli/bin/ng build --prod --service-worker && firebase deploy",
-    "test": "node_modules/@angular/cli/bin/ng test",
-    "lint": "node_modules/@angular/cli/bin/ng lint",
-    "e2e": "node_modules/@angular/cli/bin/ng e2e"
+    "ng": "ng",
+    "start": "ng serve --host '0.0.0.0'",
+    "code-server": "ng serve --configuration=codeserver --host \"0.0.0.0\" --disable-host-check --poll=2000",
+    "build": "ng build",
+    "package": "ng build --prod --service-worker",
+    "publish": "ng build --prod --service-worker && firebase deploy",
+    "test": "ng test",
+    "lint": "ng lint",
+    "e2e": "ng e2e"
   },
   "private": true,
   "dependencies": {
