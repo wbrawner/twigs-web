@@ -13,15 +13,16 @@ export class User {
 }
 
 export class AuthToken {
+  userId: string;
   token: string;
   expiration: Date;
 }
 
 export class UserPermission {
-  user: User;
+  user: string;
   permission: Permission;
 
-  constructor(user: User, permission: Permission) {
+  constructor(user: string, permission: Permission) {
     this.user = user;
     this.permission = permission;
   }
@@ -30,5 +31,6 @@ export class UserPermission {
 export enum Permission {
   READ,
   WRITE,
+  MANAGE,
   OWNER
 }

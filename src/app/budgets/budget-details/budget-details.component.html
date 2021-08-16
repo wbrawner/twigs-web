@@ -27,9 +27,9 @@
   </mat-card>
   <mat-card class="dashboard-categories" [hidden]="!budget">
     <h3 class="categories">Expenses</h3>
-    <a mat-button routerLink="/categories/new" [queryParams]="{budgetIds: budget.id, expense: true}" class="view-all" *ngIf="budget">Add Category</a>
+    <a mat-button routerLink="/categories/new" [queryParams]="{budgetId: budget.id, expense: true}" class="view-all" *ngIf="budget">Add Category</a>
     <div class="no-categories" *ngIf="!expenses || expenses.length === 0">
-      <a mat-button routerLink="/categories/new" [queryParams]="{budgetIds: budget.id, expense: true}" *ngIf="budget">
+      <a mat-button routerLink="/categories/new" [queryParams]="{budgetId: budget.id, expense: true}" *ngIf="budget">
         <mat-icon>add</mat-icon>
         <p>Add categories to gain more insights into your expenses.</p>
       </a>

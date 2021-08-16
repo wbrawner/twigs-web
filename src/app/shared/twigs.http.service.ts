@@ -36,7 +36,8 @@ export class TwigsHttpService implements TwigsService {
           auth => {
             // TODO: Use token expiration to determine cookie expiration
             this.storage.setItem('Authorization', auth.token);
-            this.getProfile().subscribe(user => emitter.next(user), error => emitter.error(error));
+            this.storage.setItem('userId', auth.userId);
+            this.getProfile(auth.userId).subscribe(user => emitter.next(user), error => emitter.error(error));
           },
           error => emitter.error(error)
         );
@@ -49,12 +50,13 @@ export class TwigsHttpService implements TwigsService {
       'email': email,
       'password': password
     };
-    return this.http.post<User>(this.apiUrl + '/users', params, this.options);
+    return this.http.post<User>(this.apiUrl + '/users/register', params, this.options);
   }
 
   logout(): Observable<void> {
     return new Observable(emitter => {
       this.storage.removeItem('Authorization');
+      this.storage.removeItem('userId');
       emitter.next();
       emitter.complete();
     })
@@ -72,7 +74,7 @@ export class TwigsHttpService implements TwigsService {
   }
 
   getBudgetBalance(id: string): Observable<number> {
-    return this.http.get<any>(`${this.apiUrl}/budgets/${id}/balance`, this.options)
+    return this.http.get<any>(`${this.apiUrl}/transactions/sum?budgetId=${id}`, this.options)
       .pipe(map(obj => obj.balance));
   }
 
@@ -116,7 +118,7 @@ export class TwigsHttpService implements TwigsService {
       'description': description,
       'users': users.map(userPermission => {
         return {
-          user: userPermission.user.id,
+          user: userPermission.user,
           permission: Permission[userPermission.permission]
         };
       })
@@ -138,7 +140,7 @@ export class TwigsHttpService implements TwigsService {
       'description': budget.description,
       'users': budget.users.map(userPermission => {
         return {
-          user: userPermission.user.id,
+          user: userPermission.user,
           permission: Permission[userPermission.permission]
         };
       })
@@ -176,6 +178,7 @@ export class TwigsHttpService implements TwigsService {
     const params = {
       params: new HttpParams()
         .set('budgetIds', `${budgetId}`)
+        .set('archived', false)
     };
     return this.http.get<Category[]>(`${this.apiUrl}/categories`, Object.assign(params, this.options));
   }
@@ -185,7 +188,7 @@ export class TwigsHttpService implements TwigsService {
   }
 
   getCategoryBalance(id: string): Observable<number> {
-    return this.http.get<any>(`${this.apiUrl}/categories/${id}/balance`, this.options)
+    return this.http.get<any>(`${this.apiUrl}/transactions/sum?categoryId=${id}`, this.options)
       .pipe(map(obj => obj.balance));
   }
 
@@ -280,8 +283,8 @@ export class TwigsHttpService implements TwigsService {
   }
 
   // Users
-  getProfile(): Observable<User> {
-    return this.http.get<User>(`${this.apiUrl}/users/me`, this.options);
+  getProfile(id: string): Observable<User> {
+    return this.http.get<User>(`${this.apiUrl}/users/${id}`, this.options);
   }
 
   getUsersByUsername(username: string): Observable<User[]> {

@@ -41,12 +41,13 @@ export class AppComponent implements OnInit {
       '/register'
     ]
     let auth = this.storage.getItem('Authorization');
+    let userId = this.storage.getItem('userId');
     let savedUser = JSON.parse(this.storage.getItem('user')) as User;
-    if (auth && auth.length == 255) {
+    if (auth && auth.length == 255 && userId) {
       if (savedUser) {
         this.user.next(savedUser);
       }
-      this.twigsService.getProfile().subscribe(fetchedUser => {
+      this.twigsService.getProfile(userId).subscribe(fetchedUser => {
         this.storage.setItem('user', JSON.stringify(fetchedUser));
         this.user.next(fetchedUser);
         if (unauthenticatedRoutes.indexOf(this.location.path()) != -1) {

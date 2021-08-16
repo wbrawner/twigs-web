@@ -17,7 +17,8 @@ export class NewCategoryComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.budgetId = this.route.snapshot.paramMap.get('budgetId');
+    this.budgetId = this.route.snapshot.queryParamMap.get('budgetId');
+    console.log(`Creating category for budget ${this.budgetId}`)
     this.category = new Category();
     // TODO: Set random color for category, improve color picker
     // this.category.color =

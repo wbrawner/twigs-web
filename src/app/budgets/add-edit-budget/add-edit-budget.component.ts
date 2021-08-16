@@ -23,7 +23,7 @@ export class AddEditBudgetComponent {
     ) {
         this.app.setTitle(this.title)
         this.app.setBackEnabled(true);
-        this.users = [new UserPermission(this.app.user.value, Permission.OWNER)];
+        this.users = [new UserPermission(this.app.user.value.id, Permission.OWNER)];
     }
 
     save(): void {

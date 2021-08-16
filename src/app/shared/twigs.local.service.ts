@@ -313,7 +313,7 @@ export class TwigsLocalService implements TwigsService {
   }
 
   // Users
-  getProfile(): Observable<User> {
+  getProfile(id: string): Observable<User> {
     return new Observable(subscriber => {
       subscriber.error("Not yet implemented")
     });

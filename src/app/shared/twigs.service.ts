@@ -54,7 +54,7 @@ export interface TwigsService {
   updateTransaction(id: string, changes: object): Observable<Transaction>;
   deleteTransaction(id: string): Observable<void>;
 
-  getProfile(): Observable<User>;
+  getProfile(id: string): Observable<User>;
   getUsersByUsername(username: string): Observable<User[]>;
 }
 
