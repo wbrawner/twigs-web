@@ -122,22 +122,11 @@ export class TwigsHttpService implements TwigsService {
     id: string,
     name: string,
     description: string,
-    users: UserPermission[],
   ): Observable<Budget> {
     const params = {
       'id': id,
       'name': name,
       'description': description,
-<<<<<<< HEAD
-      'users': users.map(userPermission => {
-        return {
-          user: userPermission.user,
-          permission: Permission[userPermission.permission]
-        };
-      })
-=======
-      'users': users
->>>>>>> 4488aff (Finish implementing /api/budget routes)
     };
     return this.http.post<Budget>(this.apiUrl + '/budgets', params, this.options)
       .pipe(map(budget => {
@@ -154,12 +143,6 @@ export class TwigsHttpService implements TwigsService {
     const params = {
       'name': budget.name,
       'description': budget.description,
-      'users': budget.users.map(userPermission => {
-        return {
-          user: userPermission.user,
-          permission: Permission[userPermission.permission]
-        };
-      })
     };
     return this.http.put<Budget>(`${this.apiUrl}/budgets/${id}`, params, this.options)
       .pipe(map(budget => {
