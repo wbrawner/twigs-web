@@ -79,7 +79,7 @@ export class AddEditTransactionComponent implements OnInit, OnChanges {
         this.budgetId,
         this.currentTransaction.title,
         this.currentTransaction.description,
-        this.currentTransaction.amount * 100,
+        Math.round(this.currentTransaction.amount * 100),
         this.currentTransaction.date,
         this.currentTransaction.expense,
         this.currentTransaction.categoryId,
@@ -91,7 +91,7 @@ export class AddEditTransactionComponent implements OnInit, OnChanges {
         {
           title: this.currentTransaction.title,
           description: this.currentTransaction.description,
-          amount: this.currentTransaction.amount * 100,
+          amount: Math.round(this.currentTransaction.amount * 100),
           date: this.currentTransaction.date,
           categoryId: this.currentTransaction.categoryId,
           expense: this.currentTransaction.expense
