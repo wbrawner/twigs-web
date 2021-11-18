@@ -9,10 +9,11 @@
     <textarea matInput [(ngModel)]="currentTransaction.description" placeholder="Description"></textarea>
   </mat-form-field>
   <mat-form-field>
-    <input matInput type="text" [(ngModel)]="currentTransaction.amount" placeholder="Amount" required currencyMask>
+    <input matInput type="text" [(ngModel)]="currentTransaction.amount" placeholder="Amount" required>
   </mat-form-field>
   <mat-form-field>
-    <input matInput type="date" [ngModel]="transactionDate | date:'yyyy-MM-dd'" (ngModelChange)="transactionDate = $event" placeholder="Date" required>
+    <input matInput type="date" [ngModel]="transactionDate | date:'yyyy-MM-dd'"
+      (ngModelChange)="transactionDate = $event" placeholder="Date" required>
   </mat-form-field>
   <mat-form-field>
     <input matInput type="time" [(ngModel)]="currentTime" placeholder="Time" required>

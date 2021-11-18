@@ -38,7 +38,6 @@ import { NewBudgetComponent } from './budgets/new-budget/new-budget.component';
 import { BudgetDetailsComponent } from './budgets/budget-details/budget-details.component';
 import { environment } from 'src/environments/environment';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { CurrencyMaskModule, CurrencyMaskConfig, CURRENCY_MASK_CONFIG } from 'ng2-currency-mask';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { CategoryBreakdownComponent } from './categories/category-breakdown/category-breakdown.component';
 import { ChartsModule } from 'ng2-charts';
@@ -49,16 +48,6 @@ import { TwigsLocalService } from './shared/twigs.local.service';
 import { TransactionListComponent } from './transactions/transaction-list/transaction-list.component';
 import { EditCategoryComponent } from './categories/edit-category/edit-category.component';
 import { EditBudgetComponent } from './budgets/edit-budget/edit-budget.component';
-
-export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
-  align: 'left',
-  precision: 2,
-  prefix: '',
-  thousands: ',',
-  decimal: '.',
-  suffix: '',
-  allowNegative: false,
-};
 
 @NgModule({
   declarations: [
@@ -104,13 +93,11 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     FormsModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     HttpClientModule,
-    CurrencyMaskModule,
     ChartsModule,
     MatCheckboxModule,
     MatCardModule,
   ],
   providers: [
-    { provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: TWIGS_SERVICE, useClass: TwigsHttpService },
     { provide: Storage, useValue: window.localStorage },
