@@ -6,8 +6,8 @@
     "start": "ng serve --host '0.0.0.0'",
     "code-server": "ng serve --configuration=codeserver --host \"0.0.0.0\" --disable-host-check --poll=2000",
     "build": "ng build",
-    "package": "ng build --prod --service-worker",
-    "publish": "ng build --prod --service-worker && firebase deploy",
+    "package": "ng build --configuration=production --service-worker",
+    "publish": "ng build --configuration=production --service-worker && firebase deploy",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
