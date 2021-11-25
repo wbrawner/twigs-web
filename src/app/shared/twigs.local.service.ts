@@ -5,6 +5,7 @@ import { Budget } from '../budgets/budget';
 import { Category } from '../categories/category';
 import { Transaction } from '../transactions/transaction';
 import { randomId } from '../shared/utils';
+import { Frequency, RecurringTransaction } from '../recurringtransactions/recurringtransaction';
 
 /**
  * This is intended to be a very simple implementation of the TwigsService used for testing out the UI and quickly iterating on it.
@@ -282,6 +283,44 @@ export class TwigsLocalService implements TwigsService {
         reject('No transaction found for given id');
       }
     });
+  }
+
+  // Recurring Transactions
+  getRecurringTransactions(
+    budgetId?: string,
+    categoryId?: string,
+    count?: number,
+    from?: Date,
+    to?: Date
+  ): Promise<RecurringTransaction[]> {
+    return Promise.reject("Not yet implemented")
+  }
+
+  getRecurringTransaction(id: string): Promise<RecurringTransaction> {
+    return Promise.reject("Not yet implemented")
+  }
+
+  createRecurringTransaction(
+    id: string,
+    budgetId: string,
+    name: string,
+    description: string,
+    amount: number,
+    frequency: Frequency,
+    start: Date,
+    expense: boolean,
+    category: string,
+    end?: Date,
+  ): Promise<RecurringTransaction> {
+    return Promise.reject("Not yet implemented")
+  }
+
+  updateRecurringTransaction(id: string, transaction: RecurringTransaction): Promise<RecurringTransaction> {
+    return Promise.reject("Not yet implemented")
+  }
+
+  deleteRecurringTransaction(id: string): Promise<void> {
+    return Promise.reject("Not yet implemented")
   }
 
   // Users

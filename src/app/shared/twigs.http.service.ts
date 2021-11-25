@@ -5,6 +5,7 @@ import { Budget } from '../budgets/budget';
 import { Category } from '../categories/category';
 import { Transaction } from '../transactions/transaction';
 import { environment } from '../../environments/environment';
+import { Frequency, RecurringTransaction } from '../recurringtransactions/recurringtransaction';
 
 @Injectable({
   providedIn: 'root'
@@ -242,6 +243,85 @@ export class TwigsHttpService implements TwigsService {
 
   deleteTransaction(id: string): Promise<void> {
     const url = new URL(`/api/transactions/${id}`, this.apiUrl)
+    return this.request(url, HttpMethod.DELETE)
+  }
+
+  // Recurring Transactions
+  async getRecurringTransactions(
+    budgetId?: string,
+    categoryId?: string,
+    count?: number,
+    from?: Date,
+    to?: Date
+  ): Promise<RecurringTransaction[]> {
+    const url = new URL(`/api/recurringtransactions`, this.apiUrl)
+    if (budgetId) {
+      url.searchParams.set('budgetIds', budgetId);
+    }
+    if (categoryId) {
+      url.searchParams.set('categoryIds', categoryId);
+    }
+    if (from) {
+      url.searchParams.set('from', from.toISOString());
+    }
+    if (to) {
+      url.searchParams.set('to', to.toISOString());
+    }
+    const transactions: RecurringTransaction[] = await this.request(url, HttpMethod.GET)
+    transactions.forEach(transaction => {
+      transaction.frequency = Frequency.parse(transaction.frequency as any)
+    })
+    return transactions
+  }
+
+  async getRecurringTransaction(id: string): Promise<RecurringTransaction> {
+    const url = new URL(`/api/recurringtransactions/${id}`, this.apiUrl)
+    const transaction: RecurringTransaction = await this.request(url, HttpMethod.GET)
+    transaction.frequency = Frequency.parse(transaction.frequency as any)
+    return transaction
+  }
+
+  async createRecurringTransaction(
+    id: string,
+    budgetId: string,
+    name: string,
+    description: string,
+    amount: number,
+    frequency: Frequency,
+    start: Date,
+    expense: boolean,
+    category: string,
+    end?: Date,
+  ): Promise<RecurringTransaction> {
+    const url = new URL(`/api/transactions`, this.apiUrl)
+    const body = {
+      'id': id,
+      'title': name,
+      'description': description,
+      'frequency': frequency.toString(),
+      'start': start.toISOString(),
+      'finish': end?.toISOString(),
+      'amount': amount,
+      'expense': expense,
+      'categoryId': category,
+      'budgetId': budgetId
+    };
+    const transaction: RecurringTransaction = await this.request(url, HttpMethod.POST, body)
+    transaction.frequency = Frequency.parse(transaction.frequency as any)
+    return transaction
+  }
+
+  async updateRecurringTransaction(id: string, transaction: RecurringTransaction): Promise<RecurringTransaction> {
+    const body: any = transaction;
+    body.frequency = transaction.frequency.toString()
+    const url = new URL(`/api/transactions/${id}`, this.apiUrl)
+    const updatedTransaction: RecurringTransaction = await this.request(url, HttpMethod.PUT, body)
+    updatedTransaction.frequency = Frequency.parse(updatedTransaction.frequency as any)
+    return updatedTransaction
+  }
+
+  deleteRecurringTransaction(id: string): Promise<void> {
+    const url = new URL(`/api/recurringtransactions/${id}`, this.apiUrl)
     return this.request(url, HttpMethod.DELETE)
   }
 

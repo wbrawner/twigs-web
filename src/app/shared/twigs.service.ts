@@ -2,6 +2,7 @@ import { InjectionToken } from '@angular/core';
 import { User, UserPermission } from '../users/user';
 import { Budget } from '../budgets/budget';
 import { Category } from '../categories/category';
+import { RecurringTransaction, Frequency } from '../recurringtransactions/recurringtransaction';
 import { Transaction } from '../transactions/transaction';
 
 export interface TwigsService {
@@ -52,6 +53,30 @@ export interface TwigsService {
   ): Promise<Transaction>;
   updateTransaction(id: string, transaction: Transaction): Promise<Transaction>;
   deleteTransaction(id: string): Promise<void>;
+
+  // Recurring Transactions
+  getRecurringTransactions(
+    budgetId?: string,
+    categoryId?: string,
+    count?: number,
+    from?: Date,
+    to?: Date
+  ): Promise<RecurringTransaction[]>;
+  getRecurringTransaction(id: string): Promise<RecurringTransaction>;
+  createRecurringTransaction(
+    id: string,
+    budgetId: string,
+    name: string,
+    description: string,
+    amount: number,
+    frequency: Frequency,
+    start: Date,
+    expense: boolean,
+    category: string,
+    end?: Date,
+  ): Promise<RecurringTransaction>;
+  updateRecurringTransaction(id: string, transaction: RecurringTransaction): Promise<RecurringTransaction>;
+  deleteRecurringTransaction(id: string): Promise<void>;
 
   getProfile(id: string): Promise<User>;
   getUsersByUsername(username: string): Promise<User[]>;
