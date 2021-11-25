@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { User, UserPermission } from '../users/user';
 import { Budget } from '../budgets/budget';
 import { Category } from '../categories/category';
+import { RecurringTransaction, Frequency } from '../recurringtransactions/recurringtransaction';
 import { Transaction } from '../transactions/transaction';
 
 export interface TwigsService {
@@ -53,6 +54,26 @@ export interface TwigsService {
   ): Observable<Transaction>;
   updateTransaction(id: string, changes: object): Observable<Transaction>;
   deleteTransaction(id: string): Observable<void>;
+
+  // Recurring Transactions
+  getRecurringTransactions(
+    budgetId: string,
+  ): Observable<RecurringTransaction[]>;
+  getRecurringTransaction(id: string): Observable<RecurringTransaction>;
+  createRecurringTransaction(
+    id: string,
+    budgetId: string,
+    name: string,
+    description: string,
+    amount: number,
+    frequency: Frequency,
+    start: Date,
+    expense: boolean,
+    category: string,
+    end?: Date,
+  ): Observable<RecurringTransaction>;
+  updateRecurringTransaction(id: string, changes: object): Observable<RecurringTransaction>;
+  deleteRecurringTransaction(id: string): Observable<void>;
 
   getProfile(id: string): Observable<User>;
   getUsersByUsername(username: string): Observable<User[]>;
