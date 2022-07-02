@@ -73,8 +73,20 @@ export class TwigsHttpService implements TwigsService {
     return this.budgets;
   }
 
-  getBudgetBalance(id: string): Observable<number> {
-    return this.http.get<any>(`${this.apiUrl}/transactions/sum?budgetId=${id}`, this.options)
+  getBudgetBalance(
+    id: string,
+    from?: Date,
+    to?: Date
+  ): Observable<number> {
+    let httpParams = new HttpParams();
+    if (from) {
+      httpParams = httpParams.set('from', from.toISOString());
+    }
+    if (to) {
+      httpParams = httpParams.set('to', to.toISOString());
+    }
+    const params = { params: httpParams };
+    return this.http.get<any>(`${this.apiUrl}/transactions/sum?budgetId=${id}`, { ...this.options, ...params })
       .pipe(map(obj => obj.balance));
   }
 
@@ -187,8 +199,20 @@ export class TwigsHttpService implements TwigsService {
     return this.http.get<Category>(`${this.apiUrl}/categories/${id}`, this.options);
   }
 
-  getCategoryBalance(id: string): Observable<number> {
-    return this.http.get<any>(`${this.apiUrl}/transactions/sum?categoryId=${id}`, this.options)
+  getCategoryBalance(
+    id: string,
+    from?: Date,
+    to?: Date
+  ): Observable<number> {
+    let httpParams = new HttpParams();
+    if (from) {
+      httpParams = httpParams.set('from', from.toISOString());
+    }
+    if (to) {
+      httpParams = httpParams.set('to', to.toISOString());
+    }
+    const params = { params: httpParams };
+    return this.http.get<any>(`${this.apiUrl}/transactions/sum?categoryId=${id}`, { ...this.options, ...params })
       .pipe(map(obj => obj.balance));
   }
 

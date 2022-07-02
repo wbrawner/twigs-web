@@ -32,13 +32,41 @@ export class BudgetDetailsComponent implements OnInit, OnDestroy, Actionable {
     { data: [0, 0], label: 'Expected' },
     { data: [0, 0], label: 'Actual' },
   ];
+  from: Date
+  to: Date
 
   constructor(
     private app: AppComponent,
     private route: ActivatedRoute,
     @Inject(TWIGS_SERVICE) private twigsService: TwigsService,
     private router: Router,
-  ) { }
+  ) {
+    let fromStr = this.route.snapshot.queryParamMap.get('from');
+    if (fromStr) {
+      let fromDate = new Date(fromStr);
+      if (!isNaN(fromDate.getTime())) {
+        this.from = fromDate;
+      }
+    }
+
+    if (!this.from) {
+      let date = new Date();
+      date.setHours(0);
+      date.setMinutes(0);
+      date.setSeconds(0);
+      date.setMilliseconds(0);
+      date.setDate(1);
+      this.from = date;
+    }
+
+    let toStr = this.route.snapshot.queryParamMap.get('to');
+    if (toStr) {
+      let toDate = new Date(toStr);
+      if (!isNaN(toDate.getTime())) {
+        this.to = toDate;
+      }
+    }
+  }
 
   ngOnInit() {
     this.getBudget();
@@ -87,7 +115,7 @@ export class BudgetDetailsComponent implements OnInit, OnDestroy, Actionable {
 
   getBalance(): void {
     const id = this.route.snapshot.paramMap.get('id');
-    this.twigsService.getBudgetBalance(id).subscribe(balance => {
+    this.twigsService.getBudgetBalance(id, this.from, this.to).subscribe(balance => {
       this.budgetBalance = balance;
     });
   }
@@ -116,7 +144,7 @@ export class BudgetDetailsComponent implements OnInit, OnDestroy, Actionable {
           this.income.push(category);
           this.expectedIncome += category.amount;
         }
-        this.twigsService.getCategoryBalance(category.id).subscribe(
+        this.twigsService.getCategoryBalance(category.id, this.from, this.to).subscribe(
           balance => {
             console.log(balance);
             if (category.expense) {
@@ -146,7 +174,7 @@ export class BudgetDetailsComponent implements OnInit, OnDestroy, Actionable {
     this.router.navigateByUrl(this.router.routerState.snapshot.url + "/edit")
   }
 
-  getActionLabel(): string { 
+  getActionLabel(): string {
     return "Edit";
   }
 }

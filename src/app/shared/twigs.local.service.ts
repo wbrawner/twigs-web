@@ -66,7 +66,7 @@ export class TwigsLocalService implements TwigsService {
     });
   }
 
-  getBudgetBalance(id: string): Observable<number> {
+  getBudgetBalance(id: string, from?: Date, to?: Date): Observable<number> {
     return new Observable(emitter => {
       emitter.next(200);
       emitter.complete()
@@ -162,7 +162,7 @@ export class TwigsLocalService implements TwigsService {
     });
   }
 
-  getCategoryBalance(id: string): Observable<number> {
+  getCategoryBalance(id: string, from?: Date, to?: Date): Observable<number> {
     return new Observable(emitter => {
       emitter.next(20);
       emitter.complete()

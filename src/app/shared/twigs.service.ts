@@ -14,7 +14,7 @@ export interface TwigsService {
   // Budgets
   getBudgets(): Observable<Budget[]>;
   getBudget(id: string): Observable<Budget>;
-  getBudgetBalance(id: string): Observable<number>;
+  getBudgetBalance(id: string, from?: Date, to?: Date): Observable<number>;
   createBudget(
     id: string,
     name: string,
@@ -27,7 +27,7 @@ export interface TwigsService {
   // Categories
   getCategories(budgetId?: string, count?: number): Observable<Category[]>;
   getCategory(id: string): Observable<Category>;
-  getCategoryBalance(id: string): Observable<number>;
+  getCategoryBalance(id: string, from?: Date, to?: Date): Observable<number>;
   createCategory(id: string, budgetId: string, name: string, description: string, amount: number, isExpense: boolean): Observable<Category>;
   updateCategory(id: string, changes: object): Observable<Category>;
   deleteCategory(id: string): Observable<void>;
