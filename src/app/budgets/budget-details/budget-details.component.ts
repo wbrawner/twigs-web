@@ -5,8 +5,8 @@ import { AppComponent } from 'src/app/app.component';
 import { Transaction } from 'src/app/transactions/transaction';
 import { Category } from 'src/app/categories/category';
 import { Observable } from 'rxjs';
-import { Label } from 'ng2-charts';
-import { ChartDataSets } from 'chart.js';
+// import { Label } from 'ng2-charts';
+import { ChartDataset } from 'chart.js';
 import { TWIGS_SERVICE, TwigsService } from 'src/app/shared/twigs.service';
 import { Actionable } from '../../shared/actionable';
 
@@ -27,8 +27,8 @@ export class BudgetDetailsComponent implements OnInit, OnDestroy, Actionable {
   actualIncome = 0;
   expectedExpenses = 0;
   actualExpenses = 0;
-  barChartLabels: Label[] = ['Income', 'Expenses'];
-  barChartData: ChartDataSets[] = [
+  barChartLabels: string[] = ['Income', 'Expenses'];
+  barChartData: ChartDataset[] = [
     { data: [0, 0], label: 'Expected' },
     { data: [0, 0], label: 'Actual' },
   ];

@@ -40,7 +40,7 @@ import { environment } from 'src/environments/environment';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { CategoryBreakdownComponent } from './categories/category-breakdown/category-breakdown.component';
-import { ChartsModule } from 'ng2-charts';
+import { NgChartsModule } from 'ng2-charts';
 import { TWIGS_SERVICE } from './shared/twigs.service';
 import { AuthInterceptor } from './shared/auth.interceptor';
 import { TwigsHttpService } from './shared/twigs.http.service';
@@ -93,7 +93,7 @@ import { EditBudgetComponent } from './budgets/edit-budget/edit-budget.component
     FormsModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     HttpClientModule,
-    ChartsModule,
+    NgChartsModule,
     MatCheckboxModule,
     MatCardModule,
   ],
