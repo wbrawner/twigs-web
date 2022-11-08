@@ -25,23 +25,23 @@ export class TwigsHttpService implements TwigsService {
     private storage: Storage
   ) { }
 
-  login(email: string, password: string): Observable<User> {
-    return new Observable(emitter => {
-      const params = {
+  login(email: string, password: string): Promise<User> {
+    return fetch(this.apiUrl + '/users/login', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({
         'username': email,
         'password': password
-      };
-      this.http.post<AuthToken>(this.apiUrl + '/users/login', params, this.options)
-        .subscribe(
-          auth => {
-            // TODO: Use token expiration to determine cookie expiration
-            this.storage.setItem('Authorization', auth.token);
-            this.storage.setItem('userId', auth.userId);
-            this.getProfile(auth.userId).subscribe(user => emitter.next(user), error => emitter.error(error));
-          },
-          error => emitter.error(error)
-        );
-    });
+      })
+    })
+      .then(res => res.json())
+      .then((auth: AuthToken) => {
+        this.storage.setItem('Authorization', auth.token);
+        this.storage.setItem('userId', auth.userId);
+        return this.getProfile(auth.userId);
+      });
   }
 
   register(username: string, email: string, password: string): Observable<User> {
@@ -307,8 +307,14 @@ export class TwigsHttpService implements TwigsService {
   }
 
   // Users
-  getProfile(id: string): Observable<User> {
-    return this.http.get<User>(`${this.apiUrl}/users/${id}`, this.options);
+  getProfile(id: string): Promise<User> {
+    return fetch(`${this.apiUrl}/users/${id}`, {
+      credentials: 'include',
+      headers: {
+        'Authorization': `Bearer ${this.storage.getItem('Authorization')}`
+      }
+    })
+      .then(res => res.json());
   }
 
   getUsersByUsername(username: string): Observable<User[]> {

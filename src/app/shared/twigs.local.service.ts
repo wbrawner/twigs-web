@@ -27,15 +27,15 @@ export class TwigsLocalService implements TwigsService {
   private categories: Category[] = [];
 
   // Auth
-  login(email: string, password: string): Observable<User> {
-    return new Observable(subscriber => {
+  login(email: string, password: string): Promise<User> {
+    return new Promise((resolve, reject) => {
       const filteredUsers = this.users.filter(user => {
         return (user.email === email || user.username === email);
       });
       if (filteredUsers.length !== 0) {
-        subscriber.next(filteredUsers[0]);
+        resolve(filteredUsers[0]);
       } else {
-        subscriber.error('No users found');
+        reject('No users found');
       }
     });
   }
@@ -313,9 +313,9 @@ export class TwigsLocalService implements TwigsService {
   }
 
   // Users
-  getProfile(id: string): Observable<User> {
-    return new Observable(subscriber => {
-      subscriber.error("Not yet implemented")
+  getProfile(id: string): Promise<User> {
+    return new Promise((resolve, reject) => {
+      reject("Not yet implemented")
     });
   }
 

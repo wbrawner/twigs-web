@@ -32,13 +32,13 @@ export class LoginComponent implements OnInit {
   login(): void {
     this.isLoading = true;
     this.twigsService.login(this.email, this.password)
-      .subscribe(user => {
+      .then(user => {
         this.app.user.next(user);
         this.router.navigate([this.redirect || '/'])
-      },
-      error => {
+      })
+      .catch(error => {
         console.error(error)
-        //TODO: Replace this with an in-app dialog
+        // TODO: Replace this with an in-app dialog
         alert("Login failed. Please verify you have the correct credentials");
         this.isLoading = false;
       })

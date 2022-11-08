@@ -7,7 +7,7 @@ import { Transaction } from '../transactions/transaction';
 
 export interface TwigsService {
   // Auth
-  login(email: string, password: string): Observable<User>;
+  login(email: string, password: string): Promise<User>;
   register(username: string, email: string, password: string): Observable<User>;
   logout(): Observable<void>;
 
@@ -54,7 +54,7 @@ export interface TwigsService {
   updateTransaction(id: string, changes: object): Observable<Transaction>;
   deleteTransaction(id: string): Observable<void>;
 
-  getProfile(id: string): Observable<User>;
+  getProfile(id: string): Promise<User>;
   getUsersByUsername(username: string): Observable<User[]>;
 }
 

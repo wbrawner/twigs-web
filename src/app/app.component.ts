@@ -47,7 +47,7 @@ export class AppComponent implements OnInit {
       if (savedUser) {
         this.user.next(savedUser);
       }
-      this.twigsService.getProfile(userId).subscribe(fetchedUser => {
+      this.twigsService.getProfile(userId).then(fetchedUser => {
         this.storage.setItem('user', JSON.stringify(fetchedUser));
         this.user.next(fetchedUser);
         if (unauthenticatedRoutes.indexOf(this.location.path()) != -1) {
