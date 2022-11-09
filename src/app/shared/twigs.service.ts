@@ -8,8 +8,8 @@ import { Transaction } from '../transactions/transaction';
 export interface TwigsService {
   // Auth
   login(email: string, password: string): Promise<User>;
-  register(username: string, email: string, password: string): Observable<User>;
-  logout(): Observable<void>;
+  register(username: string, email: string, password: string): Promise<User>;
+  logout(): Promise<void>;
 
   // Budgets
   getBudgets(): Observable<Budget[]>;

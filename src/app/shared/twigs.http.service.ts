@@ -25,42 +25,32 @@ export class TwigsHttpService implements TwigsService {
     private storage: Storage
   ) { }
 
-  login(email: string, password: string): Promise<User> {
-    return fetch(this.apiUrl + '/users/login', {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json'
-      },
-      body: JSON.stringify({
-        'username': email,
-        'password': password
-      })
-    })
-      .then(res => res.json())
-      .then((auth: AuthToken) => {
-        this.storage.setItem('Authorization', auth.token);
-        this.storage.setItem('userId', auth.userId);
-        return this.getProfile(auth.userId);
-      });
+  async login(email: string, password: string): Promise<User> {
+    const url = new URL('/api/users/login', this.apiUrl)
+    const auth: AuthToken = await this.request(url, HttpMethod.POST, {
+      'username': email,
+      'password': password
+    });
+    this.storage.setItem('Authorization', auth.token);
+    this.storage.setItem('userId', auth.userId);
+    return await this.getProfile(auth.userId);
   }
 
-  register(username: string, email: string, password: string): Observable<User> {
-    const params = {
+  register(username: string, email: string, password: string): Promise<User> {
+    const body = {
       'username': username,
       'email': email,
       'password': password
     };
-    return this.http.post<User>(this.apiUrl + '/users/register', params, this.options);
+    const url = new URL('/api/users/register', this.apiUrl)
+    return this.request<User>(url, HttpMethod.POST, body);
   }
 
-  logout(): Observable<void> {
-    return new Observable(emitter => {
-      this.storage.removeItem('Authorization');
-      this.storage.removeItem('userId');
-      emitter.next();
-      emitter.complete();
-    })
-    // TODO: Implement this when JWT auth is implemented
+  logout(): Promise<void> {
+    this.storage.removeItem('Authorization');
+    this.storage.removeItem('userId');
+    return Promise.resolve()
+    // TODO: Implement this to revoke the token server-side as well
     // return this.http.post<void>(this.apiUrl + '/login?logout', this.options);
   }
 
@@ -308,13 +298,8 @@ export class TwigsHttpService implements TwigsService {
 
   // Users
   getProfile(id: string): Promise<User> {
-    return fetch(`${this.apiUrl}/users/${id}`, {
-      credentials: 'include',
-      headers: {
-        'Authorization': `Bearer ${this.storage.getItem('Authorization')}`
-      }
-    })
-      .then(res => res.json());
+    const url = new URL(`/api/users/${id}`, this.apiUrl)
+    return this.request(url, HttpMethod.GET)
   }
 
   getUsersByUsername(username: string): Observable<User[]> {
@@ -322,4 +307,36 @@ export class TwigsHttpService implements TwigsService {
       subscriber.error("Not yet implemented")
     });
   }
+
+  private async request<T>(url: URL, method: HttpMethod, body?: any): Promise<T> {
+    const headers = {
+      'content-type': 'application/json'
+    }
+
+    const token = this.storage.getItem('Authorization')
+    if (token) {
+      headers['authorization'] = `Bearer ${token}`
+    }
+
+    let jsonBody: string;
+    if (body) {
+      jsonBody = JSON.stringify(body)
+    }
+
+    const res = await fetch(url, {
+      credentials: 'include',
+      headers: headers,
+      method: method,
+      body: jsonBody
+    })
+
+    return res.json()
+  }
+}
+
+enum HttpMethod {
+  GET = "GET",
+  POST = "POST",
+  PUT = "PUT",
+  DELETE = "DELETE",
 }

@@ -33,10 +33,10 @@ export class RegisterComponent implements OnInit {
       return;
     }
     this.isLoading = true;
-    this.twigsService.register(this.username, this.email, this.password).subscribe(user => {
+    this.twigsService.register(this.username, this.email, this.password).then(user => {
       console.log(user);
       this.router.navigate(['/'])
-    }, error => {
+    }).catch(error => {
       console.error(error);
       alert("Registration failed!")
       this.isLoading = false;

@@ -40,22 +40,19 @@ export class TwigsLocalService implements TwigsService {
     });
   }
 
-  register(username: string, email: string, password: string): Observable<User> {
-    return new Observable(subscriber => {
+  register(username: string, email: string, password: string): Promise<User> {
+    return new Promise((resolve, reject) => {
       const user = new User();
       user.username = username;
       user.email = email;
       user.id = randomId();
       this.users.push(user);
-      subscriber.next(user);
-      subscriber.complete();
+      resolve(user);
     });
   }
 
-  logout(): Observable<void> {
-    return new Observable(subscriber => {
-      subscriber.complete();
-    });
+  logout(): Promise<void> {
+    return Promise.resolve()
   }
 
   // Budgets

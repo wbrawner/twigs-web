@@ -107,7 +107,7 @@ export class AppComponent implements OnInit {
   }
 
   logout(): void {
-    this.twigsService.logout().subscribe(_ => {
+    this.twigsService.logout().then(_ => {
       this.location.go('/');
       window.location.reload();
     });
