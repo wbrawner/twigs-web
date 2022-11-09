@@ -57,7 +57,7 @@ export class AddEditBudgetComponent {
 
     // TODO: Implement a search box with suggestions to add users
     searchUsers(username: string) {
-        this.twigsService.getUsersByUsername(username).subscribe(users => {
+        this.twigsService.getUsersByUsername(username).then(users => {
             this.searchedUsers = users;
         });
     }

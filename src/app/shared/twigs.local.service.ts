@@ -311,15 +311,11 @@ export class TwigsLocalService implements TwigsService {
 
   // Users
   getProfile(id: string): Promise<User> {
-    return new Promise((resolve, reject) => {
-      reject("Not yet implemented")
-    });
+    return Promise.reject("Not yet implemented");
   }
 
-  getUsersByUsername(username: string): Observable<User[]> {
-    return new Observable(subscriber => {
-      subscriber.next(this.users.filter(user => user.username.indexOf(username) > -1 ));
-    });
+  getUsersByUsername(username: string): Promise<User[]> {
+    return Promise.resolve(this.users.filter(user => user.username.indexOf(username) > -1))
   }
 
   private updateValues(old: object, changes: object, keys: string[]) {

@@ -302,10 +302,8 @@ export class TwigsHttpService implements TwigsService {
     return this.request(url, HttpMethod.GET)
   }
 
-  getUsersByUsername(username: string): Observable<User[]> {
-    return new Observable(subscriber => {
-      subscriber.error("Not yet implemented")
-    });
+  getUsersByUsername(username: string): Promise<User[]> {
+    return Promise.reject("Not yet implemented")
   }
 
   private async request<T>(url: URL, method: HttpMethod, body?: any): Promise<T> {

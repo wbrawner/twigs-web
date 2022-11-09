@@ -55,7 +55,7 @@ export interface TwigsService {
   deleteTransaction(id: string): Observable<void>;
 
   getProfile(id: string): Promise<User>;
-  getUsersByUsername(username: string): Observable<User[]>;
+  getUsersByUsername(username: string): Promise<User[]>;
 }
 
 export let TWIGS_SERVICE = new InjectionToken<TwigsService>('twigs.service');
