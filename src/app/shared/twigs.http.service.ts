@@ -64,7 +64,7 @@ export class TwigsHttpService implements TwigsService {
     from?: Date,
     to?: Date
   ): Promise<number> {
-    const url = new URL('/api/transactions/sum')
+    const url = new URL('/api/transactions/sum', this.apiUrl)
     url.searchParams.set('budgetId', id)
     if (from) {
       url.searchParams.set('from', from.toISOString());
