@@ -12,17 +12,17 @@ export interface TwigsService {
   logout(): Promise<void>;
 
   // Budgets
-  getBudgets(): Observable<Budget[]>;
-  getBudget(id: string): Observable<Budget>;
-  getBudgetBalance(id: string, from?: Date, to?: Date): Observable<number>;
+  getBudgets(): Promise<Budget[]>;
+  getBudget(id: string): Promise<Budget>;
+  getBudgetBalance(id: string, from?: Date, to?: Date): Promise<number>;
   createBudget(
     id: string,
     name: string,
     description: string,
     users: UserPermission[],
-  ): Observable<Budget>;
-  updateBudget(id: string, changes: object): Observable<Budget>;
-  deleteBudget(id: string): Observable<void>;
+  ): Promise<Budget>;
+  updateBudget(id: string, budget: Budget): Promise<Budget>;
+  deleteBudget(id: string): Promise<void>;
 
   // Categories
   getCategories(budgetId?: string, count?: number): Observable<Category[]>;

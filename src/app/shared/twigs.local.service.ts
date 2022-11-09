@@ -56,31 +56,24 @@ export class TwigsLocalService implements TwigsService {
   }
 
   // Budgets
-  getBudgets(): Observable<Budget[]> {
-    return new Observable(subscriber => {
-      subscriber.next(this.budgets);
-      subscriber.complete();
-    });
+  getBudgets(): Promise<Budget[]> {
+    return Promise.resolve(this.budgets)
   }
 
-  getBudgetBalance(id: string, from?: Date, to?: Date): Observable<number> {
-    return new Observable(emitter => {
-      emitter.next(200);
-      emitter.complete()
-    })
+  getBudgetBalance(id: string, from?: Date, to?: Date): Promise<number> {
+    return Promise.resolve(200)
   }
 
-  getBudget(id: string): Observable<Budget> {
-    return new Observable(subscriber => {
+  getBudget(id: string): Promise<Budget> {
+    return new Promise((resolve, reject) => {
       const budget = this.budgets.filter(it => {
         return it.id === id;
       })[0];
       if (budget) {
-        subscriber.next(budget);
+        resolve(budget);
       } else {
-        subscriber.error('No budget found for given id');
+        reject('No budget found for given id');
       }
-      subscriber.complete();
     });
   }
 
@@ -89,21 +82,20 @@ export class TwigsLocalService implements TwigsService {
     name: string,
     description: string,
     users: UserPermission[],
-  ): Observable<Budget> {
-    return new Observable(subscriber => {
+  ): Promise<Budget> {
+    return new Promise((resolve, reject) => {
       const budget = new Budget();
       budget.name = name;
       budget.description = description;
       budget.users = users;
       budget.id = id;
       this.budgets.push(budget);
-      subscriber.next(budget);
-      subscriber.complete();
+      resolve(budget);
     });
   }
 
-  updateBudget(id: string, changes: object): Observable<Budget> {
-    return new Observable(subscriber => {
+  updateBudget(id: string, budget: Budget): Promise<Budget> {
+    return new Promise((resolve, reject) => {
       const budget = this.budgets.filter(it => {
         return it.id === id;
       })[0];
@@ -111,7 +103,7 @@ export class TwigsLocalService implements TwigsService {
         const index = this.budgets.indexOf(budget);
         this.updateValues(
           budget,
-          changes,
+          budget,
           [
             'name',
             'description',
@@ -119,25 +111,24 @@ export class TwigsLocalService implements TwigsService {
           ]
         );
         this.budgets[index] = budget;
-        subscriber.next(budget);
+        resolve(budget);
       } else {
-        subscriber.error('No budget found for given id');
+        reject('No budget found for given id');
       }
-      subscriber.complete();
     });
   }
 
-  deleteBudget(id: string): Observable<void> {
-    return new Observable(subscriber => {
+  deleteBudget(id: string): Promise<void> {
+    return new Promise((resolve, reject) => {
       const budget = this.budgets.filter(it => {
         return budget.id === id;
       })[0];
       if (budget) {
         const index = this.budgets.indexOf(budget);
         delete this.budgets[index];
-        subscriber.complete();
+        resolve();
       } else {
-        subscriber.error('No budget found for given id');
+        reject('No budget found for given id');
       }
     });
   }

@@ -29,8 +29,8 @@ export class UserPermission {
 }
 
 export enum Permission {
-  READ,
-  WRITE,
-  MANAGE,
-  OWNER
+  READ = "READ",
+  WRITE = "WRITE",
+  MANAGE = "MANAGE",
+  OWNER = "OWNER"
 }

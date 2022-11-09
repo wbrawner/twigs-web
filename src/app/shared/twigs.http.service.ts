@@ -18,7 +18,6 @@ export class TwigsHttpService implements TwigsService {
     withCredentials: true
   };
   private apiUrl = environment.apiUrl;
-  private budgets: BehaviorSubject<Budget[]> = new BehaviorSubject(null);
 
   constructor(
     private http: HttpClient,
@@ -55,57 +54,30 @@ export class TwigsHttpService implements TwigsService {
   }
 
   // Budgets
-  getBudgets(): Observable<Budget[]> {
-    this.http.get<Budget[]>(this.apiUrl + '/budgets', this.options)
-      .subscribe(budgets => {
-        this.budgets.next(budgets);
-      });
-    return this.budgets;
+  getBudgets(): Promise<Budget[]> {
+    const url = new URL('/api/budgets', this.apiUrl)
+    return this.request(url, HttpMethod.GET)
   }
 
   getBudgetBalance(
     id: string,
     from?: Date,
     to?: Date
-  ): Observable<number> {
-    let httpParams = new HttpParams();
+  ): Promise<number> {
+    const url = new URL('/api/transactions/sum')
+    url.searchParams.set('budgetId', id)
     if (from) {
-      httpParams = httpParams.set('from', from.toISOString());
+      url.searchParams.set('from', from.toISOString());
     }
     if (to) {
-      httpParams = httpParams.set('to', to.toISOString());
+      url.searchParams.set('to', to.toISOString());
     }
-    const params = { params: httpParams };
-    return this.http.get<any>(`${this.apiUrl}/transactions/sum?budgetId=${id}`, { ...this.options, ...params })
-      .pipe(map(obj => obj.balance));
+    return this.request(url, HttpMethod.GET).then((res: any) => res.balance)
   }
 
-  getBudget(id: string): Observable<Budget> {
-    return new Observable(emitter => {
-      var cachedBudget: Budget
-      if (this.budgets.value) {
-        cachedBudget = this.budgets.value.find(budget => {
-          return budget.id === id;
-        });
-      }
-      if (cachedBudget) {
-        emitter.next(cachedBudget);
-        emitter.complete();
-      } else {
-        this.http.get<Budget>(`${this.apiUrl}/budgets/${id}`, this.options)
-          .subscribe(budget => {
-            var oldBudgets = JSON.parse(JSON.stringify(this.budgets.value));
-            if (!oldBudgets) {
-              oldBudgets = [];
-            }
-            oldBudgets.push(budget);
-            oldBudgets.sort();
-            this.budgets.next(oldBudgets);
-            emitter.next(budget);
-            emitter.complete();
-          })
-      }
-    })
+  getBudget(id: string): Promise<Budget> {
+    const url = new URL(`/api/budgets/${id}`, this.apiUrl)
+    return this.request(url, HttpMethod.GET)
   }
 
   createBudget(
@@ -113,8 +85,9 @@ export class TwigsHttpService implements TwigsService {
     name: string,
     description: string,
     users: UserPermission[],
-  ): Observable<Budget> {
-    const params = {
+  ): Promise<Budget> {
+    const url = new URL('/api/budgets', this.apiUrl)
+    const body = {
       'id': id,
       'name': name,
       'description': description,
@@ -125,19 +98,12 @@ export class TwigsHttpService implements TwigsService {
         };
       })
     };
-    return this.http.post<Budget>(this.apiUrl + '/budgets', params, this.options)
-      .pipe(map(budget => {
-        var updatedBudgets = JSON.parse(JSON.stringify(this.budgets.value));
-        updatedBudgets.push(budget);
-        updatedBudgets.sort();
-        this.budgets.next(updatedBudgets);
-        return budget
-      }))
+    return this.request(url, HttpMethod.POST, body)
   }
 
-  updateBudget(id: string, changes: object): Observable<Budget> {
-    let budget = changes as Budget;
-    const params = {
+  updateBudget(id: string, budget: Budget): Promise<Budget> {
+    const url = new URL(`/api/budgets/${id}`, this.apiUrl)
+    const body = {
       'name': budget.name,
       'description': budget.description,
       'users': budget.users.map(userPermission => {
@@ -147,32 +113,12 @@ export class TwigsHttpService implements TwigsService {
         };
       })
     };
-    return this.http.put<Budget>(`${this.apiUrl}/budgets/${id}`, params, this.options)
-      .pipe(map(budget => {
-        var updatedBudgets: Budget[] = JSON.parse(JSON.stringify(this.budgets.value));
-        var index = updatedBudgets.findIndex(oldBudget => oldBudget.id === id);
-        if (index > -1) {
-          updatedBudgets.splice(index, 1);
-        }
-        updatedBudgets.push(budget);
-        updatedBudgets.sort();
-        this.budgets.next(updatedBudgets);
-        return budget
-      }));
+    return this.request(url, HttpMethod.PUT, body)
   }
 
-  deleteBudget(id: String): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/budgets/${id}`, this.options)
-      .pipe(map(() => {
-        var updatedBudgets: Budget[] = JSON.parse(JSON.stringify(this.budgets.value));
-        var index = updatedBudgets.findIndex(oldBudget => oldBudget.id === id);
-        if (index > -1) {
-          updatedBudgets.splice(index, 1);
-        }
-        updatedBudgets.sort();
-        this.budgets.next(updatedBudgets);
-        return;
-      }));
+  deleteBudget(id: String): Promise<void> {
+    const url = new URL(`/api/budgets/${id}`, this.apiUrl)
+    return this.request(url, HttpMethod.DELETE)
   }
 
   // Categories
@@ -328,6 +274,10 @@ export class TwigsHttpService implements TwigsService {
       body: jsonBody
     })
 
+    if (res.status === 204) {
+      // No content
+      return
+    }
     return res.json()
   }
 }

@@ -3,6 +3,7 @@ import { Budget } from '../budget';
 import { AppComponent } from 'src/app/app.component';
 import { User, UserPermission, Permission } from 'src/app/users/user';
 import { TWIGS_SERVICE, TwigsService } from 'src/app/shared/twigs.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-add-edit-budget',
@@ -19,6 +20,7 @@ export class AddEditBudgetComponent {
 
     constructor(
         private app: AppComponent,
+        private router: Router,
         @Inject(TWIGS_SERVICE) private twigsService: TwigsService,
     ) {
         this.app.setTitle(this.title)
@@ -27,11 +29,11 @@ export class AddEditBudgetComponent {
     }
 
     save(): void {
-        let observable;
+        let promise: Promise<Budget>;
         this.isLoading = true;
         if (this.create) {
             // This is a new budget, save it
-            observable = this.twigsService.createBudget(
+            promise = this.twigsService.createBudget(
                 this.budget.id,
                 this.budget.name,
                 this.budget.description,
@@ -39,10 +41,10 @@ export class AddEditBudgetComponent {
             );
         } else {
             // This is an existing budget, update it
-            observable = this.twigsService.updateBudget(this.budget.id, this.budget);
+            promise = this.twigsService.updateBudget(this.budget.id, this.budget);
         }
         // TODO: Check if it was actually successful or not
-        observable.subscribe(val => {
+        promise.then(_ => {
             this.app.goBack();
         });
     }
@@ -50,8 +52,8 @@ export class AddEditBudgetComponent {
     delete(): void {
         this.isLoading = true;
         this.twigsService.deleteBudget(this.budget.id)
-            .subscribe(() => {
-                this.app.goBack();
+            .then(() => {
+                this.router.navigateByUrl("/budgets");
             });
     }
 

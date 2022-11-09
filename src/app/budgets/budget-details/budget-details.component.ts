@@ -82,7 +82,7 @@ export class BudgetDetailsComponent implements OnInit, OnDestroy, Actionable {
   getBudget() {
     const id = this.route.snapshot.paramMap.get('id');
     this.twigsService.getBudget(id)
-      .subscribe(budget => {
+      .then(budget => {
         this.app.setTitle(budget.name)
         this.budget = budget;
         this.getBalance();
@@ -115,9 +115,10 @@ export class BudgetDetailsComponent implements OnInit, OnDestroy, Actionable {
 
   getBalance(): void {
     const id = this.route.snapshot.paramMap.get('id');
-    this.twigsService.getBudgetBalance(id, this.from, this.to).subscribe(balance => {
-      this.budgetBalance = balance;
-    });
+    this.twigsService.getBudgetBalance(id, this.from, this.to)
+      .then(balance => {
+        this.budgetBalance = balance;
+      });
   }
 
   getTransactions(): void {
