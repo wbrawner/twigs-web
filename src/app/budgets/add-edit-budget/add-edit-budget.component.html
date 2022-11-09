@@ -4,10 +4,10 @@
 </div>
 <div *ngIf="!isLoading && budget" class="form budget-form">
   <mat-form-field>
-    <input matInput [(ngModel)]="budget.name" placeholder="Name" required>
+    <input matInput [(ngModel)]="budget.name" placeholder="Name" required autocapitalize="words">
   </mat-form-field>
   <mat-form-field>
-    <textarea matInput [(ngModel)]="budget.description" placeholder="Description"></textarea>
+    <textarea matInput [(ngModel)]="budget.description" placeholder="Description" autocapitalize="sentences"></textarea>
   </mat-form-field>
   <button mat-raised-button color="accent" (click)="save()">Save</button>
   <button class="button-delete" mat-raised-button color="warn" *ngIf="!create" (click)="delete()">Delete</button>

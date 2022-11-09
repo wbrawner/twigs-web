@@ -3,13 +3,13 @@
 </div>
 <div *ngIf="currentCategory" class="form category-form">
   <mat-form-field (keyup.enter)="doAction()">
-    <input matInput [(ngModel)]="currentCategory.title" placeholder="Name" required>
+    <input matInput [(ngModel)]="currentCategory.title" placeholder="Name" required autocapitalize="words">
   </mat-form-field>
   <mat-form-field (keyup.enter)="doAction()">
-    <textarea matInput [(ngModel)]="currentCategory.description" placeholder="Description"></textarea>
+    <textarea matInput [(ngModel)]="currentCategory.description" placeholder="Description" autocapitalize="sentences"></textarea>
   </mat-form-field>
   <mat-form-field (keyup.enter)="doAction()">
-    <input matInput type="text" [(ngModel)]="currentCategory.amount" placeholder="Amount" required>
+    <input matInput type="input" [(ngModel)]="currentCategory.amount" placeholder="Amount" required step="0.01">
   </mat-form-field>
   <mat-radio-group [(ngModel)]="currentCategory.expense">
     <mat-radio-button [value]="true">Expense</mat-radio-button>

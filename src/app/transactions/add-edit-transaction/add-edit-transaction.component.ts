@@ -18,7 +18,6 @@ export class AddEditTransactionComponent implements OnInit, OnChanges {
   @Input() create: boolean
   public transactionType = TransactionType;
   public categories: Category[];
-  public rawAmount: string;
   public currentTime: string;
   public transactionDate: string;
 

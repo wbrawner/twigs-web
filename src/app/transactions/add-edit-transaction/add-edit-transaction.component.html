@@ -3,13 +3,13 @@
 </div>
 <div [hidden]="!currentTransaction" *ngIf="currentTransaction" class="form transaction-form">
   <mat-form-field>
-    <input matInput [(ngModel)]="currentTransaction.title" placeholder="Name" required>
+    <input matInput [(ngModel)]="currentTransaction.title" placeholder="Name" required autocapitalize="words">
   </mat-form-field>
   <mat-form-field>
-    <textarea matInput [(ngModel)]="currentTransaction.description" placeholder="Description"></textarea>
+    <textarea matInput [(ngModel)]="currentTransaction.description" placeholder="Description" autocapitalize="sentences"></textarea>
   </mat-form-field>
   <mat-form-field>
-    <input matInput type="text" [(ngModel)]="currentTransaction.amount" placeholder="Amount" required>
+    <input matInput type="number" [(ngModel)]="currentTransaction.amount" placeholder="Amount" required step="0.01">
   </mat-form-field>
   <mat-form-field>
     <input matInput type="date" [ngModel]="transactionDate | date:'yyyy-MM-dd'"
