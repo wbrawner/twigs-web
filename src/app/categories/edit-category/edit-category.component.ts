@@ -28,7 +28,7 @@ export class EditCategoryComponent implements OnInit {
   getCategory(): void {
     const id = this.route.snapshot.paramMap.get('id');
     this.twigsService.getCategory(id)
-      .subscribe(category => {
+      .then(category => {
         category.amount /= 100;
         this.app.setTitle(category.title)
         this.category = category;

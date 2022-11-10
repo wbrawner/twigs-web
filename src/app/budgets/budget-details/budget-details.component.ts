@@ -4,8 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AppComponent } from 'src/app/app.component';
 import { Transaction } from 'src/app/transactions/transaction';
 import { Category } from 'src/app/categories/category';
-import { Observable } from 'rxjs';
-// import { Label } from 'ng2-charts';
 import { ChartDataset } from 'chart.js';
 import { TWIGS_SERVICE, TwigsService } from 'src/app/shared/twigs.service';
 import { Actionable } from '../../shared/actionable';
@@ -16,7 +14,6 @@ import { Actionable } from '../../shared/actionable';
   styleUrls: ['./budget-details.component.css']
 })
 export class BudgetDetailsComponent implements OnInit, OnDestroy, Actionable {
-
   budget: Budget;
   public budgetBalance: number;
   public transactions: Transaction[];
@@ -132,43 +129,38 @@ export class BudgetDetailsComponent implements OnInit, OnDestroy, Actionable {
       .subscribe(transactions => this.transactions = <Transaction[]>transactions);
   }
 
-  getCategories(): void {
-    this.twigsService.getCategories(this.budget.id).subscribe(categories => {
-      const categoryBalances = new Map<string, number>();
-      let categoryBalancesCount = 0;
-      console.log(categories);
-      for (const category of categories) {
-        if (category.expense) {
-          this.expenses.push(category);
-          this.expectedExpenses += category.amount;
-        } else {
-          this.income.push(category);
-          this.expectedIncome += category.amount;
-        }
-        this.twigsService.getCategoryBalance(category.id, this.from, this.to).subscribe(
-          balance => {
-            console.log(balance);
-            if (category.expense) {
-              this.actualExpenses += balance * -1;
-            } else {
-              this.actualIncome += balance;
-            }
-            categoryBalances.set(category.id, balance);
-            categoryBalancesCount++;
-          },
-          error => { categoryBalancesCount++; },
-          () => {
-            // This weird workaround is to force the OnChanges callback to be fired.
-            // Angular needs the reference to the object to change in order for it to
-            // work.
-            if (categoryBalancesCount === categories.length) {
-              this.categoryBalances = categoryBalances;
-              this.updateBarChart();
-            }
-          }
-        );
+  async getCategories() {
+    const categories = await this.twigsService.getCategories(this.budget.id)
+    const categoryBalances = new Map<string, number>();
+    let categoryBalancesCount = 0;
+    for (const category of categories) {
+      if (category.expense) {
+        this.expenses.push(category);
+        this.expectedExpenses += category.amount;
+      } else {
+        this.income.push(category);
+        this.expectedIncome += category.amount;
       }
-    });
+      try {
+        const balance = await this.twigsService.getCategoryBalance(category.id, this.from, this.to)
+        console.log(balance);
+        if (category.expense) {
+          this.actualExpenses += balance * -1;
+        } else {
+          this.actualIncome += balance;
+        }
+        categoryBalances.set(category.id, balance);
+        if (categoryBalancesCount === categories.length - 1) {
+          // This weird workaround is to force the OnChanges callback to be fired.
+          // Angular needs the reference to the object to change in order for it to
+          // work.
+          this.categoryBalances = categoryBalances;
+          this.updateBarChart();
+        }
+      } finally {
+        categoryBalancesCount++;
+      }
+    }
   }
 
   doAction(): void {

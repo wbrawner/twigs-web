@@ -33,7 +33,7 @@ export class CategoriesComponent implements OnInit {
   }
 
   getCategories(): void {
-    this.twigsService.getCategories(this.budgetId).subscribe(categories => {
+    this.twigsService.getCategories(this.budgetId).then(categories => {
       this.categories = categories;
       for (const category of this.categories) {
         this.getCategoryBalance(category).subscribe(balance => this.categoryBalances.set(category.id, balance));

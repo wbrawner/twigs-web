@@ -134,31 +134,26 @@ export class TwigsLocalService implements TwigsService {
   }
 
   // Categories
-  getCategories(budgetId: string, count?: number): Observable<Category[]> {
-    return new Observable(subscriber => {
-      subscriber.next(this.categories.filter(category => {
+  getCategories(budgetId: string, count?: number): Promise<Category[]> {
+    return new Promise((resolve, reject) => {
+      resolve(this.categories.filter(category => {
         return category.budgetId === budgetId;
       }));
-      subscriber.complete();
     });
   }
 
-  getCategory(id: string): Observable<Category> {
-    return new Observable(subscriber => {
-      subscriber.next(this.findById(this.categories, id));
-      subscriber.complete();
+  getCategory(id: string): Promise<Category> {
+    return new Promise((resolve, reject) => {
+      resolve(this.findById(this.categories, id));
     });
   }
 
-  getCategoryBalance(id: string, from?: Date, to?: Date): Observable<number> {
-    return new Observable(emitter => {
-      emitter.next(20);
-      emitter.complete()
-    })
+  getCategoryBalance(id: string, from?: Date, to?: Date): Promise<number> {
+    return Promise.resolve(20);
   }
 
-  createCategory(id: string, budgetId: string, name: string, description: string, amount: number, isExpense: boolean): Observable<Category> {
-    return Observable.create(subscriber => {
+  createCategory(id: string, budgetId: string, name: string, description: string, amount: number, isExpense: boolean): Promise<Category> {
+    return new Promise((resolve, reject) => {
       const category = new Category();
       category.title = name;
       category.description = description;
@@ -167,13 +162,12 @@ export class TwigsLocalService implements TwigsService {
       category.budgetId = budgetId;
       category.id = id;
       this.categories.push(category);
-      subscriber.next(category);
-      subscriber.complete();
+      resolve(category);
     });
   }
 
-  updateCategory(id: string, changes: object): Observable<Category> {
-    return new Observable(subscriber => {
+  updateCategory(id: string, changes: object): Promise<Category> {
+    return new Promise((resolve, reject) => {
       const category = this.findById(this.categories, id);
       if (category) {
         const index = this.categories.indexOf(category);
@@ -188,23 +182,22 @@ export class TwigsLocalService implements TwigsService {
           ]
         );
         this.categories[index] = category;
-        subscriber.next(category);
+        resolve(category);
       } else {
-        subscriber.error('No category found for given id');
+        reject('No category found for given id');
       }
-      subscriber.complete();
     });
   }
 
-  deleteCategory(id: string): Observable<void> {
-    return new Observable(subscriber => {
+  deleteCategory(id: string): Promise<void> {
+    return new Promise((resolve, reject) => {
       const category = this.findById(this.categories, id);
       if (category) {
         const index = this.categories.indexOf(category);
         delete this.transactions[index];
-        subscriber.complete();
+        resolve();
       } else {
-        subscriber.error('No category found for given id');
+        reject('No category found for given id');
       }
     });
   }

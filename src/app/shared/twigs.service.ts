@@ -25,12 +25,12 @@ export interface TwigsService {
   deleteBudget(id: string): Promise<void>;
 
   // Categories
-  getCategories(budgetId?: string, count?: number): Observable<Category[]>;
-  getCategory(id: string): Observable<Category>;
-  getCategoryBalance(id: string, from?: Date, to?: Date): Observable<number>;
-  createCategory(id: string, budgetId: string, name: string, description: string, amount: number, isExpense: boolean): Observable<Category>;
-  updateCategory(id: string, changes: object): Observable<Category>;
-  deleteCategory(id: string): Observable<void>;
+  getCategories(budgetId?: string, count?: number): Promise<Category[]>;
+  getCategory(id: string): Promise<Category>;
+  getCategoryBalance(id: string, from?: Date, to?: Date): Promise<number>;
+  createCategory(id: string, budgetId: string, name: string, description: string, amount: number, isExpense: boolean): Promise<Category>;
+  updateCategory(id: string, changes: object): Promise<Category>;
+  deleteCategory(id: string): Promise<void>;
 
   // Transactions
   getTransactions(

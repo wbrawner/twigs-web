@@ -26,10 +26,10 @@ export class CategoryFormComponent implements OnInit {
   }
 
   save(): void {
-    let observable;
+    let promise;
     if (this.create) {
       // This is a new category, save it
-      observable = this.twigsService.createCategory(
+      promise = this.twigsService.createCategory(
         this.currentCategory.id,
         this.budgetId,
         this.currentCategory.title,
@@ -39,7 +39,7 @@ export class CategoryFormComponent implements OnInit {
       );
     } else {
       // This is an existing category, update it
-      observable = this.twigsService.updateCategory(
+      promise = this.twigsService.updateCategory(
         this.currentCategory.id,
         {
           name: this.currentCategory.title,
@@ -50,13 +50,13 @@ export class CategoryFormComponent implements OnInit {
         }
       );
     }
-    observable.subscribe(val => {
+    promise.then(_ => {
       this.app.goBack();
     });
   }
 
   delete(): void {
-    this.twigsService.deleteCategory(this.currentCategory.id).subscribe(() => {
+    this.twigsService.deleteCategory(this.currentCategory.id).then(() => {
       this.app.goBack();
     });
   }

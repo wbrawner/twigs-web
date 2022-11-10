@@ -122,38 +122,38 @@ export class TwigsHttpService implements TwigsService {
   }
 
   // Categories
-  getCategories(budgetId: string, count?: number): Observable<Category[]> {
-    const params = {
-      params: new HttpParams()
-        .set('budgetIds', `${budgetId}`)
-        .set('archived', false)
-    };
-    return this.http.get<Category[]>(`${this.apiUrl}/categories`, Object.assign(params, this.options));
+  getCategories(budgetId: string, count?: number): Promise<Category[]> {
+    const url = new URL(`/api/categories`, this.apiUrl)
+    url.searchParams.set('budgetIds', budgetId)
+    url.searchParams.set('archived', 'false')
+    return this.request(url, HttpMethod.GET);
   }
 
-  getCategory(id: string): Observable<Category> {
-    return this.http.get<Category>(`${this.apiUrl}/categories/${id}`, this.options);
+  getCategory(id: string): Promise<Category> {
+    const url = new URL(`/api/categories/${id}`, this.apiUrl)
+    return this.request(url, HttpMethod.GET);
   }
 
-  getCategoryBalance(
+  async getCategoryBalance(
     id: string,
     from?: Date,
     to?: Date
-  ): Observable<number> {
-    let httpParams = new HttpParams();
+  ): Promise<number> {
+    const url = new URL(`/api/transactions/sum`, this.apiUrl)
+    url.searchParams.set('categoryId', id)
     if (from) {
-      httpParams = httpParams.set('from', from.toISOString());
+      url.searchParams.set('from', from.toISOString());
     }
     if (to) {
-      httpParams = httpParams.set('to', to.toISOString());
+      url.searchParams.set('to', to.toISOString());
     }
-    const params = { params: httpParams };
-    return this.http.get<any>(`${this.apiUrl}/transactions/sum?categoryId=${id}`, { ...this.options, ...params })
-      .pipe(map(obj => obj.balance));
+    const res: any = await this.request(url, HttpMethod.GET);
+    return res.balance;
   }
 
-  createCategory(id: string, budgetId: string, name: string, description: string, amount: number, isExpense: boolean): Observable<Category> {
-    const params = {
+  createCategory(id: string, budgetId: string, name: string, description: string, amount: number, isExpense: boolean): Promise<Category> {
+    const url = new URL(`/api/categories`, this.apiUrl)
+    const body = {
       'id': id,
       'title': name,
       'description': description,
@@ -161,15 +161,17 @@ export class TwigsHttpService implements TwigsService {
       'expense': isExpense,
       'budgetId': budgetId
     };
-    return this.http.post<Category>(this.apiUrl + '/categories', params, this.options);
+    return this.request(url, HttpMethod.POST, body);
   }
 
-  updateCategory(id: string, changes: object): Observable<Category> {
-    return this.http.put<Category>(`${this.apiUrl}/categories/${id}`, changes, this.options);
+  updateCategory(id: string, changes: object): Promise<Category> {
+    const url = new URL(`/api/categories/${id}`, this.apiUrl)
+    return this.request(url, HttpMethod.PUT, changes);
   }
 
-  deleteCategory(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/categories/${id}`, this.options);
+  deleteCategory(id: string): Promise<void> {
+    const url = new URL(`/api/categories/${id}`, this.apiUrl)
+    return this.request(url, HttpMethod.DELETE);
   }
 
   // Transactions

@@ -54,7 +54,7 @@ export class AddEditTransactionComponent implements OnInit, OnChanges {
 
   updateCategories(change: MatRadioChange) {
     this.twigsService.getCategories(this.budgetId)
-      .subscribe(newCategories => {
+      .then(newCategories => {
         this.categories = newCategories.filter(category => category.expense === change.value)
       })
   }

@@ -28,7 +28,7 @@ export class CategoryDetailsComponent implements OnInit, OnDestroy, Actionable {
     this.router.navigateByUrl(this.router.routerState.snapshot.url + "/edit")
   }
 
-  getActionLabel(): string { 
+  getActionLabel(): string {
     return "Edit";
   }
 
@@ -45,7 +45,7 @@ export class CategoryDetailsComponent implements OnInit, OnDestroy, Actionable {
   getCategory(): void {
     const id = this.route.snapshot.paramMap.get('id');
     this.twigsService.getCategory(id)
-      .subscribe(category => {
+      .then(category => {
         category.amount /= 100;
         this.app.setTitle(category.title)
         this.category = category;
