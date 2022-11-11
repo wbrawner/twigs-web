@@ -62,7 +62,7 @@ export class AddEditTransactionComponent implements OnInit, OnChanges {
   save(): void {
     // The amount will be input as a decimal value so we need to convert it
     // to an integer
-    let observable;
+    let promise;
     this.currentTransaction.date = new Date();
     const dateParts = this.transactionDate.split('-');
     this.currentTransaction.date.setFullYear(parseInt(dateParts[0], 10));
@@ -73,7 +73,7 @@ export class AddEditTransactionComponent implements OnInit, OnChanges {
     this.currentTransaction.date.setMinutes(parseInt(timeParts[1], 10));
     if (this.create) {
       // This is a new transaction, save it
-      observable = this.twigsService.createTransaction(
+      promise = this.twigsService.createTransaction(
         this.currentTransaction.id,
         this.budgetId,
         this.currentTransaction.title,
@@ -85,26 +85,23 @@ export class AddEditTransactionComponent implements OnInit, OnChanges {
       );
     } else {
       // This is an existing transaction, update it
-      observable = this.twigsService.updateTransaction(
+      const updatedTransaction: Transaction = {
+        ...this.currentTransaction,
+        amount: Math.round(this.currentTransaction.amount * 100)
+      }
+      promise = this.twigsService.updateTransaction(
         this.currentTransaction.id,
-        {
-          title: this.currentTransaction.title,
-          description: this.currentTransaction.description,
-          amount: Math.round(this.currentTransaction.amount * 100),
-          date: this.currentTransaction.date,
-          categoryId: this.currentTransaction.categoryId,
-          expense: this.currentTransaction.expense
-        }
+        updatedTransaction
       );
     }
 
-    observable.subscribe(val => {
+    promise.then(() => {
       this.app.goBack();
     });
   }
 
   delete(): void {
-    this.twigsService.deleteTransaction(this.currentTransaction.id).subscribe(() => {
+    this.twigsService.deleteTransaction(this.currentTransaction.id).then(() => {
       this.app.goBack();
     });
   }

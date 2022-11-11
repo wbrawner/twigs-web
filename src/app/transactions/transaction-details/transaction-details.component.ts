@@ -25,7 +25,7 @@ export class TransactionDetailsComponent implements OnInit {
   getTransaction(): void {
     const id = this.route.snapshot.paramMap.get('id');
     this.twigsService.getTransaction(id)
-      .subscribe(transaction => {
+      .then(transaction => {
         transaction.amount /= 100;
         this.transaction = transaction;
         this.budgetId = transaction.budgetId;

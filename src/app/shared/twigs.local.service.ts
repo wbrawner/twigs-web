@@ -1,6 +1,4 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
-import { Observable, Subscriber } from 'rxjs';
 import { User, UserPermission } from '../users/user';
 import { TwigsService } from './twigs.service';
 import { Budget } from '../budgets/budget';
@@ -18,7 +16,6 @@ import { randomId } from '../shared/utils';
 export class TwigsLocalService implements TwigsService {
 
   constructor(
-    private http: HttpClient
   ) { }
 
   private users: User[] = [new User(randomId(), 'test', 'test@example.com')];
@@ -203,9 +200,9 @@ export class TwigsLocalService implements TwigsService {
   }
 
   // Transactions
-  getTransactions(budgetId?: string, categoryId?: string, count?: number): Observable<Transaction[]> {
-    return new Observable(subscriber => {
-      subscriber.next(this.transactions.filter(transaction => {
+  getTransactions(budgetId?: string, categoryId?: string, count?: number): Promise<Transaction[]> {
+    return new Promise((resolve, reject) => {
+      resolve(this.transactions.filter(transaction => {
         let include = true;
         if (budgetId) {
           include = transaction.budgetId === budgetId;
@@ -215,15 +212,11 @@ export class TwigsLocalService implements TwigsService {
         }
         return include;
       }));
-      subscriber.complete();
     });
   }
 
-  getTransaction(id: string): Observable<Transaction> {
-    return new Observable(subscriber => {
-      subscriber.next(this.findById(this.transactions, id));
-      subscriber.complete();
-    });
+  getTransaction(id: string): Promise<Transaction> {
+    return Promise.resolve(this.findById(this.transactions, id));
   }
 
   createTransaction(
@@ -235,8 +228,8 @@ export class TwigsLocalService implements TwigsService {
     date: Date,
     isExpense: boolean,
     category: string
-  ): Observable<Transaction> {
-    return new Observable(subscriber => {
+  ): Promise<Transaction> {
+    return new Promise((resolve, reject) => {
       const transaction = new Transaction();
       transaction.title = name;
       transaction.description = description;
@@ -247,13 +240,12 @@ export class TwigsLocalService implements TwigsService {
       transaction.budgetId = budgetId;
       transaction.id = randomId();
       this.transactions.push(transaction);
-      subscriber.next(transaction);
-      subscriber.complete();
+      resolve(transaction);
     });
   }
 
-  updateTransaction(id: string, changes: object): Observable<Transaction> {
-    return new Observable(subscriber => {
+  updateTransaction(id: string, changes: object): Promise<Transaction> {
+    return new Promise((resolve, reject) => {
       const transaction = this.findById(this.transactions, id);
       if (transaction) {
         const index = this.transactions.indexOf(transaction);
@@ -272,23 +264,22 @@ export class TwigsLocalService implements TwigsService {
           ]
         );
         this.transactions[index] = transaction;
-        subscriber.next(transaction);
+        resolve(transaction);
       } else {
-        subscriber.error('No transaction found for given id');
+        reject('No transaction found for given id');
       }
-      subscriber.complete();
     });
   }
 
-  deleteTransaction(id: string): Observable<void> {
-    return new Observable(subscriber => {
+  deleteTransaction(id: string): Promise<void> {
+    return new Promise((resolve, reject) => {
       const transaction = this.findById(this.transactions, id);
       if (transaction) {
         const index = this.transactions.indexOf(transaction);
         delete this.transactions[index];
-        subscriber.complete();
+        resolve();
       } else {
-        subscriber.error('No transaction found for given id');
+        reject('No transaction found for given id');
       }
     });
   }

@@ -52,7 +52,8 @@ export class TransactionListComponent implements OnInit {
       }
     }
 
-    this.twigsService.getTransactions(this.budgetIds.join(','), this.categoryIds?.join(','), null, from, to).subscribe(transactions => {
+    this.twigsService.getTransactions(this.budgetIds.join(','), this.categoryIds?.join(','), null, from, to)
+    .then(transactions => {
       this.transactions = transactions;
     });
   }

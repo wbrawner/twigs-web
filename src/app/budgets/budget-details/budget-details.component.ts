@@ -126,7 +126,7 @@ export class BudgetDetailsComponent implements OnInit, OnDestroy, Actionable {
     date.setMilliseconds(0);
     date.setDate(1);
     this.twigsService.getTransactions(this.budget.id, null, 5, date)
-      .subscribe(transactions => this.transactions = <Transaction[]>transactions);
+      .then(transactions => this.transactions = <Transaction[]>transactions);
   }
 
   async getCategories() {

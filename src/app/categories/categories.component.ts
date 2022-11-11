@@ -1,11 +1,9 @@
-import { Component, OnInit, Input, Inject } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Category } from './category';
 import { AppComponent } from '../app.component';
-import { Observable } from 'rxjs';
-import { TransactionType } from '../transactions/transaction.type';
-import { Budget } from '../budgets/budget';
 import { ActivatedRoute } from '@angular/router';
 import { TWIGS_SERVICE, TwigsService } from '../shared/twigs.service';
+import { Transaction } from '../transactions/transaction';
 
 @Component({
   selector: 'app-categories',
@@ -36,24 +34,28 @@ export class CategoriesComponent implements OnInit {
     this.twigsService.getCategories(this.budgetId).then(categories => {
       this.categories = categories;
       for (const category of this.categories) {
-        this.getCategoryBalance(category).subscribe(balance => this.categoryBalances.set(category.id, balance));
+        this.getCategoryBalance(category).then(balance => this.categoryBalances.set(category.id, balance));
       }
     });
   }
 
-  getCategoryBalance(category: Category): Observable<number> {
-    return Observable.create(subscriber => {
-      this.twigsService.getTransactions(this.budgetId, category.id).subscribe(transactions => {
-        let balance = 0;
-        for (const transaction of transactions) {
-          if (transaction.expense) {
-            balance -= transaction.amount;
-          } else {
-            balance += transaction.amount;
-          }
+  getCategoryBalance(category: Category): Promise<number> {
+    return new Promise(async (resolve, reject) => {
+      let transactions: Transaction[]
+      try {
+        transactions = await this.twigsService.getTransactions(this.budgetId, category.id)
+      } catch(e) {
+        reject(e)
+      }
+      let balance = 0;
+      for (const transaction of transactions) {
+        if (transaction.expense) {
+          balance -= transaction.amount;
+        } else {
+          balance += transaction.amount;
         }
-        subscriber.next(balance);
-      });
+      }
+      resolve(balance);
     });
   }
 }

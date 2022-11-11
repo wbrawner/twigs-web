@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy, Inject } from '@angular/core';
+import { Component, OnInit, Input, Inject } from '@angular/core';
 import { Category } from '../category';
 import { AppComponent } from 'src/app/app.component';
 import { TWIGS_SERVICE, TwigsService } from 'src/app/shared/twigs.service';
@@ -39,15 +39,13 @@ export class CategoryFormComponent implements OnInit {
       );
     } else {
       // This is an existing category, update it
+      const updatedCategory: Category = {
+        ...this.currentCategory,
+        amount: this.currentCategory.amount * 100
+      }
       promise = this.twigsService.updateCategory(
         this.currentCategory.id,
-        {
-          name: this.currentCategory.title,
-          description: this.currentCategory.description,
-          amount: this.currentCategory.amount * 100,
-          expense: this.currentCategory.expense,
-          archived: this.currentCategory.archived
-        }
+        this.currentCategory
       );
     }
     promise.then(_ => {

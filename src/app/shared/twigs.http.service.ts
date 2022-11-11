@@ -1,13 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable, pipe, Subscriber } from 'rxjs';
 import { User, UserPermission, Permission, AuthToken } from '../users/user';
 import { TwigsService } from './twigs.service';
 import { Budget } from '../budgets/budget';
 import { Category } from '../categories/category';
 import { Transaction } from '../transactions/transaction';
 import { environment } from '../../environments/environment';
-import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +17,6 @@ export class TwigsHttpService implements TwigsService {
   private apiUrl = environment.apiUrl;
 
   constructor(
-    private http: HttpClient,
     private storage: Storage
   ) { }
 
@@ -175,45 +171,41 @@ export class TwigsHttpService implements TwigsService {
   }
 
   // Transactions
-  getTransactions(
+  async getTransactions(
     budgetId?: string,
     categoryId?: string,
     count?: number,
     from?: Date,
     to?: Date
-  ): Observable<Transaction[]> {
-    let httpParams = new HttpParams();
+  ): Promise<Transaction[]> {
+    const url = new URL(`/api/transactions`, this.apiUrl)
     if (budgetId) {
-      httpParams = httpParams.set('budgetIds', `${budgetId}`);
+      url.searchParams.set('budgetIds', budgetId);
     }
     if (categoryId) {
-      httpParams = httpParams.set('categoryIds', `${categoryId}`);
+      url.searchParams.set('categoryIds', categoryId);
     }
     if (from) {
-      httpParams = httpParams.set('from', from.toISOString());
+      url.searchParams.set('from', from.toISOString());
     }
     if (to) {
-      httpParams = httpParams.set('to', to.toISOString());
+      url.searchParams.set('to', to.toISOString());
     }
-    const params = { params: httpParams };
-    return this.http.get<Transaction[]>(`${this.apiUrl}/transactions`, Object.assign(params, this.options))
-      .pipe(map(transactions => {
-        transactions.forEach(transaction => {
-          transaction.date = new Date(transaction.date);
-        });
-        return transactions;
-      }));
+    const transactions: Transaction[] = await this.request(url, HttpMethod.GET)
+    transactions.forEach(transaction => {
+      transaction.date = new Date(transaction.date);
+    })
+    return transactions
   }
 
-  getTransaction(id: string): Observable<Transaction> {
-    return this.http.get<Transaction>(`${this.apiUrl}/transactions/${id}`, this.options)
-      .pipe(map(transaction => {
-        transaction.date = new Date(transaction.date);
-        return transaction;
-      }));
+  async getTransaction(id: string): Promise<Transaction> {
+    const url = new URL(`/api/transactions/${id}`, this.apiUrl)
+    const transaction: Transaction = await this.request(url, HttpMethod.GET)
+    transaction.date = new Date(transaction.date)
+    return transaction
   }
 
-  createTransaction(
+  async createTransaction(
     id: string,
     budgetId: string,
     name: string,
@@ -222,8 +214,9 @@ export class TwigsHttpService implements TwigsService {
     date: Date,
     expense: boolean,
     category: string
-  ): Observable<Transaction> {
-    const params = {
+  ): Promise<Transaction> {
+    const url = new URL(`/api/transactions`, this.apiUrl)
+    const body = {
       'id': id,
       'title': name,
       'description': description,
@@ -233,15 +226,23 @@ export class TwigsHttpService implements TwigsService {
       'categoryId': category,
       'budgetId': budgetId
     };
-    return this.http.post<Transaction>(this.apiUrl + '/transactions', params, this.options);
+    const transaction: Transaction = await this.request(url, HttpMethod.POST, body)
+    transaction.date = new Date(transaction.date)
+    return transaction
   }
 
-  updateTransaction(id: string, changes: object): Observable<Transaction> {
-    return this.http.put<Transaction>(`${this.apiUrl}/transactions/${id}`, changes, this.options);
+  async updateTransaction(id: string, transaction: Transaction): Promise<Transaction> {
+    const body: any = transaction;
+    body.date = transaction.date.toISOString()
+    const url = new URL(`/api/transactions/${id}`, this.apiUrl)
+    const updatedTransaction: Transaction = await this.request(url, HttpMethod.PUT, body)
+    updatedTransaction.date = new Date(updatedTransaction.date)
+    return updatedTransaction
   }
 
-  deleteTransaction(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/transactions/${id}`, this.options);
+  deleteTransaction(id: string): Promise<void> {
+    const url = new URL(`/api/transactions/${id}`, this.apiUrl)
+    return this.request(url, HttpMethod.DELETE)
   }
 
   // Users

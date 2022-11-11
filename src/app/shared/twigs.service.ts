@@ -1,5 +1,4 @@
 import { InjectionToken } from '@angular/core';
-import { Observable } from 'rxjs';
 import { User, UserPermission } from '../users/user';
 import { Budget } from '../budgets/budget';
 import { Category } from '../categories/category';
@@ -29,7 +28,7 @@ export interface TwigsService {
   getCategory(id: string): Promise<Category>;
   getCategoryBalance(id: string, from?: Date, to?: Date): Promise<number>;
   createCategory(id: string, budgetId: string, name: string, description: string, amount: number, isExpense: boolean): Promise<Category>;
-  updateCategory(id: string, changes: object): Promise<Category>;
+  updateCategory(id: string, category: Category): Promise<Category>;
   deleteCategory(id: string): Promise<void>;
 
   // Transactions
@@ -39,8 +38,8 @@ export interface TwigsService {
     count?: number,
     from?: Date,
     to?: Date
-  ): Observable<Transaction[]>;
-  getTransaction(id: string): Observable<Transaction>;
+  ): Promise<Transaction[]>;
+  getTransaction(id: string): Promise<Transaction>;
   createTransaction(
     id: string,
     budgetId: string,
@@ -50,9 +49,9 @@ export interface TwigsService {
     date: Date,
     isExpense: boolean,
     category: string
-  ): Observable<Transaction>;
-  updateTransaction(id: string, changes: object): Observable<Transaction>;
-  deleteTransaction(id: string): Observable<void>;
+  ): Promise<Transaction>;
+  updateTransaction(id: string, transaction: Transaction): Promise<Transaction>;
+  deleteTransaction(id: string): Promise<void>;
 
   getProfile(id: string): Promise<User>;
   getUsersByUsername(username: string): Promise<User[]>;
