@@ -12,9 +12,6 @@ import { Frequency, RecurringTransaction } from '../recurringtransactions/recurr
 })
 export class TwigsHttpService implements TwigsService {
 
-  private options = {
-    withCredentials: true
-  };
   private apiUrl = environment.apiUrl;
 
   constructor(
