@@ -44,7 +44,7 @@ export class TransactionListComponent implements OnInit {
     }
 
     let toStr = this.route.snapshot.queryParamMap.get('to');
-    var to;
+    let to: Date;
     if (toStr) {
       let toDate = new Date(toStr);
       if (!isNaN(toDate.getTime())) {
