@@ -2,13 +2,13 @@
   <p>Select a category from the list to view details about it or edit it.</p>
 </div>
 <div *ngIf="currentCategory" class="form category-form">
-  <mat-form-field (keyup.enter)="doAction()">
+  <mat-form-field (keyup.enter)="save()">
     <input matInput [(ngModel)]="currentCategory.title" placeholder="Name" required autocapitalize="words">
   </mat-form-field>
-  <mat-form-field (keyup.enter)="doAction()">
+  <mat-form-field (keyup.enter)="save()">
     <textarea matInput [(ngModel)]="currentCategory.description" placeholder="Description" autocapitalize="sentences"></textarea>
   </mat-form-field>
-  <mat-form-field (keyup.enter)="doAction()">
+  <mat-form-field (keyup.enter)="save()">
     <input matInput type="input" [(ngModel)]="currentCategory.amount" placeholder="Amount" required step="0.01">
   </mat-form-field>
   <mat-radio-group [(ngModel)]="currentCategory.expense">
