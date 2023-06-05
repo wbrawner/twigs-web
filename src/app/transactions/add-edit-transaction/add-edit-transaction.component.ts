@@ -5,6 +5,7 @@ import { Category } from 'src/app/categories/category';
 import { AppComponent } from 'src/app/app.component';
 import { TWIGS_SERVICE, TwigsService } from 'src/app/shared/twigs.service';
 import { MatRadioChange } from '@angular/material/radio';
+import { decimalToInteger } from 'src/app/shared/utils';
 
 @Component({
   selector: 'app-add-edit-transaction',
@@ -60,9 +61,8 @@ export class AddEditTransactionComponent implements OnInit, OnChanges {
   }
 
   save(): void {
-    // The amount will be input as a decimal value so we need to convert it
-    // to an integer
     let promise;
+    this.currentTransaction.amount = decimalToInteger(String(this.currentTransaction.amount))
     this.currentTransaction.date = new Date();
     const dateParts = this.transactionDate.split('-');
     this.currentTransaction.date.setFullYear(parseInt(dateParts[0], 10));
@@ -78,7 +78,7 @@ export class AddEditTransactionComponent implements OnInit, OnChanges {
         this.budgetId,
         this.currentTransaction.title,
         this.currentTransaction.description,
-        Math.round(this.currentTransaction.amount * 100),
+        this.currentTransaction.amount,
         this.currentTransaction.date,
         this.currentTransaction.expense,
         this.currentTransaction.categoryId,
@@ -87,7 +87,6 @@ export class AddEditTransactionComponent implements OnInit, OnChanges {
       // This is an existing transaction, update it
       const updatedTransaction: Transaction = {
         ...this.currentTransaction,
-        amount: Math.round(this.currentTransaction.amount * 100)
       }
       promise = this.twigsService.updateTransaction(
         this.currentTransaction.id,

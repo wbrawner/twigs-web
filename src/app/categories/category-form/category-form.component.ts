@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Inject } from '@angular/core';
 import { Category } from '../category';
 import { AppComponent } from 'src/app/app.component';
 import { TWIGS_SERVICE, TwigsService } from 'src/app/shared/twigs.service';
+import { decimalToInteger } from 'src/app/shared/utils';
 
 @Component({
   selector: 'app-category-form',
@@ -27,6 +28,7 @@ export class CategoryFormComponent implements OnInit {
 
   save(): void {
     let promise;
+    this.currentCategory.amount = decimalToInteger(String(this.currentCategory.amount))
     if (this.create) {
       // This is a new category, save it
       promise = this.twigsService.createCategory(
@@ -34,14 +36,13 @@ export class CategoryFormComponent implements OnInit {
         this.budgetId,
         this.currentCategory.title,
         this.currentCategory.description,
-        this.currentCategory.amount * 100,
+        this.currentCategory.amount,
         this.currentCategory.expense
       );
     } else {
       // This is an existing category, update it
       const updatedCategory: Category = {
         ...this.currentCategory,
-        amount: this.currentCategory.amount * 100
       }
       promise = this.twigsService.updateCategory(
         this.currentCategory.id,
