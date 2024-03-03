@@ -4,7 +4,7 @@ import { TransactionType } from '../transaction.type';
 import { Category } from 'src/app/categories/category';
 import { AppComponent } from 'src/app/app.component';
 import { TWIGS_SERVICE, TwigsService } from 'src/app/shared/twigs.service';
-import { MatRadioChange } from '@angular/material/radio';
+import { MatLegacyRadioChange as MatRadioChange } from '@angular/material/legacy-radio';
 import { decimalToInteger } from 'src/app/shared/utils';
 
 @Component({
