@@ -1,4 +1,4 @@
-name: Deploy Site
+name: Deploy to GitHub Pages
 
 on:
   push:
@@ -35,7 +35,7 @@ jobs:
       - name: Install dependencies with npm
         run: npm ci
       - name: Build with NPM
-        run: npm package
+        run: npm run package
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
