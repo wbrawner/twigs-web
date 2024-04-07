@@ -1,5 +1,7 @@
 # Twigs Web Client
 
+# IMPORTANT: This repository is no longer maintained. The web version of Twigs has been replaced with a server-rendered implementation in the [backend repository](https://github.com/wbrawner/twigs)
+
 Twigs is an open source budgeting app aimed at people who need to share a budget. This project serves as the web front end, and is powered by Angular. The main back end project can be found at [wbrawner/twigs-server](https://github.com/wbrawner/twigs-server)
 
 ## Building
